@@ -37,12 +37,12 @@ new FoodTruckPlugin;
 
 function trucklot_register_post_types(){
   // add menu posts
-  register_post_type( 'trucklot-menus',array(
+  /*register_post_type( 'trucklot-menus',array(
     'labels' => array(),
     'public' => false,
     'show_ui' => false,
     'supports' => array()
-  ));
+  ));*/
 
   // add location posts
   register_post_type( 'trucklot-locations',array(
@@ -55,7 +55,7 @@ function trucklot_register_post_types(){
 
 function trucklot_admin_add_plugin_section(){
 
-    add_menu_page( 'Menus', "Menus", 'edit_posts','trucklot-menus', 'trucklot_render_admin_menu_posts', 'dashicons-format-aside' , '20.2');
+    // add_menu_page( 'Menus', "Menus", 'edit_posts','trucklot-menus', 'trucklot_render_admin_menu_posts', 'dashicons-format-aside' , '20.2');
 
     add_menu_page( 'Locations', "Location & Dates", 'edit_posts','trucklot-locations', 'trucklot_render_admin_locations', 'dashicons-location-alt'  , '20.1');
 
