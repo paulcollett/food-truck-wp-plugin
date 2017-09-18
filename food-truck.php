@@ -18,6 +18,7 @@ class FoodTruckPlugin {
     // Register Custom post types to store data
     add_action('init', 'trucklot_register_post_types');
     add_action('init', 'trucklot_out');
+    add_shortcode( 'foodtruck', 'trucklot_handle_shortcode' );
 
     if( is_admin() ) {
       // Add plugin features to admin
@@ -71,13 +72,13 @@ function trucklot_admin_add_assets($page){
 
 }
 
-function trucklot_site_add_assets(){
+/*function trucklot_site_add_assets(){
 
   wp_enqueue_script('trucklot-menu-admin-lib', plugin_dir_url(__FILE__) . 'admin/assets/libs.min.js', false, TRUCKLOT_PLUGIN_VER);
 
   wp_enqueue_style('trucklot-menu-admin-lib', plugin_dir_url(__FILE__) . 'admin/assets/libs.min.js', false, TRUCKLOT_PLUGIN_VER);
 
-}
+}*/
 
 function trucklot_render_admin_menu_posts(){
     include dirname(__FILE__) . '/admin/templates/menus.php';
@@ -353,4 +354,16 @@ function trucklot_locations_get_formatted_closetime($item){
     }
     return $close_time;
 }
+
+
+// [bartag foo="foo-value"]
+function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) {
+  $a = shortcode_atts( array(
+      'display' => ''
+  ), $atts );
+
+  return "foodtruck = {$a['display']}";
+}
+
+
 

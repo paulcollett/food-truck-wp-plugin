@@ -1,187 +1,209 @@
 <div ng-app="menuloc" class="menu-locations-app" ng-controller="locations" style="margin: 30px 30px 30px 10px">
-    <h1><span class="dashicons dashicons-location-alt"></span> Location &amp; Date Manager <em style="font-weight:normal;color:#bbb">by Food Truck Theme</em></h1>
+    <h1><span class="dashicons dashicons-location-alt"></span> Location &amp; Date Manager <em style="font-weight:normal;color:#bbb">by Food Truck Plugin</em></h1>
 
-    <div class="" style="width:50%;float:left;padding-right: 15px;box-sizing:border-box">
-        
-        <div>Here you can manage the locations, dates and<br />times that can be shown across your site</div>
-        <div ng-show="!items.length" ng-cloak>
-            <strong><em>Start by adding your first Location &amp; Date:</em></strong>
+    <div ng-cloke ng-show="view=='shortcodes'" class="" style="">
+        <div style="margin-bottom: 30px"><button class="button" ng-click="view = 'manager'">&larr; Back to Locations manager</button></div>
+        <div style="margin-bottom: 30px">Add locations &amp; times to your website with the following shortcodes</div>
+        <div style="width:50%;float:left;padding-right: 15px;box-sizing:border-box">
+            <div style="border: 1px solid #ccc;padding: 30px;">
+                <img style="max-width: 100%" src="//placehold.it/500x300" />
+                <p><strong>Full Page Listing</strong></p>
+                <p>Add the following shortcode to any page or post <input type="text" readonly value='[foodtruck display="full"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
+            </div>
         </div>
-
-        <div style="margin-top:15px" ng-show="filteredItemsFuture.length">
-            <button class="button {{selected ? 'disabled' :''}}" ng-click="addItem(selected)">Add Location/Date</button>
+        <div style="width:50%;float:left;box-sizing:border-box">
+            <div style="border: 1px solid #ccc;padding: 30px;">
+                <img style="max-width: 100%" src="//placehold.it/500x300" />
+                <p><strong>Summary of Upcoming Locations</strong></p>
+                <p>Add the following shortcode to any page or post <input type="text" readonly value='[foodtruck display="summary"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
+            </div>
         </div>
+    </div>
 
-        <div ng-show="!filteredItemsFuture.length" ng-cloak>
-            <h4>Upcoming Locations</h4>
-
-            <div><em>No Upcoming locations</em></div>
-            <div style="margin-top:15px">
-                <button class="button" ng-click="addItem()" ng-disabled="selected">Add Location/Date</button>
-                <strong>&larr; Add an upcoming location</strong>
+    <div ng-show="view!='shortcodes'" class="" style="overflow:hidden"> 
+        <div class="" style="width:50%;float:left;padding-right: 15px;box-sizing:border-box">
+            
+            <div>Here you can manage the locations, dates and<br />times that can be shown across your site</div>
+            <div ng-show="!items.length" ng-cloak>
+                <strong><em>Start by adding your first Location &amp; Date:</em></strong>
             </div>
 
-        </div>
-        <div class="locations-container" ng-cloak>
-
-            <div ng-show="filteredItemsInvalidDate.length">
-                <h4>Locations with Invalid Dates</h4>
-                <div>(These won't be shown on your website)</div>
-
-                <div class="locations">
-                    <div class="location" ng-repeat="item in filteredItemsInvalidDate | orderBy:'timestamp'" ng-click="editItem(item)" ng-class="{'location-active':selected == item}">
-                        <div><strong>(invalid date)</strong></div>
-                        <div>
-                            {{item.name}}
-                        </div>
-                        <div style="opacity:0.7"><span class="dashicons dashicons-location"></span> {{item.address || '(no address)'}}</div>
-                    </div>
-                </div>
+            <div style="margin-top:15px" ng-show="filteredItemsFuture.length">
+                <button class="button {{selected ? 'disabled' :''}}" ng-click="addItem(selected)">Add Location/Date</button>
             </div>
 
-            <div ng-show="filteredItemsFuture.length">
+            <div ng-show="!filteredItemsFuture.length" ng-cloak>
                 <h4>Upcoming Locations</h4>
 
-                <div class="locations">
-                    <div class="location" ng-repeat="item in filteredItemsFuture | orderBy:'timestamp'" ng-click="editItem(item)" ng-class="{'location-active':selected == item}">
-                        <div><strong>{{item.timestamp*1000 | date}}</strong> {{item.timestamp*1000 | date:'shortTime'}} {{formatCloseTime(item)}}</div>
-                        <div>
-                            {{item.name}}
-                        </div>
-                        <div style="opacity:0.7"><span class="dashicons dashicons-location"></span> {{item.address || '(no address)'}}</div>
-                    </div>
+                <div><em>No Upcoming locations</em></div>
+                <div style="margin-top:15px">
+                    <button class="button" ng-click="addItem()" ng-disabled="selected">Add Location/Date</button>
+                    <strong>&larr; Add an upcoming location</strong>
                 </div>
+
             </div>
+            <div class="locations-container" ng-cloak>
 
-            <div ng-show="filteredItemsPast.length">
-                <div ng-init="pastlimit = 10">
-                    <h4>Past Locations</h4>
-                    <div>These will be hidden on your website</div>
-                </div>
+                <div ng-show="filteredItemsInvalidDate.length">
+                    <h4>Locations with Invalid Dates</h4>
+                    <div>(These won't be shown on your website)</div>
 
-                <div class="locations">
-                    <div class="location" ng-repeat="item in filteredItemsPast | orderBy:'-timestamp' | limitTo:pastlimit" ng-click="editItem(item)" ng-class="{'location-active':selected == item}">
-                        <div><strong>{{item.timestamp*1000 | date}}</strong></div>
-                        <div>
-                            {{item.name}}
+                    <div class="locations">
+                        <div class="location" ng-repeat="item in filteredItemsInvalidDate | orderBy:'timestamp'" ng-click="editItem(item)" ng-class="{'location-active':selected == item}">
+                            <div><strong>(invalid date)</strong></div>
+                            <div>
+                                {{item.name}}
+                            </div>
+                            <div style="opacity:0.7"><span class="dashicons dashicons-location"></span> {{item.address || '(no address)'}}</div>
                         </div>
-                        <div style="opacity:0.7"><span class="dashicons dashicons-location"></span> {{item.address || '(no address)'}}</div>
                     </div>
                 </div>
 
-                <div ng-show="filteredItemsPast.length > 10" >
-                    <button ng-show="pastlimit <= 10" ng-click="pastlimit = 999999999">Show all past locations</button>
-                    <button ng-show="pastlimit > 10" ng-click="pastlimit = 10">Show less locations</button>
+                <div ng-show="filteredItemsFuture.length">
+                    <h4>Upcoming Locations</h4>
+
+                    <div class="locations">
+                        <div class="location" ng-repeat="item in filteredItemsFuture | orderBy:'timestamp'" ng-click="editItem(item)" ng-class="{'location-active':selected == item}">
+                            <div><strong>{{item.timestamp*1000 | date}}</strong> {{item.timestamp*1000 | date:'shortTime'}} {{formatCloseTime(item)}}</div>
+                            <div>
+                                {{item.name}}
+                            </div>
+                            <div style="opacity:0.7"><span class="dashicons dashicons-location"></span> {{item.address || '(no address)'}}</div>
+                        </div>
+                    </div>
                 </div>
+
+                <div ng-show="filteredItemsPast.length">
+                    <div ng-init="pastlimit = 10">
+                        <h4>Past Locations</h4>
+                        <div>These will be hidden on your website</div>
+                    </div>
+
+                    <div class="locations">
+                        <div class="location" ng-repeat="item in filteredItemsPast | orderBy:'-timestamp' | limitTo:pastlimit" ng-click="editItem(item)" ng-class="{'location-active':selected == item}">
+                            <div><strong>{{item.timestamp*1000 | date}}</strong></div>
+                            <div>
+                                {{item.name}}
+                            </div>
+                            <div style="opacity:0.7"><span class="dashicons dashicons-location"></span> {{item.address || '(no address)'}}</div>
+                        </div>
+                    </div>
+
+                    <div ng-show="filteredItemsPast.length > 10" >
+                        <button ng-show="pastlimit <= 10" ng-click="pastlimit = 999999999">Show all past locations</button>
+                        <button ng-show="pastlimit > 10" ng-click="pastlimit = 10">Show less locations</button>
+                    </div>
+                </div>
+
             </div>
 
         </div>
 
+        <div class="" style="width:50%;float:left;padding-left:15px;box-sizing:border-box" ng-cloak>
+            
+            <div ng-show="!selected">
+
+                <div ng-show="saveState == 'saved'"  ng-click="saveState = null" style="margin:0;margin-bottom:20px;padding-right: 38px;position: relative;" class="updated notice notice-success"><p>Locations Saved</a></p><button type="button" class="notice-dismiss"></button></div>
+
+                <div style="text-align:right;background:#ddd;padding:10px;margin-bottom:40px;">
+                    <strong ng-show="items.length == 1 && !saveState" style="line-height:30px">Save all your changes &rarr;</strong>
+                    <div ng-show="saveState == 'saving'" style="float:none;visibility:visible" class="spinner"></div>
+                    <button class="button button-primary" ng-click="saveChanges();saveState = 'saving'" ng-disabled="saveState == 'saving'">Save Changes</button>
+                </div>
+
+                <div class="menu-locations-field" style="text-align:right">
+                    <div class="menu-locations-label" style="margin-bottom: 10px">Looking to show on your website?
+                        <div class="menu-locations-help">
+                            Get the <button class="button" ng-click="view = 'shortcodes'" style="vertical-align: baseline;">Shortcodes here</button>
+                        </div>
+                    </div>
+                    <div class="menu-locations-label">Check your timezone settings!
+                        <div class="menu-locations-help">You website might show incorrect today/tomorrow labels<br />if your website's <a href="options-general.php" target="_blank">timezone settings</a> are wrong</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="menu-locations-panel" ng-show="selected">
+
+                <div class="menu-locations-field">
+                    <div class="menu-locations-label">Location Name
+                        <div class="menu-locations-help">(ie. Downtown -or- Food Event)</div>
+                    </div>
+                    <div><input type="text" ng-model="selected.name" /></div>
+                </div>
+
+                <div class="menu-locations-field">
+                    <div class="menu-locations-label">Location Address</div>
+                    <div><input type="text" ng-model="selected.address" /></div>
+
+                    <div ng-if="selected.address" style="position:relative;height:0;padding-bottom:30%;background:#ccc;">
+                        <iframe
+                          width="100%"
+                          height="100%"
+                          style="position:absolute"
+                          frameborder="0" style="border:0"
+                          ng-src="{{selected.address | gmapurl}}" allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="menu-locations-field">
+                    <div class="menu-locations-label">Date</div>
+                    <div class="v-align">
+                        <select ng-model="selected.date.m" ng-options="o as o for o in interface.months" /></select>
+                        <span>:</span>
+                        <input class="small" type="text" ng-model="selected.date.d" />
+                        <select ng-model="selected.date.y" ng-options="o as o for o in interface.years" /></select>
+                    </div>
+                </div>
+
+                <div class="menu-locations-field">
+                    <div class="menu-locations-label">Open Time</div>
+                    <div class="v-align">
+                        <input class="small" type="text" ng-model="selected.time.from.h" />
+                        <span>:</span> 
+                        <input class="small" type="text" ng-model="selected.time.from.m" />
+                        <select ng-model="selected.time.from.p"><option value="AM">am</option><option value="PM">pm</option></select>
+                    </div>
+                </div>
+
+                <div class="menu-locations-field">
+                    <div class="menu-locations-label">Close Time</div>
+                    <div class="v-align">
+                        <input class="small" type="text" ng-model="selected.time.to.h" />
+                        <span>:</span> 
+                        <input class="small" type="text" ng-model="selected.time.to.m" />
+                        <select ng-model="selected.time.to.p"><option value="AM">am</option><option value="PM">pm</option></select>
+                    </div>
+                </div>
+
+                <!--
+                <div class="menu-locations-field" ng-if="menus.length > 1 || selected.menus">
+                    <div class="menu-locations-label">Specific Menus
+                        <div class="menu-locations-help">Show to your users which menus are available</div>
+                    </div>
+                    <label><input type="checkbox" ng-model="selected.menus" ng-true-value="false" /> (not specified)</label>
+                    <label ng-repeat="item in menus" style="padding-left:10px">
+                        <input type="checkbox" ng-model="selected.menus[item.ID]"/>
+                        {{item.title}} 
+                    </label>
+                </div>
+                -->
+
+                <div ng-show="!selected.timestamp" style="color: #fff;margin-bottom:10px;background:orange;padding:2px 5px">
+                    <strong>Invalid Date</strong>
+                </div>
+
+                <div class="menu-locations-actions">
+                    <a href="" class="button button-primary" ng-click="saveItem()">Done</a>
+                    <a style="float:right" href="" class="menu-locations-delete" ng-click="deleteItemfromUI(selected)">Delete Location</a>
+                </div>
+
+            </div>
+
+        </div>
     </div>
-
-    <div class="" style="width:50%;float:left;padding-left:15px;box-sizing:border-box" ng-cloak>
-        
-        <div ng-show="!selected">
-
-            <div ng-show="saveState == 'saved'"  ng-click="saveState = null" style="margin:0;margin-bottom:20px;padding-right: 38px;position: relative;" class="updated notice notice-success"><p>Locations Saved</a></p><button type="button" class="notice-dismiss"></button></div>
-
-            <div style="text-align:right;background:#ddd;padding:10px;margin-bottom:40px;">
-                <strong ng-show="items.length == 1 && !saveState" style="line-height:30px">Save all your changes &rarr;</strong>
-                <div ng-show="saveState == 'saving'" style="float:none;visibility:visible" class="spinner"></div>
-                <button class="button button-primary" ng-click="saveChanges();saveState = 'saving'" ng-disabled="saveState == 'saving'">Save Changes</button>
-            </div>
-
-            <div class="menu-locations-field" style="text-align:right">
-                <div class="menu-locations-label">Looking to add to your website?
-                    <div class="menu-locations-help">Add the "Locations" layout module to any new or existing page</div>
-                </div>
-                <div class="menu-locations-label">Check your timezone settings!
-                    <div class="menu-locations-help">You website might show incorrect today/tomorrow labels<br />if your website's <a href="options-general.php" target="_blank">timezone settings</a> are wrong</div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="menu-locations-panel" ng-show="selected">
-
-            <div class="menu-locations-field">
-                <div class="menu-locations-label">Location Name
-                    <div class="menu-locations-help">(ie. Downtown -or- Food Event)</div>
-                </div>
-                <div><input type="text" ng-model="selected.name" /></div>
-            </div>
-
-            <div class="menu-locations-field">
-                <div class="menu-locations-label">Location Address</div>
-                <div><input type="text" ng-model="selected.address" /></div>
-
-                <div ng-if="selected.address" style="position:relative;height:0;padding-bottom:30%;background:#ccc;">
-                    <iframe
-                      width="100%"
-                      height="100%"
-                      style="position:absolute"
-                      frameborder="0" style="border:0"
-                      ng-src="{{selected.address | gmapurl}}" allowfullscreen>
-                    </iframe>
-                </div>
-            </div>
-
-            <div class="menu-locations-field">
-                <div class="menu-locations-label">Date</div>
-                <div class="v-align">
-                    <select ng-model="selected.date.m" ng-options="o as o for o in interface.months" /></select>
-                    <span>:</span>
-                    <input class="small" type="text" ng-model="selected.date.d" />
-                    <select ng-model="selected.date.y" ng-options="o as o for o in interface.years" /></select>
-                </div>
-            </div>
-
-            <div class="menu-locations-field">
-                <div class="menu-locations-label">Open Time</div>
-                <div class="v-align">
-                    <input class="small" type="text" ng-model="selected.time.from.h" />
-                    <span>:</span> 
-                    <input class="small" type="text" ng-model="selected.time.from.m" />
-                    <select ng-model="selected.time.from.p"><option value="AM">am</option><option value="PM">pm</option></select>
-                </div>
-            </div>
-
-            <div class="menu-locations-field">
-                <div class="menu-locations-label">Close Time</div>
-                <div class="v-align">
-                    <input class="small" type="text" ng-model="selected.time.to.h" />
-                    <span>:</span> 
-                    <input class="small" type="text" ng-model="selected.time.to.m" />
-                    <select ng-model="selected.time.to.p"><option value="AM">am</option><option value="PM">pm</option></select>
-                </div>
-            </div>
-
-            <!--
-            <div class="menu-locations-field" ng-if="menus.length > 1 || selected.menus">
-                <div class="menu-locations-label">Specific Menus
-                    <div class="menu-locations-help">Show to your users which menus are available</div>
-                </div>
-                <label><input type="checkbox" ng-model="selected.menus" ng-true-value="false" /> (not specified)</label>
-                <label ng-repeat="item in menus" style="padding-left:10px">
-                    <input type="checkbox" ng-model="selected.menus[item.ID]"/>
-                    {{item.title}} 
-                </label>
-            </div>
-            -->
-
-            <div ng-show="!selected.timestamp" style="color: #fff;margin-bottom:10px;background:orange;padding:2px 5px">
-                <strong>Invalid Date</strong>
-            </div>
-
-            <div class="menu-locations-actions">
-                <a href="" class="button button-primary" ng-click="saveItem()">Done</a>
-                <a style="float:right" href="" class="menu-locations-delete" ng-click="deleteItemfromUI(selected)">Delete Location</a>
-            </div>
-
-        </div>
-
-    </div>
-
 </div>
 
 <script>
