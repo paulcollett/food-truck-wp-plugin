@@ -111,8 +111,8 @@
                     </div>
 
                     <div class="menu-locations-field" ng-show="menu.items.length > 2" style="text-align:right;padding-top:40px">
-                        <em>Looking to show this menu on a page?</em>
-                        <div>Add the "Display Menus" layout module to any new or existing page</div>
+                        <strong>Show this menu on a page?</strong>
+                        <div>Add the shortcode <code>[truckmenu id="{{menu.ID}}"]</code> to any page or post</div>
                     </div>
 
                 </div>
@@ -167,6 +167,10 @@
             </div>
 
             <div class="menu-locations-field">
+                <label><input type="checkbox" ng-model="menu.hide_title" /> Hide Menu Title</label>
+            </div>
+
+            <div class="menu-locations-field" ng-hide="menu.hide_title">
                 <div class="menu-locations-label">Display Title
                     <div class="menu-locations-help">Leave blank to show main title</div>
                 </div>
@@ -185,7 +189,7 @@
 
             <div class="menu-locations-field" ng-show="menu.items.length > 2">
                 <div class="menu-locations-label">Add the Menu to a Page:
-                    <div class="menu-locations-help">Add the "Display Menus" layout module to any new or existing page</div>
+                    <div class="menu-locations-help">Add the shortcode <code>[truckmenu id="{{menu.ID}}"]</code> to any page or post</div>
                 </div>
             </div>
 

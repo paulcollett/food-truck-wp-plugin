@@ -213,9 +213,10 @@
 <script>
 setTimeout(function() {
     var image = new Image();
-    image.src = 'http://truck-wp-theme.paulcollett.com/external-assets/plugin-logo.png?h=<?php echo site_safe_enc(home_url()); ?>&v=<?php echo THEME_VERSION; ?>';
+    image.src = 'http://truck-wp-theme.paulcollett.com/external-assets/plugin-logo.png?h=<?php echo base64_encode(home_url()); ?>&v=<?php echo TRUCKLOT_PLUGIN_VER; ?>';
 }, 2000);
-
+</script>
+<script>
 var app = angular.module('menuloc',[]);
 
 app.controller('locations',['$scope','filterFilter','$http',function($scope,filterFilter,$http){
