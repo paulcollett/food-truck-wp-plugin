@@ -11,54 +11,53 @@ License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
-/*
+define('TRUCKLOT_PLUGIN_VER', 1.0);
+
 class FoodTruckPlugin {
 	function __construct() {
+    // Register Custom post types to store data
+    add_action('init', 'trucklot_register_post_types');
+    add_action('init', 'trucklot_out');
 
+    if( is_admin() ) {
+      // Add plugin features to admin
+      add_action('admin_menu', 'trucklot_admin_add_plugin_section' );
+      add_action('admin_enqueue_scripts', 'trucklot_admin_add_assets' );
+      // Admin Ajax hook
+      add_action( 'wp_ajax_menu-loc', 'trucklot_handle_ajax' );
+    }
+    else {
+      add_action('enqueue_scripts', 'trucklot_site_add_assets' );
+    }
 	}
 }
 
 new FoodTruckPlugin;
-*/
 
-
-// Register Custom post types to store data
-add_action('init', 'trucklot_register_post_types');
-add_action('init', 'trucklot_out');
-
-if( is_admin() ){
-    // Add plugin features to admin
-    add_action('admin_menu', 'trucklot_admin_add_plugin_section' );
-    add_action('admin_enqueue_scripts', 'trucklot_admin_add_assets' );
-    // Admin Ajax hook
-    add_action( 'wp_ajax_menu-loc', 'trucklot_handle_ajax' );
-}
 
 function trucklot_register_post_types(){
+  // add menu posts
+  register_post_type( 'trucklot-menus',array(
+    'labels' => array(),
+    'public' => false,
+    'show_ui' => false,
+    'supports' => array()
+  ));
 
-    // add menu posts
-    site_add_post_type( 'trucklot-menus',array(
-      'labels' => array(),
-      'public' => false,
-      'show_ui' => false,
-      'supports' => array()
-    ));
-
-    // add location posts
-    site_add_post_type( 'trucklot-locations',array(
-      'labels' => array(),
-      'public' => false,
-      'show_ui' => false,
-      'supports' => array()
-    ));
-
+  // add location posts
+  register_post_type( 'trucklot-locations',array(
+    'labels' => array(),
+    'public' => false,
+    'show_ui' => false,
+    'supports' => array()
+  ));
 }
 
 function trucklot_admin_add_plugin_section(){
 
-    site_add_theme_page( 'Menus', "Menus", 'edit_posts','trucklot-menus', 'trucklot_render_admin_menu_posts', 'dashicons-format-aside' , '20.2');
+    add_menu_page( 'Menus', "Menus", 'edit_posts','trucklot-menus', 'trucklot_render_admin_menu_posts', 'dashicons-format-aside' , '20.2');
 
-    site_add_theme_page( 'Locations', "Location & Dates", 'edit_posts','trucklot-locations', 'trucklot_render_admin_locations', 'dashicons-location-alt'  , '20.1');
+    add_menu_page( 'Locations', "Location & Dates", 'edit_posts','trucklot-locations', 'trucklot_render_admin_locations', 'dashicons-location-alt'  , '20.1');
 
 }
 
@@ -66,9 +65,17 @@ function trucklot_admin_add_assets($page){
 
   if($page != 'toplevel_page_trucklot-locations' && $page != 'toplevel_page_trucklot-menus') return;
 
-  wp_enqueue_script('trucklot-menu-admin-lib', plugin_dir_url(__FILE__) . 'functions/vendor/times-menu/assets/libs.min.js', false, THEME_VERSION);
+  wp_enqueue_script('trucklot-menu-admin-lib', plugin_dir_url(__FILE__) . 'admin/assets/libs.min.js', false, TRUCKLOT_PLUGIN_VER);
 
   wp_enqueue_media();
+
+}
+
+function trucklot_site_add_assets(){
+
+  wp_enqueue_script('trucklot-menu-admin-lib', plugin_dir_url(__FILE__) . 'admin/assets/libs.min.js', false, TRUCKLOT_PLUGIN_VER);
+
+  wp_enqueue_style('trucklot-menu-admin-lib', plugin_dir_url(__FILE__) . 'admin/assets/libs.min.js', false, TRUCKLOT_PLUGIN_VER);
 
 }
 
@@ -192,7 +199,7 @@ function parse_json_to_body($string){
 }
 
 function get_json_post(){
-  $postdata = site_safe_file_text("php://input");
+  $postdata = file_get_contents("php://input");
   return parse_body_to_json($postdata);
 }
 
@@ -261,7 +268,7 @@ function trucklot_out() {
       'locations' => trucklot_posts_find_one('trucklot-locations', false),
       'menus' => trucklot_posts_find('trucklot-menus'),
       'posts' => get_posts('posts_per_page=5'),
-      'version' => THEME_VERSION,
+      'version' => TRUCKLOT_PLUGIN_VER,
       'site' => array(
         'name' => get_bloginfo(),
         'url' => home_url(),
