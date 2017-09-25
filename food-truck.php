@@ -358,11 +358,22 @@ function trucklot_locations_get_formatted_closetime($item){
 
 // [bartag foo="foo-value"]
 function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) {
-  $a = shortcode_atts( array(
+  $atts = shortcode_atts( array(
       'display' => ''
   ), $atts );
 
-  return "foodtruck = {$a['display']}";
+  ob_start();
+
+  if($atts['display'] == 'summary') {
+    include dirname(__FILE__) . '/templates/summary.php';
+  }
+  else {
+    include dirname(__FILE__) . '/templates/full.php';
+  }
+
+  $html = ob_get_clean();
+
+  return $html;
 }
 
 
