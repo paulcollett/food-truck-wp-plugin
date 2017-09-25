@@ -1,0 +1,1 @@
+{"version":3,"sources":["main.sass"],"names":[],"mappings":"AAAA,EACE,UACA,SAAW,CAAG","file":"main.css","sourcesContent":["* {\n  all: reset;\n  color: red; }\n"]}

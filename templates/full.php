@@ -1,17 +1,14 @@
 <?php
+  $upcoming_items = trucklot_locations_get_upcoming();
 
-    if(!function_exists('trucklot_locations_get_upcoming')) return;
+  // Proceed if we have locations
+  if(count($upcoming_items) > 0):
 
-    $upcoming_items = trucklot_locations_get_upcoming();
-
-    // Proceed if we have locations
-    if(count($upcoming_items) > 0):
-
-        $first_6_locations = array_slice($upcoming_items, 0 , 4);
-        $remaining_locations = array_slice($upcoming_items, 4);
-        $now = current_time('timestamp');
-        $timestamp_today_end = strtotime('tomorrow + 2 hours', $now);
-        $timestamp_tomorrow_end = strtotime('tomorrow + 26 hours', $now);
+      $first_6_locations = array_slice($upcoming_items, 0 , 4);
+      $remaining_locations = array_slice($upcoming_items, 4);
+      $now = current_time('timestamp');
+      $timestamp_today_end = strtotime('tomorrow + 2 hours', $now);
+      $timestamp_tomorrow_end = strtotime('tomorrow + 26 hours', $now);
 ?>
 <div class="js-location-module">
     <div class="js-location-list-container">
@@ -20,7 +17,7 @@
                 <?php foreach ($first_6_locations as $item): ?>
                     <div class="locations-module-list_item js-location-expand-container">
                         <?php
-                            site_include('templates/location_module_item.php',array(
+                            trucklot_include('templates/full_item.php',array(
                                 'location' => $item,
                                 'is_today' => $item['timestamp'] < $timestamp_today_end,
                                 'is_tomorrow' => $item['timestamp'] < $timestamp_tomorrow_end,
@@ -42,7 +39,7 @@
                 <?php foreach ($remaining_locations as $item): ?>
                     <div class="locations-module-list_item js-location-expand-container">
                         <?php
-                            site_include('templates/location_module_item.php',array(
+                            trucklot_include('templates/full_item.php',array(
                                 'location' => $item,
                                 'is_today' => $item['timestamp'] < $timestamp_today_end,
                                 'is_tomorrow' => $item['timestamp'] < $timestamp_tomorrow_end,
@@ -68,7 +65,7 @@
             </div>
         </div>
         <div class="center margin-bottom-md">
-            <?php site_include('/templates/common_button.php', array('sub_field' => true, 'label' => '&lsaquo; Back to list')); ?>
+            <div class="button btn">&lsaquo; Back to list</div>
         </div>
     </div>
 </div>
@@ -82,9 +79,9 @@
     <div class="center accent fs16">No Dates or Locations listed</div>
 
     <?php if(current_user_can('edit_posts')): ?>
-    <div class="debug-section">
-        <a href="#" class="debug-section_link">Add Locations &amp; Dates +</a>
-        <div class="debug-section_sub">Admin Only Notice:</div>
+    <div style="background:red;color:#fff;font-family:monospace;padding: 20px">
+        <div style="color:#fff">Admin Only Notice:</div>
+        <a href="<?php echo get_admin_url('','?page=trucklot-locations'); ?>" style="color:#fff">Add Locations &amp; Dates +</a>
     </div>
     <?php endif; ?>
 

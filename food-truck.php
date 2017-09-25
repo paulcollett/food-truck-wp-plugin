@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Food Truck
-Plugin URI: http://studiobrace.com/food-truck-wp-plugin/
+Plugin URI: https://github.com/paulcollett/food-truck-wp-plugin
 Description: A Food Truck Location & Date Viewer, & A Menus built for food trucks
 Author: Paul Collett
 Author URI: http://paulcollett.com
@@ -355,6 +355,14 @@ function trucklot_locations_get_formatted_closetime($item){
     return $close_time;
 }
 
+function trucklot_include($path, $vars = array()) {
+  if(count($vars)) {
+    extract($vars);
+  }
+
+  include dirname(__FILE__) . '/' . $path;
+}
+
 
 // [bartag foo="foo-value"]
 function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) {
@@ -365,10 +373,10 @@ function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) 
   ob_start();
 
   if($atts['display'] == 'summary') {
-    include dirname(__FILE__) . '/templates/summary.php';
+    trucklot_include('templates/summary.php');
   }
   else {
-    include dirname(__FILE__) . '/templates/full.php';
+    trucklot_include('templates/full.php');
   }
 
   $html = ob_get_clean();
