@@ -6,8 +6,10 @@
 ### Features
 
 **Display Location & Times anywhere on your Wordpress website**
+
 Manage locations with ease using our Single Page App Interface (No page reloads to break your flow)
 
+![Wordpress Food Truck Admin](https://user-images.githubusercontent.com/1904774/30839233-68962026-a225-11e7-9cf8-e28e0642128c.png)
 
 ### To use
 
@@ -15,3 +17,6 @@ Manage locations with ease using our Single Page App Interface (No page reloads 
 2. upload the `.zip` file in your wordpress admin (Plugins > Add New > Upload Plugin)
    (or, Unzip & Move the folder `food-truck-wp-plugin` into your wordpress's plugin directory)
  
+### Examples
+
+Coming...
