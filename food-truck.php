@@ -21,6 +21,7 @@ class FoodTruckPlugin {
     add_shortcode( 'foodtruck', 'trucklot_handle_shortcode' );
     add_action('enqueue_scripts', 'trucklot_site_add_assets' );
     add_action( 'admin_bar_menu', 'trucklot_toolbar_link_to_editor', 999 );
+    add_action( 'widgets_init', 'trucklot_register_widget' );
 
     if( is_admin() ) {
       // Add plugin features to admin
@@ -391,4 +392,33 @@ function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) 
   $html = ob_get_clean();
 
   return $html;
+}
+
+class TruckLotWidget extends WP_Widget {
+  function __construct() {
+    // Instantiate the parent object
+    parent::__construct( false, 'Food Truck Upcoming', array(
+      'description' => 'Display Upcoming Locations & Times'
+    ));
+  }
+
+  function widget( $args, $instance ) {
+    // Widget output
+    echo '<section class="widget widget_food-truck">'
+      . trucklot_handle_shortcode(array('display' => 'summary'))
+      . '</section>';
+  }
+
+  function update( $new_instance, $old_instance ) {
+    // Save widget options
+  }
+
+  function form( $instance ) {
+    // Output admin widget options form
+    echo '<p>Displays your upcoming 3 Locations &amp; Times</p>';
+  }
+}
+
+function trucklot_register_widget() {
+  register_widget( 'TruckLotWidget' );
 }
