@@ -19,6 +19,7 @@ class FoodTruckPlugin {
     add_action('init', 'trucklot_register_post_types');
     add_action('init', 'trucklot_out');
     add_shortcode( 'foodtruck', 'trucklot_handle_shortcode' );
+    add_action('enqueue_scripts', 'trucklot_site_add_assets' );
 
     if( is_admin() ) {
       // Add plugin features to admin
@@ -28,7 +29,7 @@ class FoodTruckPlugin {
       add_action( 'wp_ajax_menu-loc', 'trucklot_handle_ajax' );
     }
     else {
-      add_action('trucklot_site_add_assets', 'trucklot_site_add_assets' );
+      add_action('wp_enqueue_scripts', 'trucklot_site_add_assets' );
     }
 	}
 }
@@ -63,19 +64,17 @@ function trucklot_admin_add_plugin_section(){
 }
 
 function trucklot_admin_add_assets($page){
-
   if($page != 'toplevel_page_trucklot-locations' && $page != 'toplevel_page_trucklot-menus') return;
 
   wp_enqueue_script('trucklot-menu-admin-lib', plugin_dir_url(__FILE__) . 'admin/assets/libs.min.js', false, TRUCKLOT_PLUGIN_VER);
 
   wp_enqueue_media();
-
 }
 
-function trucklot_site_add_assets(){
-  wp_enqueue_script('trucklot-script', plugin_dir_url(__FILE__) . 'assets/dist/main.js', false, TRUCKLOT_PLUGIN_VER);
+function trucklot_site_add_assets() {
+  wp_enqueue_script('food-truck-script', plugin_dir_url(__FILE__) . 'assets/dist/js/main.js', array('jquery'), TRUCKLOT_PLUGIN_VER);
 
-  wp_enqueue_style('trucklot-style', plugin_dir_url(__FILE__) . 'assets/dist/main.css', false, TRUCKLOT_PLUGIN_VER);
+  wp_enqueue_style('food-truck-style', plugin_dir_url(__FILE__) . 'assets/dist/css/main.css', false, TRUCKLOT_PLUGIN_VER);
 }
 
 function trucklot_render_admin_menu_posts(){
@@ -166,13 +165,10 @@ function trucklot_handle_ajax() {
       }
 
       $data = isset($_POST) ? $_POST : array();
-      $title = 'TruckLot Locations';
-
-      $title = wp_strip_all_tags($title);
 
       $post_id = wp_insert_post(array(
         'ID' => $id,
-        'post_title' => $title,
+        'post_title' => 'Food Truck Locations',
         'post_content' => wp_slash(json_encode($data)),
         'post_type' => 'trucklot-locations',
         'post_status'   => 'publish',
@@ -192,13 +188,12 @@ function trucklot_handle_ajax() {
   }
 
 function parse_json_to_body($string){
-
   return json_encode($string,JSON_NUMERIC_CHECK | JSON_FORCE_OBJECT);
-
 }
 
 function get_json_post(){
   $postdata = file_get_contents("php://input");
+
   return parse_body_to_json($postdata);
 }
 
