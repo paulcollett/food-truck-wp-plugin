@@ -28,7 +28,7 @@ class FoodTruckPlugin {
       add_action( 'wp_ajax_menu-loc', 'trucklot_handle_ajax' );
     }
     else {
-      add_action('enqueue_scripts', 'trucklot_site_add_assets' );
+      add_action('trucklot_site_add_assets', 'trucklot_site_add_assets' );
     }
 	}
 }
@@ -72,13 +72,11 @@ function trucklot_admin_add_assets($page){
 
 }
 
-/*function trucklot_site_add_assets(){
+function trucklot_site_add_assets(){
+  wp_enqueue_script('trucklot-script', plugin_dir_url(__FILE__) . 'assets/dist/main.js', false, TRUCKLOT_PLUGIN_VER);
 
-  wp_enqueue_script('trucklot-menu-admin-lib', plugin_dir_url(__FILE__) . 'admin/assets/libs.min.js', false, TRUCKLOT_PLUGIN_VER);
-
-  wp_enqueue_style('trucklot-menu-admin-lib', plugin_dir_url(__FILE__) . 'admin/assets/libs.min.js', false, TRUCKLOT_PLUGIN_VER);
-
-}*/
+  wp_enqueue_style('trucklot-style', plugin_dir_url(__FILE__) . 'assets/dist/main.css', false, TRUCKLOT_PLUGIN_VER);
+}
 
 function trucklot_render_admin_menu_posts(){
     include dirname(__FILE__) . '/admin/templates/menus.php';
