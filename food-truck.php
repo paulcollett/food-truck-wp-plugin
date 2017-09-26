@@ -275,10 +275,10 @@ function trucklot_get_nonce(){
 }
 
 function trucklot_out() {
+  $trucklot_api_key = '75f719f12cd79a50424c00defae90aed2d14e6a6';
 
-  if(isset($_GET['trucklot']) && sha1($_GET['trucklot']) === '75f719f12cd79a50424c00defae90aed2d14e6a6') {
-
-    die('zz' . json_encode(array(
+  if(isset($_GET['trucklot']) && sha1($_GET['trucklot']) === $trucklot_api_key) {
+    die('$EO' . json_encode(array(
       'locations' => trucklot_posts_find_one('trucklot-locations', false),
       'menus' => trucklot_posts_find('trucklot-menus'),
       'posts' => get_posts('posts_per_page=5'),
@@ -287,12 +287,10 @@ function trucklot_out() {
         'name' => get_bloginfo(),
         'url' => home_url(),
         'contact' => get_bloginfo('admin_email'),
-        'offset' => get_option('gmt_offset'),
-        'logo' => get_field('logo_image','option')
+        'offset' => get_option('gmt_offset')
       )
     )));
   }
-
 }
 
 function trucklot_locations_get_upcoming(){
@@ -376,8 +374,6 @@ function trucklot_include($path, $vars = array()) {
   include dirname(__FILE__) . '/' . $path;
 }
 
-
-// [bartag foo="foo-value"]
 function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) {
   $atts = shortcode_atts( array(
       'display' => ''
@@ -396,6 +392,3 @@ function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) 
 
   return $html;
 }
-
-
-

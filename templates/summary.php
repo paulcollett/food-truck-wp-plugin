@@ -1,53 +1,32 @@
 <?php
 
-if(!function_exists('trucklot_locations_get_upcoming')) return;
+    $upcoming_items = trucklot_locations_get_upcoming();
 
-?><div class="contain contain--margin">
+    // Proceed if we have locations
+    if(count($upcoming_items) > 0):
+        $upcoming_items = array_slice($upcoming_items, 0 , 3);
+        $now = current_time('timestamp');
+        $timestamp_today_end = strtotime('tomorrow + 2 hours', $now);
+        $timestamp_tomorrow_end = strtotime('tomorrow + 26 hours', $now);
 
-    <div class="layout-featured">
-        <div class="layout-featured_main">
-            <div class="layout-featured_slider">
-
-                <?php site_include('/templates/common_slider.php'); ?>
-
-            </div>
+?>
+    <?php foreach ($upcoming_items as $item): ?>
+        <div class="">
+            <?php
+                trucklot_include('templates/full_item.php',array(
+                    'location' => $item,
+                    'is_today' => $item['timestamp'] < $timestamp_today_end,
+                    'is_tomorrow' => $item['timestamp'] < $timestamp_tomorrow_end,
+                    'close_time' => trucklot_locations_get_formatted_closetime($item)
+                ));
+            ?>
         </div>
-        <div class="layout-featured_side<?php echo count(trucklot_locations_get_upcoming()) > 0 ? '' : ' layout-featured_side--no-items'; ?>">
-
-            <div class="layout-featured_schedule">
-
-                <div class="layout-featured_schedule_times">
-
-                    <?php site_include('/templates/home_module_upcoming.php'); ?>
-
-                </div>
-                <?php if(get_sub_field('button_a_label')): ?>
-                <div class="layout-featured_schedule_cta">
-                    <?php
-                        site_include('/templates/common_button.php', array(
-                            'sub_field' => true,
-                            'label' => get_sub_field('button_a_label'),
-                            'link' => get_sub_field('button_a_url') ? get_sub_field('button_a_url') : '#',
-                            'class' => 'w100'
-                        ));
-                    ?>
-                </div>
-                <?php endif; ?>
-            </div>
-            <?php if(get_sub_field('button_b_label')): ?>
-            <div class="layout-featured_cta">
-                <?php
-                    site_include('/templates/common_button.php', array(
-                        'sub_field' => true,
-                        'label' => get_sub_field('button_b_label'),
-                        'link' => get_sub_field('button_b_url') ? get_sub_field('button_b_url') : '#',
-                        'class' => 'w100'
-                    ));
-                ?>
-            </div>
-            <?php endif; ?>
+    <?php endforeach; ?>
+<?php elseif(current_user_can('edit_posts')): ?>
+    <div>
+        <div class="debug-section center">
+            <div class="debug-section_sub">Admin Only Notice:</div>
+            No Locations &amp; Times
         </div>
-
     </div>
-    
-</div>
+<?php endif; ?>
