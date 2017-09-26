@@ -7,6 +7,11 @@
 
 **Display Location & Times anywhere on your Wordpress website**
 
+- Show a map with upcoming location markers
+- Add in Special Event/Location names along with full address
+- Link to Google Maps with Directions
+- Dynamic display with indicators to best show Today/Tomorrow & Upcoming Locations
+
 ![Food Truck Wordpress Plugin](https://user-images.githubusercontent.com/1904774/30882833-272448a8-a2bf-11e7-9a74-ed08bf303756.png)
 
 Manage locations with ease using our Single Page App Interface (No page reloads to break your flow)
