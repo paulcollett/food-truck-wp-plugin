@@ -109,11 +109,8 @@ gulp.task("compile-js-to-min",['js-error-check'], function() {
     //.pipe(browserSync.stream({match: '**/*.{js,map}'}));
 });
 
-// Notifications (enabled when using "proxy" task)
-var notifications = false;
-
 var css_error_os_alert = function(error){
-  notifications && notify.onError({
+  notify.onError({
     title: 'SASS error',
     subtitle: error.formatted.split("\n")[0],
     message: error.message.split("\n")[0] + ' on line: ' + error.line,
@@ -123,7 +120,7 @@ var css_error_os_alert = function(error){
 };
 
 var js_error_os_alert = function(error){
-  notifications && notify.onError({
+  notify.onError({
     title: 'JS error',
     subtitle: error.message.split(" ").slice(1).join(" "),
     message: error.message.split(" ")[0].split("/").pop() + ' on line: ' + error.lineNumber,
