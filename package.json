@@ -1,7 +1,9 @@
 {
+  "private": true,
   "scripts": {
     "dev": "gulp watch",
-    "build": "gulp"
+    "build": "gulp",
+    "pack": "zip -r --exclude=.git* --exclude=*.DS_Store* --exclude=*node_modules* ../food-truck.zip ./"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
