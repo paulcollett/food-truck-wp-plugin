@@ -23,7 +23,7 @@
 
 		var _this = this;
 
-		this.$container = $dom && $dom.length ? $dom : $('<div />');
+		this.$container = $dom && $dom.length ? $dom : $($dom);
 		this.map = false;
 		this.options = $.extend(defaultMapOptions,options||{});
 		this.markers = [];

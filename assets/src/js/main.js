@@ -7,8 +7,6 @@
   }
 
   var exprt = {};
-  var $body;
-  var $header;
   var $window = $(window);
 
   var renderLocationsModule = function() {
@@ -22,7 +20,7 @@
       var itemsDOM = container.find('.js-location-expand-container');
       var itemsMap = container.find('.js-locations-all-map');
       var items = [];
-      var marker = container.attr('data-marker') || null;
+      var marker = null; // Feature: container.attr('data-marker') || null
       var detailMapGObj = false;
       var mainMapGObj = false;
 
@@ -36,14 +34,17 @@
       });
 
       var positionPage = function(){
-        window.scrollTo(0, container.offset().top - $header.height() - 150);
+        window.scrollTo(0, container.offset().top - 150);
       }
 
       var loadItem = function(obj) {
+        detailDetails.html(obj.html);
         detailContainer.show();
         listContainer.hide();
-        detailDetails.html(obj.html);
-        if(obj._foundAddr) detailDetails.append('<hr />' + obj._foundAddr + '<br /><a href="https://maps.google.com?saddr=Current+Location&daddr=' + obj._foundAddr + '" target="_blank">View Directions</a>');
+
+        if(obj._foundAddr)
+            detailDetails.append('<hr />' + obj._foundAddr + '<br /><a href="https://maps.google.com?saddr=Current+Location&daddr=' + obj._foundAddr + '" target="_blank">View Directions</a>');
+
         positionPage();
 
         if(!detailMapGObj) return;
