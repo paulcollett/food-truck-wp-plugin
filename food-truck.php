@@ -15,6 +15,11 @@ define('TRUCKLOT_PLUGIN_VER', 1.0);
 
 class FoodTruckPlugin {
 	function __construct() {
+
+    if(!defined('TRUCKLOT_THEME_URI')) {
+      define('TRUCKLOT_THEME_URI', plugin_dir_url(__FILE__));
+    }
+
     // Register Custom post types to store data
     add_action('init', 'trucklot_register_post_types');
     add_action('init', 'trucklot_out');
@@ -87,15 +92,15 @@ function trucklot_admin_add_plugin_section(){
 function trucklot_admin_add_assets($page){
   if($page != 'toplevel_page_trucklot-locations' && $page != 'toplevel_page_trucklot-menus') return;
 
-  wp_enqueue_script('trucklot-menu-admin-lib', plugin_dir_url(__FILE__) . 'admin/assets/libs.min.js', false, TRUCKLOT_PLUGIN_VER);
+  wp_enqueue_script('trucklot-menu-admin-lib', TRUCKLOT_THEME_URI . 'admin/assets/libs.min.js', false, TRUCKLOT_PLUGIN_VER);
 
   wp_enqueue_media();
 }
 
 function trucklot_site_add_assets() {
-  wp_enqueue_script('food-truck-script', plugin_dir_url(__FILE__) . 'assets/dist/js/main.js', array('jquery'), TRUCKLOT_PLUGIN_VER);
+  wp_enqueue_script('food-truck-script', TRUCKLOT_THEME_URI . 'assets/dist/js/main.js', array('jquery'), TRUCKLOT_PLUGIN_VER);
 
-  wp_enqueue_style('food-truck-style', plugin_dir_url(__FILE__) . 'assets/dist/css/main.css', false, TRUCKLOT_PLUGIN_VER);
+  wp_enqueue_style('food-truck-style', TRUCKLOT_THEME_URI . 'assets/dist/css/main.css', false, TRUCKLOT_PLUGIN_VER);
 }
 
 function trucklot_render_admin_menu_posts(){

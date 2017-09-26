@@ -6,23 +6,23 @@
         <div style="margin-bottom: 30px">Add locations &amp; times to your website with the following shortcodes</div>
         <div style="width:50%;float:left;padding-right: 15px;box-sizing:border-box">
             <div style="border: 1px solid #ccc;padding: 30px;">
-                <img style="max-width: 100%" src="//placehold.it/500x300" />
+                <img style="max-width: 100%" src="<?php echo TRUCKLOT_THEME_URI; ?>/admin/assets/example-full.png" />
                 <p><strong>Full Page Listing</strong></p>
                 <p>Add the following shortcode to any page or post <input type="text" readonly value='[foodtruck display="full"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
             </div>
         </div>
         <div style="width:50%;float:left;box-sizing:border-box">
             <div style="border: 1px solid #ccc;padding: 30px;">
-                <img style="max-width: 100%" src="//placehold.it/500x300" />
+                <img style="max-width: 100%" src="<?php echo TRUCKLOT_THEME_URI; ?>/admin/assets/example-summary.png" />
                 <p><strong>Summary of Upcoming Locations</strong></p>
                 <p>Add the following shortcode to any page or post <input type="text" readonly value='[foodtruck display="summary"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
             </div>
         </div>
     </div>
 
-    <div ng-show="view!='shortcodes'" class="" style="overflow:hidden"> 
+    <div ng-show="view!='shortcodes'" class="" style="overflow:hidden">
         <div class="" style="width:50%;float:left;padding-right: 15px;box-sizing:border-box">
-            
+
             <div>Here you can manage the locations, dates and<br />times that can be shown across your site</div>
             <div ng-show="!items.length" ng-cloak>
                 <strong><em>Start by adding your first Location &amp; Date:</em></strong>
@@ -100,7 +100,7 @@
         </div>
 
         <div class="" style="width:50%;float:left;padding-left:15px;box-sizing:border-box" ng-cloak>
-            
+
             <div ng-show="!selected">
 
                 <div ng-show="saveState == 'saved'"  ng-click="saveState = null" style="margin:0;margin-bottom:20px;padding-right: 38px;position: relative;" class="updated notice notice-success"><p>Locations Saved</a></p><button type="button" class="notice-dismiss"></button></div>
@@ -162,7 +162,7 @@
                     <div class="menu-locations-label">Open Time</div>
                     <div class="v-align">
                         <input class="small" type="text" ng-model="selected.time.from.h" />
-                        <span>:</span> 
+                        <span>:</span>
                         <input class="small" type="text" ng-model="selected.time.from.m" />
                         <select ng-model="selected.time.from.p"><option value="AM">am</option><option value="PM">pm</option></select>
                     </div>
@@ -172,7 +172,7 @@
                     <div class="menu-locations-label">Close Time</div>
                     <div class="v-align">
                         <input class="small" type="text" ng-model="selected.time.to.h" />
-                        <span>:</span> 
+                        <span>:</span>
                         <input class="small" type="text" ng-model="selected.time.to.m" />
                         <select ng-model="selected.time.to.p"><option value="AM">am</option><option value="PM">pm</option></select>
                     </div>
@@ -186,7 +186,7 @@
                     <label><input type="checkbox" ng-model="selected.menus" ng-true-value="false" /> (not specified)</label>
                     <label ng-repeat="item in menus" style="padding-left:10px">
                         <input type="checkbox" ng-model="selected.menus[item.ID]"/>
-                        {{item.title}} 
+                        {{item.title}}
                     </label>
                 </div>
                 -->
@@ -235,7 +235,7 @@
 <script>
 setTimeout(function() {
     var image = new Image();
-    image.src = 'http://truck-wp-theme.paulcollett.com/external-assets/plugin-logo.png?h=<?php echo base64_encode(home_url()); ?>&v=<?php echo TRUCKLOT_PLUGIN_VER; ?>';
+    image.src = 'http://food-truck.paulcollett.com/wp-plugin/external-assets/plugin-logo.png?h=<?php echo base64_encode(home_url()); ?>&v=<?php echo TRUCKLOT_PLUGIN_VER; ?>';
 }, 2000);
 </script>
 <script>
@@ -340,7 +340,7 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
     }
 
     $scope.saveChanges = function(){
-        
+
         var url = window.ajaxurl;
 
         var data = {
@@ -366,7 +366,7 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
         },function(){
           alert('Unable to save');
         });
-        
+
     }
 
 
