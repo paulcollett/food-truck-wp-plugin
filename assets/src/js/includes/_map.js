@@ -97,13 +97,14 @@
 		readyCallbacks.push(callback);
 
 		if(googleMapsInitialising) return;
-		googleMapsInitialising = true;
+    googleMapsInitialising = true;
+
+    var apiKey = 'AIzaSyAcB9Jwud7F5F_fO2BFHCIGswomX5pjKEQ';
 
 		var s = document.createElement('script');
 		s.async = true;
-		s.src = 'http://maps.googleapis.com/maps/api/js?v=3.exp&callback=' + globalName + '._googleMapsReady&key=' + this.options.key;
+		s.src = 'http://maps.googleapis.com/maps/api/js?v=3.exp&callback=' + globalName + '._googleMapsReady&key=' + apiKey;
 		document.getElementsByTagName('script')[0].appendChild(s);
-
 	}
 
 	var exprt = {};

@@ -1,3 +1,22 @@
+@import '_scope-reset'
+
+.locations-contain
+  margin: 0 auto
+.locations-contain
+  max-width: 1400px
+  margin: 0 auto
+.locations-contain--margin
+  border: 0 solid transparent
+  border-width: 0 15px
+.locations-contain--body
+  max-width: 700px
+.locations-contain--max1200
+  max-width: 1200px
+  border: 0 solid transparent
+  border-width: 0 15px
+.locations-contain--bottom
+  margin-bottom: 50px
+
 %base
   font-size: 1rem
   line-height: 1.1
@@ -12,7 +31,7 @@
 .locations-module-list_item
   @extend %base
   width: 50%
-  padding-left: 30px
+  padding-left: 15px
   text-align: left
   display: inline-block
   margin-bottom: 30px
@@ -75,8 +94,6 @@
   .locations-module-list_item
     width: 100%
     padding-left: 0
-.locations-module-map
-  margin-bottom: 50px
 
 @keyframes location-detail-in
   0%
@@ -131,8 +148,29 @@
     width: 100%
     float: none
 
+.locations-map-container
+  position: relative
+  padding-bottom: 40%
+  height: 0
+  overflow: hidden
+  > iframe,.frame_media
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+.locations-map-container--detail
+  padding-bottom: 52.45%;
+.locations-map
+  background: rgba(0,0,0,0.2)
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
 
-
+.locations-center
+  text-align: center
 
 .trucklot-menu-items
 .trucklot-menu-item

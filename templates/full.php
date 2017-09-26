@@ -10,9 +10,9 @@
       $timestamp_today_end = strtotime('tomorrow + 2 hours', $now);
       $timestamp_tomorrow_end = strtotime('tomorrow + 26 hours', $now);
 ?>
-<div class="js-location-module">
+<div class="foodtruck-reset js-location-module">
     <div class="js-location-list-container">
-        <div class="contain contain--body contain--margin">
+        <div class="locations-contain locations-contain--body locations-contain--margin">
             <div class="locations-module-list">
                 <?php foreach ($first_6_locations as $item): ?>
                     <div class="locations-module-list_item js-location-expand-container">
@@ -30,11 +30,13 @@
             </div>
         </div>
 
-        <div class="frame frame--skinny locations-module-map">
-            <div class="map map--fill js-locations-all-map"></div>
+        <div class="locations-contain locations-contain--body locations-contain--bottom">
+          <div class="locations-map-container">
+              <div class="locations-map js-locations-all-map"></div>
+          </div>
         </div>
 
-        <div class="contain contain--body contain--margin">
+        <div class="locations-contain locations-contain--body locations-contain--margin">
             <div class="locations-module-list">
                 <?php foreach ($remaining_locations as $item): ?>
                     <div class="locations-module-list_item js-location-expand-container">
@@ -52,20 +54,20 @@
             </div>
         </div>
     </div>
-    <div class="contain contain--max1200 js-location-container">
+    <div class="locations-contain locations-contain--max1200 locations-contain--bottom js-location-container">
         <div class="locations-detail">
-            <div class="locations-detail_back accent js-location-back">
+            <div class="locations-detail_back js-location-back">
                 &lsaquo;
             </div>
             <div class="locations-detail_location js-location-details"></div>
             <div class="locations-detail_map">
-                <div class="frame">
-                    <div class="map map--fill js-location-map"></div>
+                <div class="locations-map-container locations-map-container--detail">
+                    <div class="locations-map js-location-map"></div>
                 </div>
             </div>
         </div>
-        <div class="center margin-bottom-md">
-            <div class="button btn">&lsaquo; Back to list</div>
+        <div class="locations-center margin-bottom-md">
+            <a href="#" class="button btn js-location-back">&lsaquo; Back to list</a>
         </div>
     </div>
 </div>
@@ -76,13 +78,15 @@
 ?>
 <?php else: ?>
 
-    <div class="center accent fs16">No Dates or Locations listed</div>
+<div class="foodtruck-reset">
+  <div class="locations-center">No Dates or Locations listed</div>
 
-    <?php if(current_user_can('edit_posts')): ?>
-    <div style="background:red;color:#fff;font-family:monospace;padding: 20px">
-        <div style="color:#fff">Admin Only Notice:</div>
-        <a href="<?php echo get_admin_url('','?page=trucklot-locations'); ?>" style="color:#fff">Add Locations &amp; Dates +</a>
-    </div>
-    <?php endif; ?>
+  <?php if(current_user_can('edit_posts')): ?>
+  <div style="background:red;color:#fff;font-family:monospace;padding: 20px">
+      <div style="color:#fff">Admin Only Notice:</div>
+      <a href="<?php echo get_admin_url('','?page=trucklot-locations'); ?>" style="color:#fff">Add Locations &amp; Dates +</a>
+  </div>
+  <?php endif; ?>
+</div>
 
 <?php endif; ?>

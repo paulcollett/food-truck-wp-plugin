@@ -54,7 +54,7 @@
           detailMapGObj.addMarker(obj._latlng,marker);
         } else {
           FoodTruckGMap.parseLocation(obj.address,function(googLatLng){
-              detailMapGObj.addMarker(googLatLng,marker);
+            detailMapGObj.addMarker(googLatLng,marker);
           });
         }
 
@@ -65,10 +65,10 @@
           var html = $(this).html();
           var address = $(this).find('script').html();
           var obj = {
-              address: address,
-              html: html,
-              _latlng: false,
-              _foundAddr: false
+            address: address,
+            html: html,
+            _latlng: false,
+            _foundAddr: false
           };
           items.push(obj);
           $(this).on('click',loadItem.bind(null, obj))
@@ -76,18 +76,14 @@
 
         if(!items.length) return;
 
-        var gMapKey = window.FoodTruckGMapKey || 'AIzaSyAcB9Jwud7F5F_fO2BFHCIGswomX5pjKEQ';
-
         FoodTruckGMap.ready(function(){
             var windowWidth = window.innerWidth || document.documentElement.clientWidth;
             detailMapGObj = FoodTruckGMap.create(detailMap, {
               zoom: 15,
-              scrollwheel: (windowWidth > 980),
-              key: gMapKey
+              scrollwheel: (windowWidth > 980)
             });
             mainMapGObj = FoodTruckGMap.create(itemsMap, {
-              scrollwheel: false,
-              key: gMapKey
+              scrollwheel: false
             });
             for (var i = 0; i < items.length; i++) {
                 items[i].address && (function(item){
