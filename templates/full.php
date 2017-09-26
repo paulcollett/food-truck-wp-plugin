@@ -69,7 +69,7 @@
         </div>
     </div>
 </div>
-<script>window.BraceFramework && BraceFramework.locationsMapReady()</script>
+<script>window.FoodTruckFramework && FoodTruckFramework.locationsMapReady()</script>
 <?php
     // Debug:
     echo '<!-- Now: ' . date('r', $now) . ' -->';
