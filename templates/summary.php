@@ -11,7 +11,7 @@
 
 ?>
     <?php foreach ($upcoming_items as $item): ?>
-        <div class="">
+        <div class="locations-summary-item">
             <?php
                 trucklot_include('templates/full_item.php',array(
                     'location' => $item,

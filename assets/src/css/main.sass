@@ -58,6 +58,12 @@
 
 .location-item
   position: relative
+  h3
+    font-size: 1.1em !important
+    line-height: 1.2em !important
+    border: none !important
+    margin: 0 0 0.5em 0 !important
+    padding: 0 !important
 
 .location-item_beacon
   display: inline-block
@@ -214,3 +220,13 @@
     padding: 0
     text-align: center
     margin-bottom: 15px
+
+.locations-summary-item + .locations-summary-item
+  padding-top: 1em
+  &:before
+    content: ''
+    display: block
+    border-top: 1px solid currentcolor
+    margin-bottom: 1em
+    opacity: 0.2
+

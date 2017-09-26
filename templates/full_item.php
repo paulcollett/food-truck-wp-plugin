@@ -1,10 +1,10 @@
 <div class="location-item">
     <?php if($is_today): ?>
-        <div class="accent fs16"><div class="location-item_beacon"></div>Today</div>
+        <h3><div class="location-item_beacon"></div>Today</h3>
         <strong><?php echo date('g:ia', $location['timestamp']); ?> <?php echo $close_time ? '&ndash; ' . esc_html($close_time) : ''; ?></strong>
         <?php echo date('l jS', $location['timestamp']); ?>
     <?php elseif($is_tomorrow): ?>
-        <div class="accent fs16"><div class="location-item_beacon location-item_beacon--neutral"></div>Tomorrow</div>
+        <h3><div class="location-item_beacon location-item_beacon--neutral"></div>Tomorrow</h3>
         <strong><?php echo date('g:ia', $location['timestamp']); ?> <?php echo $close_time ? '&ndash; ' . esc_html($close_time) : ''; ?></strong>
         <?php echo date('l jS', $location['timestamp']); ?>
     <?php else: ?>
