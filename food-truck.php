@@ -20,6 +20,7 @@ class FoodTruckPlugin {
     add_action('init', 'trucklot_out');
     add_shortcode( 'foodtruck', 'trucklot_handle_shortcode' );
     add_action('enqueue_scripts', 'trucklot_site_add_assets' );
+    add_action( 'admin_bar_menu', 'trucklot_toolbar_link_to_editor', 999 );
 
     if( is_admin() ) {
       // Add plugin features to admin
@@ -36,9 +37,28 @@ class FoodTruckPlugin {
 
 new FoodTruckPlugin;
 
+function trucklot_toolbar_link_to_editor($wp_admin_bar){
+  if(is_admin()) {
+    $args = array(
+      'id' => 'trucklot',
+      'title' => 'Location',
+      'href' => get_admin_url('','?page=trucklot-locations'),
+      'parent' => 'new-content'
+    );
+  } else {
+    $args = array(
+      'id' => 'trucklot',
+      'title' => '<span style="position:relative;top:4px;opacity:0.5;margin-right:5px" class="wp-menu-image dashicons-before dashicons-location-alt"></span>Manage Location &amp; Dates',
+      'href' => get_admin_url('','?page=trucklot-locations'),
+      //'meta'  => array( 'class' => 'trucklot-menu-item' )
+    );
+  }
+
+  $wp_admin_bar->add_node($args);
+}
 
 function trucklot_register_post_types(){
-  // add menu posts
+  // add menu posts - feature coming soon
   /*register_post_type( 'trucklot-menus',array(
     'labels' => array(),
     'public' => false,
