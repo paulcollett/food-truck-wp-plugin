@@ -1,7 +1,7 @@
 <div ng-app="menuloc" class="menu-locations-app" ng-controller="locations" style="margin: 30px 30px 30px 10px">
     <h1><span class="dashicons dashicons-location-alt"></span> Location &amp; Date Manager <em style="font-weight:normal;color:#bbb">by Food Truck Plugin</em></h1>
 
-    <div ng-cloke ng-show="view=='shortcodes'" class="" style="">
+    <div ng-cloak ng-show="view=='shortcodes'" class="" style="">
         <div style="margin-bottom: 30px"><button class="button" ng-click="view = 'manager'">&larr; Back to Locations manager</button></div>
         <div style="margin-bottom: 30px">Add locations &amp; times to your website with the following shortcodes</div>
         <div style="width:50%;float:left;padding-right: 15px;box-sizing:border-box">
