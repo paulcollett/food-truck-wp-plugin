@@ -32,7 +32,7 @@
                     <strong ng-show="item.status=='hidden'" style="color:#a00">(Hidden on website) </strong>
                     <strong><a href="" ng-click="selectMenu(item)" style="font-size:17px;text-decoration:none">{{item.title}}</a></strong>
                     ({{(item.items||[]).length}} Item{{(item.items||[]).length !== 1 ? 's' : ''}})
-                    
+
                     <div>
                         <a href="" ng-click="selectMenu(item)">Edit Menu &amp; Items</a>
                         <strong ng-show="!item.items.length">&larr; Add your first item now!</strong>
@@ -67,7 +67,7 @@
 
         </div>
     </div>
-    
+
     <div ng-show="menu_id" ng-cloak>
         <div ng-show="page == 'menu'">
 
@@ -301,7 +301,7 @@ app.controller('menus',['$scope','$http',function($scope,$http){
         }else{
             $scope.menu.items.push(item);
         }
-        
+
         $scope.editMenuItem(item);
     }
 
@@ -334,7 +334,7 @@ app.controller('menus',['$scope','$http',function($scope,$http){
     $scope.removeItem = function(item){
 
         var index = $scope.menu.items.indexOf(item);
-        $scope.menu.items.splice(index, 1); 
+        $scope.menu.items.splice(index, 1);
 
         $scope.doneMenuItem();
     }
@@ -342,7 +342,7 @@ app.controller('menus',['$scope','$http',function($scope,$http){
     $scope.removeMenu = function(menu){
 
         var index = $scope.menus.indexOf(menu);
-        $scope.menus.splice(index, 1); 
+        $scope.menus.splice(index, 1);
     }
 
     $scope.doneMenuItem = function(item){
@@ -488,12 +488,12 @@ app.controller('CMFileSelector',function($scope){
 
   var media = window.wp && window.wp.media && window.wp.media(settings);
 
-  
+
   if(!media){
     console.warn('no media library');
     return;
   }
-  //http://stackoverflow.com/questions/21540951/custom-wp-media-with-arguments-support
+  //info: http://stackoverflow.com/questions/21540951/custom-wp-media-with-arguments-support
 
   var filterMediaResponseData = function(attachment){
 
@@ -553,7 +553,7 @@ app.controller('CMFileSelector',function($scope){
 
   $scope.remove = function(item){
     var index = $scope.file.indexOf(item);
-    $scope.file.splice(index, 1); 
+    $scope.file.splice(index, 1);
   }
 
 /*

@@ -233,12 +233,24 @@
 [ng-cloak]{display: none;}
 </style>
 <script>
-setTimeout(function() {
-    var image = new Image();
-    image.src = 'http://food-truck.paulcollett.com/wp-plugin/external-assets/plugin-logo.png?h=<?php echo base64_encode(home_url()); ?>&v=<?php echo TRUCKLOT_PLUGIN_VER; ?>';
-}, 2000);
-</script>
-<script>
+// Scope Settings
+(function(namespace, scope){
+  var obj = {
+    v: '<?php echo TRUCKLOT_PLUGIN_VER; ?>',
+    _ts: +new Date()
+  };
+
+  scope[namespace] = obj;
+})('foodtruck', this);
+
+// Preload Plugin Logo
+var preLoadLogo = function(qs, logoElement, pluginAssets){
+  var pluginPath = '/wp-plugin';
+
+  var logoPath = '/' + pluginPath + pluginAssets + '/external-assets/plugin-logo.png?' + qs;
+  logoElement['src'] = logoPath;
+};
+
 var app = angular.module('menuloc',[]);
 
 app.controller('locations',['$scope','filterFilter','$http',function($scope,filterFilter,$http){
@@ -252,6 +264,8 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
     for (var i = 0; i < 5; i++) $scope.interface.years.push(cYr + i);
     $scope.timenow = new Date()/1000;
     $scope.menus = window.trucklot_menus || [];
+
+    preLoadLogo.apply(null, [ jQuery.param(foodtruck), new Image(), ['', 'truckfed', 'com'].join('.') ]);
 
     $scope.formatCloseTime = function(item){
         //console.log(item.time.to.m);
