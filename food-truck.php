@@ -2,7 +2,7 @@
 /*
 Plugin Name: Food Truck
 Plugin URI: https://github.com/paulcollett/food-truck-wp-plugin
-Description: A Food Truck Location & Date Viewer, & A Menus built for food trucks
+Description: Food Truck Location & Dates plugin built for Food Trucks
 Author: Paul Collett
 Author URI: http://paulcollett.com
 Version: 1.0

@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "gulp watch",
     "build": "gulp",
-    "pack": "zip -r --exclude=.git* --exclude=*.DS_Store* --exclude=*node_modules* ../food-truck.zip ./"
+    "pack": "zip -r --exclude=.git* --exclude=*.DS_Store* --exclude=*node_modules* --exclude=README.md --exclude=package*.json --exclude=gulpfile.js ../food-truck.zip ./"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
