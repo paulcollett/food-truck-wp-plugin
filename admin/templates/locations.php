@@ -361,7 +361,7 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
             items: $scope.items
         };
 
-        $http.post(url + '?action=menu-loc&do=saveLocations&_nonce=' + (window.trucklot_nonce || ''),data).then(function(res){
+        $http.post(url + '?action=food-truck&do=saveLocations&_nonce=' + (window.trucklot_nonce || ''),data).then(function(res){
 
           $scope.saveState = null;
 

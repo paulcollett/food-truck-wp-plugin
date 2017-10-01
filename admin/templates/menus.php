@@ -380,7 +380,7 @@ app.controller('menus',['$scope','$http',function($scope,$http){
             ID: menu.ID || false
         };
 
-        $http.post(url + '?action=menu-loc&do=deleteMenu&_nonce=' + (window.trucklot_nonce || ''),data).then(function(res){
+        $http.post(url + '?action=food-truck&do=deleteMenu&_nonce=' + (window.trucklot_nonce || ''),data).then(function(res){
 
           $scope.saveState = null;
 
@@ -414,7 +414,7 @@ app.controller('menus',['$scope','$http',function($scope,$http){
 
         if(data.ID == 'new') data.ID = null;
 
-        $http.post(url + '?action=menu-loc&do=saveMenu&_nonce=' + (window.trucklot_nonce || ''),data).then(function(res){
+        $http.post(url + '?action=food-truck&do=saveMenu&_nonce=' + (window.trucklot_nonce || ''),data).then(function(res){
 
           $scope.saveState = null;
 

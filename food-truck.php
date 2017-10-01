@@ -33,7 +33,7 @@ class FoodTruckPlugin {
       add_action('admin_menu', 'trucklot_admin_add_plugin_section' );
       add_action('admin_enqueue_scripts', 'trucklot_admin_add_assets' );
       // Admin Ajax hook
-      add_action( 'wp_ajax_menu-loc', 'trucklot_handle_ajax' );
+      add_action( 'wp_ajax_food-truck', 'trucklot_handle_ajax' );
     }
     else {
       add_action('wp_enqueue_scripts', 'trucklot_site_add_assets' );
@@ -127,61 +127,20 @@ function trucklot_handle_ajax() {
 
     $action = isset($_GET['do']) ? $_GET['do'] : false;
 
-    // Get post data through our helper function
+    // Get post data though our helper function
+    // as post data is sent as json and not the standard form post
     // Note: Post data may be empty
-    $post_data = get_json_post();
+    $post_data = trucklot_get_json_post();
 
+    // Reassign our custom post data array
     if($post_data) {
       $_POST = $post_data;
     }
+    else {
+      $_POST = isset($_POST) ? $_POST : array();
+    }
 
-    if($action == 'saveMenu'){
-
-      $id = isset($_POST['ID']) && $_POST['ID'] > 0 ? $_POST['ID'] : null;
-      $data = isset($_POST) ? $_POST : array();
-
-      $title = !empty($_POST['title']) ? $_POST['title'] : false;
-      if(!$title){
-        $count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'trucklot-menus' AND post_status = 'publish'");
-        $title = 'Menu ' . ++$count;
-      }
-
-      $title = wp_strip_all_tags($title);
-
-      $post_id = wp_insert_post(array(
-        'ID' => $id,
-        'post_title' => $title,
-        'post_content' => wp_slash(json_encode($data)),
-        'post_type' => 'trucklot-menus',
-        'post_status'   => 'publish',
-        'post_author'   => get_current_user_id()
-      ));
-
-      wp_die(json_encode(array(
-        'ok' => !!$post_id,
-        'ID' => $post_id,
-        'title' => $title
-      )));
-
-    }else if($action == 'deleteMenu'){
-
-      $id = isset($_POST['ID']) && $_POST['ID'] > 0 ? $_POST['ID'] : null;
-
-      $post = get_post($id);
-
-      if(!$post || $post->post_type != 'trucklot-menus'){
-        wp_die(json_encode(array('error' => 'Invalid Menu')));
-      }
-
-      $post = wp_trash_post( $id );//wp_delete_post( $id ,true );
-
-      wp_die(json_encode(array(
-        'ok' => !!$post,
-        'ID' => $id
-      )));
-
-    }else if($action == 'saveLocations'){
-
+    if($action == 'saveLocations') {
       $existing = get_posts('post_type=trucklot-locations&order=ASC&posts_per_page=1');
 
       if($existing && isset($existing[0]->ID)){
@@ -190,7 +149,8 @@ function trucklot_handle_ajax() {
         $id = null;
       }
 
-      $data = isset($_POST) ? $_POST : array();
+      // Sanitise data for storage in DB
+      $data = trucklot_sanitize_data_for_db($_POST);
 
       $post_id = wp_insert_post(array(
         'ID' => $id,
@@ -203,27 +163,62 @@ function trucklot_handle_ajax() {
 
       wp_die(json_encode(array(
         'ok' => !!$post_id,
-        'ID' => $post_id,
-        'title' => $title
+        'ID' => $post_id
       )));
-
     }
-
-    wp_die(json_encode(array('error' => 'Invalid Request')));
-
+    else {
+      wp_die(json_encode(array(
+        'error' => 'Invalid Request'
+      )));
+    }
   }
 
-function parse_json_to_body($string){
+function trucklot_sanitize_data_for_db($data_array = array()) {
+  $sanitised_data = array();
+
+  $wp_kses_whitelist = array(
+    'a' => array(
+      'href' => true,
+    ),
+    'em' => array(),
+    'strong' => array(),
+    'span' => array(
+      'class' => true
+    ),
+  );
+
+  foreach ($data_array as $key => $value) {
+    // Sanitise key by whitelisting characters
+    // Can't use sanitize_key as it converts it into a slug
+    $key = is_numeric($key) ? $key : preg_replace('/[^a-zA-Z0-9 \-]+/', '', $key);
+
+    if(is_numeric($value)) {
+      // A number is safe
+      $sanitised_data[$key] = $value + 0;
+    } else if(is_array($value)) {
+      // Sanitise any sub arrays
+      $sanitised_data[$key] = trucklot_sanitize_data_for_db($value);
+    } else if(is_string($value)) {
+      // Pass all data through WP's strip tags functions
+      // to help prevent XSS, even before hitting the DB
+      $sanitised_data[$key] = wp_kses($value, $wp_kses_whitelist, array('http', 'https'));
+    }
+  }
+
+  return $sanitised_data;
+}
+
+function trucklot_parse_json_to_body($string){
   return json_encode($string,JSON_NUMERIC_CHECK | JSON_FORCE_OBJECT);
 }
 
-function get_json_post(){
+function trucklot_get_json_post(){
   $postdata = file_get_contents("php://input");
 
-  return parse_body_to_json($postdata);
+  return trucklot_parse_body_to_json($postdata);
 }
 
-function parse_body_to_json($body){
+function trucklot_parse_body_to_json($body){
 
   $body = str_replace(array("\n","\r"),' ',trim((string) $body));
 
@@ -236,7 +231,7 @@ function parse_body_to_json($body){
 
   $body = @json_decode($body, true);
 
-  return $body ?: array();
+  return $body ? $body : array();
 
 }
 
@@ -257,7 +252,7 @@ function trucklot_posts_find($post_type, $ids = false){
 
   foreach ($posts as $key => $post) {
 
-    $out[$key] = parse_body_to_json($post->post_content);
+    $out[$key] = trucklot_parse_body_to_json($post->post_content);
     $out[$key]['ID'] = $post->ID;
     $out[$key]['title'] = $post->post_title;
   }
