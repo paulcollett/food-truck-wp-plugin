@@ -176,15 +176,20 @@ function trucklot_handle_ajax() {
 function trucklot_sanitize_data_for_db($data_array = array()) {
   $sanitised_data = array();
 
+  $wp_kses_whitelist_attrs = array(
+    'class' => true,
+    'style' => true
+  );
+
   $wp_kses_whitelist = array(
-    'a' => array(
+    'a' => array_merge($wp_kses_whitelist_attrs, array(
       'href' => true,
-    ),
-    'em' => array(),
-    'strong' => array(),
-    'span' => array(
-      'class' => true
-    ),
+    )),
+    'em' => $wp_kses_whitelist_attrs,
+    'strong' => $wp_kses_whitelist_attrs,
+    'span' => $wp_kses_whitelist_attrs,
+    'b' => $wp_kses_whitelist_attrs,
+    'i' => $wp_kses_whitelist_attrs
   );
 
   foreach ($data_array as $key => $value) {
@@ -200,7 +205,7 @@ function trucklot_sanitize_data_for_db($data_array = array()) {
       $sanitised_data[$key] = trucklot_sanitize_data_for_db($value);
     } else if(is_string($value)) {
       // Pass all data through WP's strip tags functions
-      // to help prevent XSS, even before hitting the DB
+      // to help prevent XSS, even before hitting the DB.
       $sanitised_data[$key] = wp_kses($value, $wp_kses_whitelist, array('http', 'https'));
     }
   }
