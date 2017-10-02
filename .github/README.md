@@ -3,6 +3,8 @@
 
 ![Food Truck Plugin Logo](https://user-images.githubusercontent.com/1904774/30884316-f74f7774-a2c3-11e7-81df-ead6b0e50784.png)
 
+https://wordpress.org/plugins/food-truck/
+
 ### Features & Examples
 
 **Display Location & Times anywhere on your Wordpress website**
@@ -27,9 +29,9 @@ Quick add to site wide regions in your theme
 
 ### To use
 
-1. [Download Repo](https://github.com/paulcollett/food-truck-wp-plugin/archive/master.zip)
-2. upload the `.zip` file in your wordpress admin (Plugins > Add New > Upload Plugin)
-   (or, Unzip & Move the folder `food-truck-wp-plugin` into your wordpress's plugin directory)
+[Download Food Truck Plugin](https://wordpress.org/plugins/food-truck/)
+
+Follow installation instructions at: https://wordpress.org/plugins/food-truck/#installation
 
 ### More Examples
 
