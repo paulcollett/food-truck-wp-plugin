@@ -59,7 +59,7 @@ if(!$get_continue) die;
 // 7. commit files with message
 chdir($tmp_repo_dir);
 echo "Commiting to SVN & Uploading...\n";
-exec("svn add *");
+exec("svn add --force * --auto-props --parents --depth infinity -q"); // force add to svn working copy
 exec("svn ci -m 'Release version $version' --username $user --password $pass");
 
 chdir($plugin_root);
