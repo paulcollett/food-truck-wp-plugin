@@ -57,9 +57,12 @@ $get_continue = strtolower(trim( fgets( STDIN ))) == 'y';
 if(!$get_continue) die;
 
 // 7. commit files with message
+chdir($tmp_repo_dir);
 echo "Commiting to SVN & Uploading...\n";
 exec("svn add *");
 exec("svn ci -m 'Release version $version' --username $user --password $pass");
+
+chdir($plugin_root);
 
 // 8. Add tag to git and push
 echo "Adding version tag to git & pushing...\n";
