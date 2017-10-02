@@ -75,4 +75,8 @@ echo "Cleanup...\n";
 exec("rm $zip_of_updated_code");
 exec("rm -rf $tmp_repo_dir");
 
-die("\nComplete. SVN should be updated!");
+echo "\nComplete. SVN should be updated!\n";
+
+exec("open https://wordpress.org/plugins/food-truck/");
+
+die;
