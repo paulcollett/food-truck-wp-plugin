@@ -3,8 +3,8 @@
   "scripts": {
     "dev": "gulp watch",
     "build": "gulp",
-    "pack": "zip -r --exclude=.git* --exclude=*.DS_Store* --exclude=*node_modules* --exclude=README.md --exclude=package*.json --exclude=gulpfile.js --exclude=wp-repo* ../food-truck.zip ./",
-    "wp-publish": "npm run pack && ./wp-repo/package-svn.sh ../food-truck.zip"
+    "pack": "zip -r --exclude=.git* --exclude=*.DS_Store* --exclude=*node_modules* --exclude=README.md --exclude=package* --exclude=gulpfile.js ../food-truck.zip ./",
+    "wp-publish": "npm run pack && ./package-wp-svn.sh ../food-truck.zip"
   },
   "devDependencies": {
     "gulp": "^3.9.0",

@@ -1,7 +1,13 @@
 #!/usr/bin/env php
 <?php
 
-$plugin_root = __DIR__ . '/../';
+// Package and upload to wordpress.org plugin svn
+// Requires packaged zip to be already created and passed as first argument
+// Downloads current repo, clears our folders, unzips package into svn repo trunk/,
+// moves assets into svn repo assets/, commits and pushes changes to wordpress
+// then git tags repo
+
+$plugin_root = __DIR__ . '/';
 chdir($plugin_root);
 
 // 1. get version number & package
@@ -39,16 +45,16 @@ exec("mkdir $tmp_repo_dir");
 exec("svn co https://plugins.svn.wordpress.org/food-truck $tmp_repo_dir");
 
 // 4. package up files into svn truck/ directory
-echo "Copying Package into trunk...\n";
+echo "Copying zip Package into svn trunk/ folder...\n";
 $tmp_repo_trunk_dir = $tmp_repo_dir . "/trunk";
 exec("rm -rf $tmp_repo_trunk_dir");
 exec("unzip $zip_of_updated_code -d $tmp_repo_trunk_dir");
 
 // 6. copy assets/ to (svn)/assets
-echo "Copying Assets...\n";
-$wp_assets_dir = './wp-repo/assets';
+echo "Copying package-wp-svn-assets/ to svn assets/...\n";
+$wp_assets_dir = './package-wp-svn-assets/'; // need trailing slash to exclude folder from copy
 exec("rm -rf $tmp_repo_assets_dir"); // remove assets dir in repo
-exec("rsync -avC $wp_assets_dir $tmp_repo_dir");// copy excluding `.` prefixed and repo dirs
+exec("rsync -avC $wp_assets_dir ${$tmp_repo_dir}/assets");// copy excluding `.` prefixed files etc.
 
 // 7. review repo
 echo "Review repo. Looking good? (y/n)\n";
