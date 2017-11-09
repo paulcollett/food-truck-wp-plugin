@@ -326,15 +326,20 @@ function trucklot_locations_get_upcoming(){
 
         if(!$has_date_fields || !$has_info) continue;
 
-        $timestamp = strtotime("{$item['date']['d']} {$item['date']['m']} {$item['date']['y']} {$item['time']['from']['h']}:{$item['time']['from']['m']}:00{$item['time']['from']['p']}");
+        // TODO
+        // Check variables
+        // TEST...
 
-        $m = date('m',strtotime($item['date']['m']));
-
-        $timestamp = gmmktime(
-        $item['time']['from']['h'],
-        $item['time']['from']['m'], 0,
-        $m, $item['date']['d'],
-        $item['date']['y']);
+        // generate a timestamp (timezone doesn't matter)
+        // used to order the results by
+        $order = mktime(
+          $item['time']['from']['h'],
+          $item['time']['from']['m'],
+          0,
+          date('m',strtotime($item['date']['m'])), // Month
+          $item['date']['d'],
+          $item['date']['y']
+        );
 
         if(!$timestamp || $timestamp < $hide_after) continue;
 
