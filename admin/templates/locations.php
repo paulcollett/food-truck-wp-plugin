@@ -343,7 +343,7 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
                   results[0].geometry.location.toJSON ? results[0].geometry.location.toJSON() : null
                 ) || {};
               var geocode = {
-                lat: location.lng || null,
+                lat: location.lat || null,
                 lng: location.lng || null,
                 formatted: results[0].formatted_address
               };

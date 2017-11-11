@@ -40,13 +40,14 @@
 			if(!this.map) return false;
 
 			var opts = {
-				position: latlng.length ? new google.maps.LatLng(latlng[0],latlng[1]) : latlng,
+				position: latlng, // obj {lat: , lng: }
 				map: _this.map,
-			}
+      }
 
 			if(icon) opts.icon = icon;
 
-			var marker = new google.maps.Marker(opts);
+      var marker = new google.maps.Marker(opts);
+
 			this.markers.push(marker);
 
 			this.bounds.extend(opts.position);

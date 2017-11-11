@@ -24,7 +24,8 @@
                                 'close_time' => trucklot_locations_get_formatted_closetime($item)
                             ));
                         ?>
-                        <script type="text/plain"><?php echo isset($item['address']) ? esc_html(trim($item['address'])) : ''; ?></script>
+                        <script data-geocode="" type="text/plain"><?php echo isset($item['geocode']['lat']) ? json_encode($item['geocode']) : '{}'; ?></script>
+                        <script data-addr="" type="text/plain"><?php echo isset($item['address']) ? esc_html(trim($item['address'])) : ''; ?></script>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -48,7 +49,8 @@
                                 'close_time' => trucklot_locations_get_formatted_closetime($item)
                             ));
                         ?>
-                        <script type="text/plain"><?php echo esc_html($item['address']); ?></script>
+                        <script data-geocode="" type="text/plain"><?php echo isset($item['geocode']['lat']) ? json_encode($item['geocode']) : '{}'; ?></script>
+                        <script data-addr="" type="text/plain"><?php echo esc_html($item['address']); ?></script>
                     </div>
                 <?php endforeach; ?>
             </div>

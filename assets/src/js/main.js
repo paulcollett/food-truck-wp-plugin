@@ -64,12 +64,18 @@
       var loadAll = function() {
         itemsDOM.each(function(){
           var html = $(this).html();
-          var address = $(this).find('script').html();
+          var address = $(this).find('script[data-addr]').html();
+          var preGeoCode = {};
+          try {
+            preGeoCode = $.parseJSON($(this).find('script[data-geocode]').html()) || {};
+          } catch (error) {
+            preGeoCode = {};
+          }
           var obj = {
             address: address,
             html: html,
-            _latlng: false,
-            _foundAddr: false
+            _latlng: preGeoCode.lat ? { lat: preGeoCode.lat, lng: preGeoCode.lng } : false,
+            _foundAddr: preGeoCode.formatted || false
           };
           items.push(obj);
           $(this).on('click',loadItem.bind(null, obj))
@@ -87,6 +93,10 @@
               scrollwheel: false
             });
             for (var i = 0; i < items.length; i++) {
+                if(items[i]._latlng) {
+                  mainMapGObj.addMarker(items[i]._latlng,marker,loadItem.bind(null, items[i]));
+                  continue;
+                }
                 items[i].address && (function(item){
                     FoodTruckGMap.parseLocation(items[i].address,function(googLatLng, addr){
                         item._latlng = googLatLng;
