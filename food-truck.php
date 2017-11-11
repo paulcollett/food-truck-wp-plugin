@@ -5,7 +5,7 @@ Plugin URI: https://github.com/paulcollett/food-truck-wp-plugin
 Description: Food Truck Location & Dates plugin built for Food Trucks
 Author: Paul Collett
 Author URI: http://paulcollett.com
-Version: 1.0
+Version: 1.0.1
 Text Domain: food-truck
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html

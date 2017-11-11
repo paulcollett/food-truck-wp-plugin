@@ -2,7 +2,7 @@
 Contributors: paulcollett
 Tags: food truck, street food, food, locations, dates, times, schedule, map, google maps
 Requires at least: 3.0
-Tested up to: 4.8.2
+Tested up to: 4.9
 Requires PHP: 5.3
 Stable tag: trunk
 License: GPLv2 or later
