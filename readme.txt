@@ -61,5 +61,10 @@ https://github.com/paulcollett/food-truck-wp-plugin/issues
 
 == Changelog ==
 
+= 1.0.1 =
+* Wordpress 4.9 Support
+* Fixed date recognition bug in Internet Explorer browsers
+* Initial step to improve performance of map location data
+
 = 1.0.0 =
 * Locations & Times with Map & Widget Support

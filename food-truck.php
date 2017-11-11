@@ -326,17 +326,13 @@ function trucklot_locations_get_upcoming(){
 
         if(!$has_date_fields || !$has_info) continue;
 
-        // TODO
-        // Check variables
-        // TEST...
-
-        // generate a timestamp (timezone doesn't matter)
-        // used to order the results by
-        $order = mktime(
+        // generate a timestamp from inputted vals
+        // timezone doesn't matter, as it's only used to order the results
+        $timestamp = mktime(
           $item['time']['from']['h'],
           $item['time']['from']['m'],
           0,
-          date('m',strtotime($item['date']['m'])), // Month
+          date('m',strtotime($item['date']['m'])), // Convert "Nov" format to month number
           $item['date']['d'],
           $item['date']['y']
         );
@@ -345,7 +341,6 @@ function trucklot_locations_get_upcoming(){
 
         $item['timestamp'] = $timestamp;
         $upcoming_items[] = $item;
-
     }
 
     // Sort upcoming locations

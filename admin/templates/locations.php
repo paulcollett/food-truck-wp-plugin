@@ -18,6 +18,12 @@
                 <p>Add the following shortcode to any page or post <input type="text" readonly value='[foodtruck display="summary"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
             </div>
         </div>
+        <div style="clear:both;padding-top: 20px;">
+          <div style="border: 1px solid #ccc;padding: 30px;">
+            <div><strong>Food Truck Widget</strong> (Widget supported themes)</div>
+            Quickly add your schedule across your site via the "Food Truck Upcoming" widget on the <a href="widgets.php">Widgets Admin Page</a>.
+          </div>
+        </div>
     </div>
 
     <div ng-show="view!='shortcodes'" class="" style="overflow:hidden">
@@ -117,8 +123,11 @@
                             Get the <button class="button" ng-click="view = 'shortcodes'" style="vertical-align: baseline;">Shortcodes here</button>
                         </div>
                     </div>
-                    <div class="menu-locations-label">Check your timezone settings!
+                    <div class="menu-locations-label" style="margin-bottom: 10px">Check your timezone settings!
                         <div class="menu-locations-help">You website might show incorrect today/tomorrow labels<br />if your website's <a href="options-general.php" target="_blank">timezone settings</a> are wrong</div>
+                    </div>
+                    <div class="menu-locations-label">Support or Suggestions
+                        <div class="menu-locations-help">Email the developer direct via <a href="https://paulcollett.com/" target="_blank">paulcollett.com</a></div>
                     </div>
                 </div>
 
@@ -211,7 +220,6 @@
     window.trucklot_menus = <?php echo json_encode(trucklot_posts_find('trucklot-menus')); ?>;
     window.trucklot_location = <?php echo json_encode(trucklot_posts_find_one('trucklot-locations',false)); ?>;
 </script>
-
 <style>
 .menu-locations-app{}
 .menu-locations-app input[type=text]{width:100%;}
@@ -232,6 +240,7 @@
 
 [ng-cloak]{display: none;}
 </style>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcB9Jwud7F5F_fO2BFHCIGswomX5pjKEQ"></script>
 <script>
 // Scope Settings
 (function(namespace, scope){
@@ -298,8 +307,55 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
         var datestr = [item.date.y,monthNum,item.date.d];//.join('-');
         var timestr = [(item.time.from.h*1%12) + (item.time.from.p=='PM'?12:0),item.time.from.m,'00'];
         item.timestamp = new Date(datestr[0],datestr[1] - 1,datestr[2],timestr[0],timestr[1],timestr[2])/1000;
-        console.log(item, datestr, timestr);
         updateItemList();
+    }
+
+    var latLngAddrCache = {};
+     // Geocode Data: Cache Existing Geocodes
+    for (var i = 0; i < $scope.items.length; i++) {
+      var item = $scope.items[i] || {};
+      var strippedAddr = (item.address || '').toLowerCase().replace(/\s/g,'');
+      if(strippedAddr && item.geocode && item.geocode.lat) {
+        latLngAddrCache[strippedAddr] = item.geocode;
+        if(item.geocode.formatted) { // should be avail, but chk just incase
+          latLngAddrCache[item.geocode.formatted] = item.geocode;
+        }
+      }
+    };
+    var updateAllItemsLatLng = function() {
+      // Do cache or goog lookup
+      var geoCodeInstance = null;
+      for (var i = 0; i < $scope.items.length; i++) {
+        var item = $scope.items[i] || {};
+        var strippedAddr = (item.address || '').toLowerCase().replace(/\s/g,'');
+        if(!strippedAddr) continue;
+
+        if(latLngAddrCache[strippedAddr]) {
+          $scope.items[i]['geocode'] = latLngAddrCache[strippedAddr];
+        }
+        else if(window.google && window.google.maps) {
+          // https://maps.googleapis.com/maps/api/geocode/json?address=
+          (function(i, strippedAddr, rawAddr) {
+            geoCodeInstance = geoCodeInstance || new google.maps.Geocoder().geocode;
+            geoCodeInstance({ address: rawAddr }, function(results, status) {
+              if (status !== 'OK' || !results[0].geometry || !results[0].geometry.location) return;
+              var location = (
+                  results[0].geometry.location.toJSON ? results[0].geometry.location.toJSON() : null
+                ) || {};
+              var geocode = {
+                lat: location.lng || null,
+                lng: location.lng || null,
+                formatted: results[0].formatted_address
+              };
+              latLngAddrCache[geocode.formatted] = geocode;
+              latLngAddrCache[strippedAddr] = geocode;
+              $scope.$apply(function () {
+                $scope.items[i].geocode = geocode;
+              });
+            });
+          })(i, strippedAddr, item.address);
+        }
+      }
     }
 
     $scope.$watch('selected',function(){
@@ -336,6 +392,7 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
     }
 
     $scope.saveItem = function(){
+      updateAllItemsLatLng();
         $scope.selected = null;
     }
 
