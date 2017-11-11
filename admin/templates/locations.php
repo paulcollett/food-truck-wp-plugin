@@ -294,9 +294,11 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
 
     $scope.updateTimestamp = function(item){
         if(!item || !item.date) return;
-        var datestr = [item.date.d,item.date.m,item.date.y].join('-');
-        var timestr = [(item.time.from.h*1%12) + (item.time.from.p=='PM'?12:0),item.time.from.m,'00'].join(':');
-        item.timestamp = new Date(datestr + ', ' + timestr)/1000;
+        var monthNum = ($scope.interface.months.indexOf(item.date.m) || 0) + 1;
+        var datestr = [item.date.y,monthNum,item.date.d];//.join('-');
+        var timestr = [(item.time.from.h*1%12) + (item.time.from.p=='PM'?12:0),item.time.from.m,'00'];
+        item.timestamp = new Date(datestr[0],datestr[1] - 1,datestr[2],timestr[0],timestr[1],timestr[2])/1000;
+        console.log(item, datestr, timestr);
         updateItemList();
     }
 
