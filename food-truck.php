@@ -429,3 +429,74 @@ class TruckLotWidget extends WP_Widget {
 function trucklot_register_widget() {
   register_widget( 'TruckLotWidget' );
 }
+
+class FoodTruckTemplateIterator
+{
+  static $activeInstance = null;
+  static $upcoming = null;
+  static $index = -1;
+  static $args = array();
+
+  static function instance($args = array()) {
+    if(!self::$activeInstance) {
+      if(!self::$upcoming) self::$upcoming = trucklot_locations_get_upcoming();
+      self::$args = wp_parse_args($args, array('count' => 3));
+      self::$activeInstance = new self();
+    }
+    return self::$activeInstance;
+  }
+
+  function next() {
+    if(self::$index + 1 < self::$args['count'] && isset(self::$upcoming[self::$index + 1])) {
+      self::$index++;
+      return self::$upcoming;
+    }
+
+    self::$activeInstance = null;
+    self::$index = -1;
+    return false;
+  }
+
+  function field($name = null) {
+    $row = self::$upcoming[self::$index];
+
+    if($name == 'date') {
+      return date('l jS', $row['timestamp']);
+    }
+    if($name == 'time') {
+      $open = date('g:ia', $row['timestamp']);
+      $close = trucklot_locations_get_formatted_closetime($row);
+      return $close ? $open . ' &mdash; ' . $close : $open;
+    }
+    if($name == 'open') {
+      return date('g:ia', $row['timestamp']);
+    }
+    if($name == 'close') {
+      return trucklot_locations_get_formatted_closetime($row);
+    }
+    if($name == 'address_formatted') {
+      return isset($row['geocode']['formatted']) ? $row['geocode']['formatted'] : null;
+    }
+    if($name == 'lat') {
+      return isset($row['geocode']['lat']) ? $row['geocode']['lat'] : null;
+    }
+    if($name == 'lng') {
+      return isset($row['geocode']['lng']) ? $row['geocode']['lng'] : null;
+    }
+
+    return isset($row[$name]) ? (string) $row[$name] : null;
+  }
+}
+
+function foodtruck_upcoming($args) {
+  return FoodTruckTemplateIterator::instance($args)->next();
+}
+function get_foodtruck_location($field_name) {
+  return FoodTruckTemplateIterator::instance()->field($field_name);
+}
+function foodtruck_location($field_name) {
+  if($result = get_foodtruck_location($field_name)) {
+    echo $result;
+  }
+}
+
