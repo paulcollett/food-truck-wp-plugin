@@ -11,13 +11,15 @@ License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
-define('TRUCKLOT_PLUGIN_VER', 1.0);
-
 class FoodTruckPlugin {
 	function __construct() {
-
     if(!defined('TRUCKLOT_THEME_URI')) {
       define('TRUCKLOT_THEME_URI', plugin_dir_url(__FILE__));
+    }
+
+    if(!defined('TRUCKLOT_PLUGIN_VER')) {
+      $pluginHeaders = get_file_data(__FILE__, array('Version' => 'Version'), false);
+      define('TRUCKLOT_PLUGIN_VER', $pluginHeaders['Version']);
     }
 
     // Register Custom post types to store data
