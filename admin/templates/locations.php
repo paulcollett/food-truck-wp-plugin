@@ -9,6 +9,7 @@
                 <img style="max-width: 100%" src="<?php echo TRUCKLOT_THEME_URI; ?>/admin/assets/example-full.png" />
                 <p><strong>Full Page Listing</strong></p>
                 <p>Add the following shortcode to any page or post <input type="text" readonly value='[foodtruck display="full"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
+                <p>And, use with a custom <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">Google Maps API key</a><br />(recommend for long term map reliability): <input type="text" readonly value='[foodtruck display="full" map-key="YOUR-KEY"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
             </div>
         </div>
         <div style="width:50%;float:left;box-sizing:border-box">

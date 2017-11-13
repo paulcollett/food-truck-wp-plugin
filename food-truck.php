@@ -5,7 +5,7 @@ Plugin URI: https://github.com/paulcollett/food-truck-wp-plugin
 Description: Food Truck Location & Dates plugin built for Food Trucks
 Author: Paul Collett
 Author URI: http://paulcollett.com
-Version: 1.0.2
+Version: 1.0.3
 Text Domain: food-truck
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -293,6 +293,7 @@ function trucklot_out() {
       'version' => TRUCKLOT_PLUGIN_VER,
       'site' => array(
         'name' => get_bloginfo(),
+        'version' => get_bloginfo('version'),
         'url' => home_url(),
         'contact' => get_bloginfo('admin_email'),
         'offset' => get_option('gmt_offset')
@@ -384,10 +385,15 @@ function trucklot_include($path, $vars = array()) {
 
 function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) {
   $atts = shortcode_atts( array(
-      'display' => ''
+      'display' => '',
+      'map-key' => null
   ), $atts );
 
   ob_start();
+
+  if(isset($atts['map-key']) && !is_null($atts['map-key'])) {
+    echo '<script>window.FOODTRUCK_GMAP_APIKEY = "' . htmlentities(trim((string) $atts['map-key'])) . '";</script>';
+  }
 
   if($atts['display'] == 'summary') {
     trucklot_include('templates/summary.php');

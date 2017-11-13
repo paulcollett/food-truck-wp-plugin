@@ -6,7 +6,7 @@ Tested up to: 4.9
 Requires PHP: 5.3
 Stable tag: trunk
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Display your Food Truck Location & Times anywhere on your WordPress website
 
@@ -60,6 +60,10 @@ https://github.com/paulcollett/food-truck-wp-plugin/issues
 * Nothing special to do!
 
 == Changelog ==
+
+= 1.0.3 =
+* Allow custom Google Maps API key
+* Default to loading secure https version of google maps
 
 = 1.0.2 =
 * Improved website performance around map location data
