@@ -77,7 +77,7 @@
 			return this;
 		}
 
-		this.setStyle(defaultStyle);
+		this.setStyle(window.FOODTRUCK_GMAP_STYLE || defaultStyle);
 
 		return this;
 	}

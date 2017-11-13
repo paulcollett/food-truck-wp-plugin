@@ -10,6 +10,11 @@
                 <p><strong>Full Page Listing</strong></p>
                 <p>Add the following shortcode to any page or post <input type="text" readonly value='[foodtruck display="full"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
                 <p>And, use with a custom <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">Google Maps API key</a><br />(recommend for long term map reliability): <input type="text" readonly value='[foodtruck display="full" map-key="YOUR-KEY"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
+                <p>Custom Map Style:<br />
+                  1. Generate map JSON at: <a href="https://mapstyle.withgoogle.com/" target="_blank">https://mapstyle.withgoogle.com/</a> or <a href="https://snazzymaps.com/" target="_blank">https://snazzymaps.com/</a><br />
+                  2. Save JSON into a file "foodtruck-map.json" in the root of your theme<br />
+                  <textarea style="font-family: monospace;height:50px;background:#ccc;font-weight:bold;" onFocus="this.select()">[foodtruck display="full" map-key="YOUR-KEY" map-style="foodtruck-map.json"]</textarea>
+                </p>
             </div>
         </div>
         <div style="width:50%;float:left;box-sizing:border-box">
@@ -23,6 +28,12 @@
           <div style="border: 1px solid #ccc;padding: 30px;">
             <div><strong>Food Truck Widget</strong> (Widget supported themes)</div>
             Quickly add your schedule across your site via the "Food Truck Upcoming" widget on the <a href="widgets.php">Widgets Admin Page</a>.
+          </div>
+        </div>
+        <div style="clear:both;padding-top: 20px;">
+          <div style="border: 1px solid #ccc;padding: 30px;">
+            <div>You can also add anywhere in your theme templates with <code>&lt;?php echo do_shortcode('SHORTCODE HERE'); ?&gt;</code></div>
+            <textarea style="font-family: monospace;height:25px;background:#ccc;font-weight:bold;" onFocus="this.select()">&lt;?php echo do_shortcode('[foodtruck display="summary"]'); ?&gt;</textarea>
           </div>
         </div>
     </div>
