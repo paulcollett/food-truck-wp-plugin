@@ -23,14 +23,18 @@ A WordPress plugin built for the needs of Food Trucks & Mobile Vendors
 
 = Bug Submission, Support and Feature requests =
 
-We're activly working on this plugin and open to all issues & feedback:
-https://github.com/paulcollett/food-truck-wp-plugin/issues
+We're actively working on this plugin and open to all issues & feedback:
+[https://github.com/paulcollett/food-truck-wp-plugin/issues](https://github.com/paulcollett/food-truck-wp-plugin/issues)
 
 = Please Vote and Enjoy =
 Your votes really make a difference! Thanks.
 
 
 == Installation ==
+
+Add via your wp-admin's plugin page then "add new" then search for "Food Truck"
+
+or Manually,
 
 1. Upload 'food-truck' to the '/wp-content/plugins/' directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
@@ -42,7 +46,7 @@ Your votes really make a difference! Thanks.
 
 = I have issues, feedback, questions =
 Great! We're listening to all issues & feedback:
-https://github.com/paulcollett/food-truck-wp-plugin/issues
+[https://github.com/paulcollett/food-truck-wp-plugin/issues](https://github.com/paulcollett/food-truck-wp-plugin/issues)
 
 
 == Screenshots ==
@@ -62,6 +66,7 @@ https://github.com/paulcollett/food-truck-wp-plugin/issues
 == Changelog ==
 
 = 1.0.3 =
+* Support for your own Google Map Styles
 * Allow custom Google Maps API key
 * Default to loading secure https version of google maps
 
