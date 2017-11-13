@@ -5,7 +5,7 @@ Plugin URI: https://github.com/paulcollett/food-truck-wp-plugin
 Description: Food Truck Location & Dates plugin built for Food Trucks
 Author: Paul Collett
 Author URI: http://paulcollett.com
-Version: 1.0.3
+Version: 1.0.4
 Text Domain: food-truck
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -163,12 +163,14 @@ function trucklot_handle_ajax() {
         'post_author'   => get_current_user_id()
       ));
 
+      // todo: update with wp_send_json()
       wp_die(json_encode(array(
         'ok' => !!$post_id,
         'ID' => $post_id
       )));
     }
     else {
+      // todo: update with wp_send_json_error()
       wp_die(json_encode(array(
         'error' => 'Invalid Request'
       )));
@@ -225,12 +227,12 @@ function trucklot_get_json_post(){
   return trucklot_parse_body_to_json($postdata);
 }
 
-function trucklot_parse_body_to_json($body){
+function trucklot_parse_body_to_json($body, $boundaryStart = '{', $boundaryEnd = '}'){
 
   $body = str_replace(array("\n","\r"),' ',trim((string) $body));
 
-  $start = strpos($body,'{');
-  $end = strrpos($body,'}');
+  $start = strpos($body, $boundaryStart);
+  $end = strrpos($body, $boundaryEnd);
 
   if($start === false || !$end) return array();
 
@@ -383,16 +385,43 @@ function trucklot_include($path, $vars = array()) {
   include dirname(__FILE__) . '/' . $path;
 }
 
+function trucklot_output_map_style_file($filename) {
+  $wrapper = '<script>window.FOODTRUCK_GMAP_STYLE = %s;</script>';
+  $error_wrapper = 'null;console.warn("[Food Truck Plugin] GMAP STYLE ERROR: %s")';
+  $file = get_template_directory() . '/'. trim(trim($filename), '/');
+
+  $body = @file_get_contents($file);
+
+  if(!$body) {
+    echo sprintf($wrapper, sprintf($error_wrapper, $filename . ' not found in theme'));
+    return;
+  }
+
+  $data = trucklot_parse_body_to_json($body, '[', ']');
+
+  if(count($data) > 0) {
+    echo sprintf($wrapper, json_encode($data));
+  }
+  else {
+    echo sprintf($wrapper, sprintf($error_wrapper, $filename . ' invalid JSON'));
+  }
+}
+
 function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) {
   $atts = shortcode_atts( array(
       'display' => '',
-      'map-key' => null
+      'map-key' => null,
+      'map-style' => null
   ), $atts );
 
   ob_start();
 
   if(isset($atts['map-key']) && !is_null($atts['map-key'])) {
     echo '<script>window.FOODTRUCK_GMAP_APIKEY = "' . htmlentities(trim((string) $atts['map-key'])) . '";</script>';
+  }
+
+  if(isset($atts['map-style']) && $atts['map-style']) {
+    trucklot_output_map_style_file((string) $atts['map-style']);
   }
 
   if($atts['display'] == 'summary') {

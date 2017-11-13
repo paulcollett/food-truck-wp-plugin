@@ -65,8 +65,10 @@ Great! We're listening to all issues & feedback:
 
 == Changelog ==
 
-= 1.0.3 =
+= 1.0.4 =
 * Support for your own Google Map Styles
+
+= 1.0.3 =
 * Allow custom Google Maps API key
 * Default to loading secure https version of google maps
 
