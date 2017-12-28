@@ -18,7 +18,8 @@
                     'location' => $item,
                     'is_today' => $item['timestamp'] < $timestamp_today_end,
                     'is_tomorrow' => $item['timestamp'] < $timestamp_tomorrow_end,
-                    'close_time' => trucklot_locations_get_formatted_closetime($item)
+                    'close_time' => trucklot_locations_get_formatted_closetime($item),
+                    'gmap_link_addr' => apply_filters('foodtruck_summary_link_addr_gmap', true)
                 ));
             ?>
         </div>
