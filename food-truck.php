@@ -5,7 +5,7 @@ Plugin URI: https://github.com/paulcollett/food-truck-wp-plugin
 Description: Food Truck Location & Dates plugin built for Food Trucks
 Author: Paul Collett
 Author URI: http://paulcollett.com
-Version: 1.0.4
+Version: 1.0.5
 Text Domain: food-truck
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -411,8 +411,9 @@ function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) 
   $atts = shortcode_atts( array(
       'display' => '',
       'map-key' => null,
-      'map-style' => null
-  ), $atts );
+      'map-style' => null,
+      'count' => null // for summary display
+  ), $atts);
 
   ob_start();
 
@@ -424,8 +425,17 @@ function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) 
     trucklot_output_map_style_file((string) $atts['map-style']);
   }
 
-  if($atts['display'] == 'summary') {
-    trucklot_include('templates/summary.php');
+  if($atts['display'] == 'summary' || $atts['display'] == 'summary-vertical') {
+    trucklot_include('templates/summary.php', array(
+      'display_count' => $atts['count']
+    ));
+  }
+  else if($atts['display'] == 'summary-horizontal') {
+    echo '<div class="locations-summary-horizontal-list">';
+    trucklot_include('templates/summary.php', array(
+      'display_count' => $atts['count']
+    ));
+    echo '<div>';
   }
   else {
     trucklot_include('templates/full.php');
@@ -438,26 +448,98 @@ function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) 
 
 class TruckLotWidget extends WP_Widget {
   function __construct() {
-    // Instantiate the parent object
-    parent::__construct( false, 'Food Truck Upcoming', array(
-      'description' => 'Display Upcoming Locations & Times'
-    ));
+    parent::__construct(
+      'food-truck', // id & outputs as class name
+      'Food Truck Upcoming', // Widget Admin title
+      array(
+        'description' => 'Display Upcoming Locations & Times'
+      )
+    );
   }
 
   function widget( $args, $instance ) {
+    echo $args['before_widget'];
+
+		if(!empty($instance['title'])) {
+			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
+    }
+
+    if(!empty($instance['before'])) {
+      echo strpos($instance['before'], '<') === 0 ? $instance['before'] : wpautop($instance['before']);
+    }
+
     // Widget output
-    echo '<section class="widget widget_food-truck">'
-      . trucklot_handle_shortcode(array('display' => 'summary'))
-      . '</section>';
+    echo trucklot_handle_shortcode(array(
+      'display' => 'summary',
+      'count' => !empty($instance['count']) ? (int) $instance['count'] : 3
+    ));
+
+    if(!empty($instance['after'])) {
+      echo strpos($instance['after'], '<') === 0 ? $instance['after'] : wpautop($instance['after']);
+    }
+
+    echo $args['after_widget'];
   }
 
-  function update( $new_instance, $old_instance ) {
-    // Save widget options
+  function update($new_instance, $old_instance) {
+    $instance = array();
+    $fields = $this->_fields($new_instance);
+
+    foreach ($fields as $field) {
+      if(empty($new_instance[$field['name']])) {
+        continue;
+      }
+
+      $instance[$field['name']] =  $new_instance[$field['name']];
+    }
+
+		return $instance;
+  }
+
+  function _fields($instance) {
+    return array(
+      array(
+        'name' => 'title',
+        'label' => 'Widget Title (optional):',
+        'value' => !empty( $instance['title'] ) ? $instance['title'] : '',
+        'wrapper' => '<p><label for="%s">%s</label><input class="widefat" id="%s" type="text" name="%s" value="%s"></p>'
+      ),
+      array(
+        'name' => 'before',
+        'label' => 'Text/HTML Before (optional):',
+        'value' => !empty( $instance['before'] ) ? $instance['before'] : '',
+        'wrapper' => '<p><label for="%s">%s</label><input class="widefat" id="%s" type="text" name="%s" value="%s"></p>'
+      ),
+      array(
+        'name' => 'count',
+        'label' => 'Maximum Amount of Locations/Times to show:',
+        'value' => !empty( $instance['count'] ) ? (int) $instance['count'] : '3',
+        'wrapper' => '<p><label for="%s">%s</label><input class="widefat" style="max-width: 50px" id="%s" type="text" name="%s" value="%s"></p>'
+      ),
+      array(
+        'name' => 'after',
+        'label' => 'Text/HTML After (optional):',
+        'value' => !empty( $instance['after'] ) ? $instance['after'] : '',
+        'wrapper' => '<p><label for="%s">%s</label><input class="widefat" id="%s" type="text" name="%s" value="%s"></p>'
+      ),
+    );
   }
 
   function form( $instance ) {
     // Output admin widget options form
-    echo '<p>Displays your upcoming 3 Locations &amp; Times</p>';
+    echo '<p><strong>Displays your upcoming Locations &amp; Times</strong></p>';
+
+    $fields = $this->_fields($instance);
+
+    foreach($fields as $field) {
+      echo sprintf($field['wrapper'],
+        esc_attr($this->get_field_id($field['name'])),
+        esc_attr_e($field['label'], 'food-truck'),
+        esc_attr($this->get_field_id($field['name'])),
+        esc_attr($this->get_field_name($field['name'])),
+        esc_attr($field['value'])
+      );
+    }
   }
 }
 

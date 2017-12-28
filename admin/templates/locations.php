@@ -22,6 +22,8 @@
                 <img style="max-width: 100%" src="<?php echo TRUCKLOT_THEME_URI; ?>/admin/assets/example-summary.png" />
                 <p><strong>Summary of Upcoming Locations</strong></p>
                 <p>Add the following shortcode to any page or post <input type="text" readonly value='[foodtruck display="summary"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
+                <p>Maximum amount to show (Defaults to 3):  <input type="text" readonly value='[foodtruck display="summary" count="4"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
+                <p>Horizontal Layout:<input type="text" readonly value='[foodtruck display="summary-horizontal"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
             </div>
         </div>
         <div style="clear:both;padding-top: 20px;">

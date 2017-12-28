@@ -230,3 +230,26 @@
     margin-bottom: 1em
     opacity: 0.2
 
+.locations-summary-horizontal-list
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  margin-bottom: -2em
+  margin-left: -2em
+  box-sizing: border-box
+  *
+    box-sizing: border-box
+
+.locations-summary-horizontal-list > .locations-summary-item
+  flex-basis: 1
+  flex-grow: 1
+  flex-shrink: 0
+  margin-bottom: 2em
+  padding-left: 2em
+
+.locations-summary-horizontal-list > .locations-summary-item + .locations-summary-item
+  padding-top: 0
+  &:before
+    content: none
+
+
