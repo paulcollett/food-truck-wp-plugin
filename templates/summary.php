@@ -24,9 +24,10 @@
     <?php endforeach; ?>
 <?php elseif(current_user_can('edit_posts')): ?>
     <div>
-        <div class="debug-section center">
-            <div class="debug-section_sub">Admin Only Notice:</div>
-            No Locations &amp; Times
-        </div>
+      <div style="background:red;color:#fff;font-family:monospace;padding: 20px">
+        <div style="color:#fff; font-size: 14px">Admin Only Notice:</div>
+        <div style="color:#fff; font-size: 14px"> No Locations &amp; Times</div>
+        <a href="<?php echo get_admin_url('','?page=trucklot-locations'); ?>" style="color:#fff; font-size: 14px; text-decoration: underline">Add Locations &amp; Dates +</a>
+      </div>
     </div>
 <?php endif; ?>
