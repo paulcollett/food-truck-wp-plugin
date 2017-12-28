@@ -65,6 +65,12 @@ Great! We're listening to all issues & feedback:
 
 == Changelog ==
 
+= 1.0.5 =
+* New Horizontal layout for locations/times display
+* Control the amount of locations/times that the summary shortcode shows
+* Widget Updates: Allow for a custom title & display amount control
+* Summary shortcode locations now link to google maps
+
 = 1.0.4 =
 * Support for your own Google Map Styles
 
