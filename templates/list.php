@@ -29,39 +29,43 @@ if(count($upcoming_items) > 0):
             $is_today = $item['timestamp'] < $timestamp_today_end;
             $is_tomorrow = $item['timestamp'] < $timestamp_tomorrow_end;
             $close_time = trucklot_locations_get_formatted_closetime($item);
+            $same_day_as_last_item = isset($upcoming_items[$index - 1]) ? (date('Ymd', $upcoming_items[$index - 1]['timestamp']) === date('Ymd', $item['timestamp'])) : false;
             $is_item_even = !($index % 2);
 
-            if($display_separator_color_even || $display_separator_color_odd) {
-              $display_separator_color = 'transparent';
+            // Correct background separator color output for non-usual combination of supplied bg args
+            if($display_separator_type === 'bg') {
+              if($display_separator_color_even || $display_separator_color_odd) {
+                $display_separator_color = 'transparent';
+              } else if($display_separator_color) {
+                $display_separator_color_odd = $display_separator_color;
+                $display_separator_color_even = 'transparent';
+              }
             }
 
-            if($display_separator_type === 'bg' && $display_separator_color && !($display_separator_color_even || $display_separator_color_odd)) {
-              $display_separator_color_odd = $display_separator_color;
-              $display_separator_color_even = 'transparent';
-            }
-
+            // Get correct separator for even/odd
             $item_separator_color = ($is_item_even ? $display_separator_color_even : $display_separator_color_odd) ?: $display_separator_color;
-
           ?>
           <div class="foodtruck-list-items_row">
             <div class="foodtruck-list-item">
               <div class="foodtruck-list-item_date">
-                <?php if($is_today || $is_tomorrow): ?>
-                  <?php if($is_today): ?>
-                    <h3 class="foodtruck-list-item-text foodtruck-list-item-text--lg">
-                      <div class="foodtruck-list-item-now">
-                        <div class="location-item_beacon location-item_beacon--float"></div>Today
-                      </div>
-                    </h3>
-                  <?php elseif($is_tomorrow): ?>
-                    <h3 class="foodtruck-list-item-text foodtruck-list-item-text--lg">
-                      <div class="foodtruck-list-item-now">
-                        <div class="location-item_beacon location-item_beacon--neutral location-item_beacon--float"></div>Today
-                      </div>
-                    </h3>
+                <?php if(!$same_day_as_last_item): ?>
+                  <?php if($is_today || $is_tomorrow): ?>
+                    <?php if($is_today): ?>
+                      <h3 class="foodtruck-list-item-text foodtruck-list-item-text--lg">
+                        <div class="foodtruck-list-item-now">
+                          <div class="location-item_beacon location-item_beacon--float"></div>Today
+                        </div>
+                      </h3>
+                    <?php elseif($is_tomorrow): ?>
+                      <h3 class="foodtruck-list-item-text foodtruck-list-item-text--lg">
+                        <div class="foodtruck-list-item-now">
+                          <div class="location-item_beacon location-item_beacon--neutral location-item_beacon--float"></div>Today
+                        </div>
+                      </h3>
+                    <?php endif; ?>
                   <?php endif; ?>
+                  <h3 class="foodtruck-list-item-text foodtruck-list-item-text--lg"><?php echo date('D, M j', $item['timestamp']); ?></h3>
                 <?php endif; ?>
-                <h3 class="foodtruck-list-item-text foodtruck-list-item-text--lg"><?php echo date('D, M j', $item['timestamp']); ?></h3>
               </div>
               <div class="foodtruck-list-item_name">
                 <h3 class="foodtruck-list-item-text foodtruck-list-item-text--lg">
@@ -109,7 +113,7 @@ if(count($upcoming_items) > 0):
               </div>
             </div>
             <?php if($display_separator_type === 'bg'): ?>
-              <div class="foodtruck-list-items_row_bg" style="<?php echo $item_separator_color ? ("background-color: $item_separator_color") : (!$is_item_even ? 'background-color: currentcolor; opacity: 0.07' : ''); ?>"></div>
+              <div class="foodtruck-list-items_row_bg" style="<?php echo $item_separator_color ? ("background-color: $item_separator_color") : (!$is_item_even ? 'background-color: currentcolor; opacity: 0.05' : ''); ?>"></div>
             <?php endif; ?>
           </div>
           <?php if($display_separator_type === 'line' && isset($upcoming_items[$index + 1])): ?>

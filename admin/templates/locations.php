@@ -53,7 +53,10 @@
           </div>
           <div style="padding-top: 20px;">
             <div style="border: 1px solid #ccc;padding: 30px;">
-              <div>You can also add anywhere in your theme templates with <code>&lt;?php echo do_shortcode('SHORTCODE HERE'); ?&gt;</code></div>
+              <div><strong>Add anywhere in your Templates</strong> (Advanced)</div>
+              <div>You can also add your schedule anywhere in your theme's .php templates with the following function:<br />
+              <code>&lt;?php echo do_shortcode('SHORTCODE HERE'); ?&gt;</code>
+              <br />ex:</div>
               <textarea style="font-family: monospace;height:25px;background:#ccc;font-weight:bold;" onFocus="this.select()">&lt;?php echo do_shortcode('[foodtruck display="summary"]'); ?&gt;</textarea>
             </div>
           </div>
