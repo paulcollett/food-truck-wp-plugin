@@ -5,7 +5,7 @@ Plugin URI: https://github.com/paulcollett/food-truck-wp-plugin
 Description: Food Truck Location & Dates plugin built for Food Trucks
 Author: Paul Collett
 Author URI: http://paulcollett.com
-Version: 1.0.5
+Version: 1.0.6
 Text Domain: food-truck
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -66,14 +66,6 @@ function trucklot_toolbar_link_to_editor($wp_admin_bar){
 }
 
 function trucklot_register_post_types(){
-  // add menu posts - feature coming soon
-  /*register_post_type( 'trucklot-menus',array(
-    'labels' => array(),
-    'public' => false,
-    'show_ui' => false,
-    'supports' => array()
-  ));*/
-
   // add location posts
   register_post_type( 'trucklot-locations',array(
     'labels' => array(),
@@ -84,17 +76,13 @@ function trucklot_register_post_types(){
 }
 
 function trucklot_admin_add_plugin_section(){
-
-    // add_menu_page( 'Menus', "Menus", 'edit_posts','trucklot-menus', 'trucklot_render_admin_menu_posts', 'dashicons-format-aside' , '20.2');
-
     add_menu_page( 'Locations', "Location & Dates", 'edit_posts','trucklot-locations', 'trucklot_render_admin_locations', 'dashicons-location-alt'  , '20.1');
-
 }
 
 function trucklot_admin_add_assets($page){
-  if($page != 'toplevel_page_trucklot-locations' && $page != 'toplevel_page_trucklot-menus') return;
+  if($page != 'toplevel_page_trucklot-locations') return;
 
-  wp_enqueue_script('trucklot-menu-admin-lib', TRUCKLOT_THEME_URI . 'admin/assets/libs.min.js', false, TRUCKLOT_PLUGIN_VER);
+  wp_enqueue_script('trucklot-admin-libs', TRUCKLOT_THEME_URI . 'admin/assets/libs.min.js', false, TRUCKLOT_PLUGIN_VER);
 
   wp_enqueue_media();
 }
@@ -103,10 +91,6 @@ function trucklot_site_add_assets() {
   wp_enqueue_script('food-truck-script', TRUCKLOT_THEME_URI . 'assets/dist/js/main.js', array('jquery'), TRUCKLOT_PLUGIN_VER);
 
   wp_enqueue_style('food-truck-style', TRUCKLOT_THEME_URI . 'assets/dist/css/main.css', false, TRUCKLOT_PLUGIN_VER);
-}
-
-function trucklot_render_admin_menu_posts(){
-    include dirname(__FILE__) . '/admin/templates/menus.php';
 }
 
 function trucklot_render_admin_locations(){
