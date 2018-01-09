@@ -1,6 +1,6 @@
 === Food Truck Locations & Times ===
 Contributors: paulcollett
-Tags: food truck, street food, food, locations, dates, times, schedule, map, google maps
+Tags: food truck, street food, food, locations, dates, events, schedule, map, google map
 Requires at least: 3.0
 Tested up to: 4.9
 Requires PHP: 5.3
@@ -8,31 +8,33 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Display your Food Truck Location & Times anywhere on your WordPress website
-
 == Description ==
 
-A WordPress plugin built for the needs of Food Trucks & Mobile Vendors
+*A WordPress plugin built for the needs of Food Trucks & Mobile Vendors*
 
-* Show a map with upcoming location markers
-* Add in Special Event/Location names along with full address
-* Link to Google Maps with Directions
-* Dynamic display with indicators to best show Today/Tomorrow & Upcoming Locations
+Display your Food Truck Location & Times schedule anywhere on your WordPress website
+
+* Specifically designed schedule displays for Food Trucks
+* A variety of customizable layouts
+* Interactive google map with upcoming location markers (customizable style)
+* Add in Special Event/Location names along with full addresses
+* Links out to Google Maps with directions
+* Dynamic schedule display with indicators to best show Today/Tomorrow & Upcoming Locations
 * Widget Support - Quick add to site wide regions in your theme
-* Manage locations with ease using our Single Page App Interface (No page reloads to break your flow)
+* Fast Single Page App Interface for Quick schedule changes (No page reloads to break your flow)
 
 = Bug Submission, Support and Feature requests =
 
 We're actively working on this plugin and open to all issues & feedback:
 [https://github.com/paulcollett/food-truck-wp-plugin/issues](https://github.com/paulcollett/food-truck-wp-plugin/issues)
+or contact me directly via [https://paulcollett.com/](paulcollett.com)
 
 = Please Vote and Enjoy =
 Your votes really make a difference! Thanks.
 
-
 == Installation ==
 
-Add via your wp-admin's plugin page then "add new" then search for "Food Truck"
+Add though your wp-admin's plugin page, by clicking "add new" then searching for "Food Truck"
 
 or Manually,
 
@@ -47,17 +49,18 @@ or Manually,
 = I have issues, feedback, questions =
 Great! We're listening to all issues & feedback:
 [https://github.com/paulcollett/food-truck-wp-plugin/issues](https://github.com/paulcollett/food-truck-wp-plugin/issues)
-
+or contact me directly via [https://paulcollett.com/](paulcollett.com)
 
 == Screenshots ==
 
 1. Locations & Times
-2. Admin, Fast Single Page App Interface
-3. Widget Support
-4. Another "full page" style example
-5. Detailed Location View
-6. summary style
-7. Widget output in default theme
+2. Multiple Layouts that adapt to your theme
+3. Fast Single Page App Admin Interface
+4. Widget Support
+5. Interactive map Layouts
+6. Detailed Location View
+7. Summary style
+8. Widget style with default theme
 
 == Upgrade Notice ==
 
