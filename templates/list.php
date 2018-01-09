@@ -53,13 +53,13 @@ if(count($upcoming_items) > 0):
                     <?php if($is_today): ?>
                       <h3 class="foodtruck-list-item-text foodtruck-list-item-text--lg">
                         <div class="foodtruck-list-item-now">
-                          <div class="location-item_beacon location-item_beacon--float"></div>Today
+                          <div class="location-item_beacon location-item_beacon--float"></div><?php foodtruck_txt('Today'); ?>
                         </div>
                       </h3>
                     <?php elseif($is_tomorrow): ?>
                       <h3 class="foodtruck-list-item-text foodtruck-list-item-text--lg">
                         <div class="foodtruck-list-item-now">
-                          <div class="location-item_beacon location-item_beacon--neutral location-item_beacon--float"></div>Today
+                          <div class="location-item_beacon location-item_beacon--neutral location-item_beacon--float"></div><?php foodtruck_txt('Tomorrow'); ?>
                         </div>
                       </h3>
                     <?php endif; ?>
@@ -98,12 +98,12 @@ if(count($upcoming_items) > 0):
                       <div class="foodtruck-list-item-addr-layout_details_actions">
                         <div>
                           <div class="foodtruck-list-item-text">
-                            <a class="foodtruck-list-item-link" target="_blank" href="<?php echo $item_gmap_map_url; ?>">Map</a>
+                            <a class="foodtruck-list-item-link" target="_blank" href="<?php echo $item_gmap_map_url; ?>"><?php foodtruck_txt('Map'); ?></a>
                           </div>
                         </div>
                         <div>
                           <div class="foodtruck-list-item-text">
-                            <a class="foodtruck-list-item-link" target="_blank" href="<?php echo $item_gmap_dir_url; ?>">Directions</a>
+                            <a class="foodtruck-list-item-link" target="_blank" href="<?php echo $item_gmap_dir_url; ?>"><?php foodtruck_txt('Directions'); ?></a>
                           </div>
                         </div>
                       </div>
@@ -123,17 +123,14 @@ if(count($upcoming_items) > 0):
       </div>
     </div>
   </div>
-
 <?php else: ?>
-
   <div class="foodtruck-reset">
-    <h3 class="foodtruck-list-item-text">No upcoming locations listed</h3>
-
+    <h3 class="foodtruck-list-item-text"><?php foodtruck_txt('Check back soon for our updated schedule'); ?></h3>
     <?php if(current_user_can('edit_posts')): ?>
-    <div style="background:red;color:#fff;font-family:monospace;padding: 20px">
+      <div style="background:red;color:#fff;font-family:monospace;padding: 20px">
         <div style="color:#fff">Admin Only Notice:</div>
         <a href="<?php echo get_admin_url('','?page=trucklot-locations'); ?>" style="color:#fff">Add Locations &amp; Dates +</a>
-    </div>
+      </div>
     <?php endif; ?>
   </div>
 <?php endif; ?>

@@ -459,6 +459,32 @@ function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) 
   return $html;
 }
 
+$foodtruck_display_custom_text_lib = array();
+
+function foodtruck_txt_get($raw) {
+  global $foodtruck_display_custom_text_lib;
+
+  $stripped = strtolower(trim($raw));
+
+  if(!empty($foodtruck_display_custom_text_lib[$stripped])) {
+    return $foodtruck_display_custom_text_lib[$stripped];
+  } else {
+    return $raw;
+  }
+}
+
+function foodtruck_txt($raw) {
+  echo foodtruck_txt_get($raw);
+}
+
+function foodtruck_change_text($original, $new) {
+  global $foodtruck_display_custom_text_lib;
+
+  $stripped = strtolower(trim($original));
+
+  $foodtruck_display_custom_text_lib[$stripped] = $new;
+}
+
 class TruckLotWidget extends WP_Widget {
   function __construct() {
     parent::__construct(

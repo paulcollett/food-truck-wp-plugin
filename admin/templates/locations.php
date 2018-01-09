@@ -60,6 +60,18 @@
               <textarea style="font-family: monospace;height:25px;background:#ccc;font-weight:bold;" onFocus="this.select()">&lt;?php echo do_shortcode('[foodtruck display="summary"]'); ?&gt;</textarea>
             </div>
           </div>
+          <div style="padding-top: 20px;">
+            <div style="border: 1px dotted #ccc;padding: 30px;">
+              <div>
+                <p><strong>Translate/Change Text</strong></p>
+                <p>You can customize any additional text that appears along side the display of your locations and times.</p>
+                <p>Simply add the following function to your functions.php passing the original text (case insensitive) and your new translation<br />
+                  <code>foodtruck_change_text('Today', 'Hoy');</code></p>
+                <p><img style="max-width: 100%" src="<?php echo TRUCKLOT_THEME_URI; ?>/admin/assets/example-change-text.png" /></p>
+              </div>
+            </div>
+          </div>
+
         </div>
     </div>
 

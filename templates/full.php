@@ -10,6 +10,7 @@
       $timestamp_today_end = strtotime('tomorrow + 2 hours', $now);
       $timestamp_tomorrow_end = strtotime('tomorrow + 26 hours', $now);
 ?>
+<script>window.FOODTRUCK_TXT_DIRECTIONS = "<?php foodtruck_txt('Directions'); ?>";</script>
 <div class="foodtruck-reset js-location-module">
     <div class="js-location-list-container">
         <div class="locations-contain locations-contain--body locations-contain--margin">
@@ -69,7 +70,7 @@
             </div>
         </div>
         <div class="locations-center margin-bottom-md">
-            <a href="#" class="button btn js-location-back">&lsaquo; Back to list</a>
+            <a href="#" class="button btn js-location-back">&lsaquo; <?php foodtruck_txt('Back to list'); ?></a>
         </div>
     </div>
 </div>
@@ -81,7 +82,7 @@
 <?php else: ?>
 
 <div class="foodtruck-reset">
-  <div class="locations-center">No Dates or Locations listed</div>
+  <div class="locations-center"><?php foodtruck_txt('Check back soon for our updated schedule'); ?></div>
 
   <?php if(current_user_can('edit_posts')): ?>
   <div style="background:red;color:#fff;font-family:monospace;padding: 20px">

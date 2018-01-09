@@ -67,6 +67,7 @@ Great! We're listening to all issues & feedback:
 
 = 1.0.6 =
 * New Customizable List layout (user requested)
+* Translation & custom wording support
 
 = 1.0.5 =
 * New Horizontal layout for locations/times display (user requested)

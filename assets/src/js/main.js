@@ -43,7 +43,7 @@
         listContainer.hide();
 
         if(obj._foundAddr)
-            detailDetails.append('<hr />' + obj._foundAddr + '<br /><a href="https://maps.google.com?saddr=Current+Location&daddr=' + obj._foundAddr + '" target="_blank">View Directions</a>');
+            detailDetails.append('<hr />' + obj._foundAddr + '<br /><a href="https://maps.google.com?saddr=Current+Location&daddr=' + obj._foundAddr + '" target="_blank">' + (window.FOODTRUCK_TXT_DIRECTIONS || 'Directions') + '</a>');
 
         positionPage();
 
