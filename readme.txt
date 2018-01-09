@@ -10,7 +10,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-*A WordPress plugin built for the needs of Food Trucks & Mobile Vendors*
+**A WordPress plugin built for the needs of Food Trucks & Mobile Vendors**
 
 Display your Food Truck Location & Times schedule anywhere on your WordPress website
 
@@ -26,8 +26,9 @@ Display your Food Truck Location & Times schedule anywhere on your WordPress web
 = Bug Submission, Support and Feature requests =
 
 We're actively working on this plugin and open to all issues & feedback:
-[https://github.com/paulcollett/food-truck-wp-plugin/issues](https://github.com/paulcollett/food-truck-wp-plugin/issues)
-or contact me directly via [https://paulcollett.com/](paulcollett.com)
+[github.com/paulcollett/food-truck-wp-plugin/issues](https://github.com/paulcollett/food-truck-wp-plugin/issues)
+
+or, contact me directly via [paulcollett.com](https://paulcollett.com/)
 
 = Please Vote and Enjoy =
 Your votes really make a difference! Thanks.
@@ -48,8 +49,8 @@ or Manually,
 
 = I have issues, feedback, questions =
 Great! We're listening to all issues & feedback:
-[https://github.com/paulcollett/food-truck-wp-plugin/issues](https://github.com/paulcollett/food-truck-wp-plugin/issues)
-or contact me directly via [https://paulcollett.com/](paulcollett.com)
+[github.com/paulcollett/food-truck-wp-plugin/issues](https://github.com/paulcollett/food-truck-wp-plugin/issues)
+or contact me directly via [paulcollett.com](https://paulcollett.com/)
 
 == Screenshots ==
 
