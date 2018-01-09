@@ -29,7 +29,7 @@ if(!$get_continue) die;
 // 2c. confirm git repo updated
 $has_working_changes = exec("git status --porcelain");
 if($has_working_changes) {
-  //die("Error: Looks like you have git working changes\n");
+  die("Error: Looks like you have git working changes\n");
 }
 
 // 3. get wordpress name / pass
