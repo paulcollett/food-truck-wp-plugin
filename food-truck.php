@@ -412,7 +412,11 @@ function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) 
       'display' => '',
       'map-key' => null,
       'map-style' => null,
-      'count' => null // for summary display
+      'count' => null, // for summary & list display
+      'separator' => null, // separator type for list display
+      'separator-color' => null, // separator type for list display
+      'separator-color-even' => null, // separator type for list display
+      'separator-color-odd' => null // separator type for list display
   ), $atts);
 
   ob_start();
@@ -435,10 +439,19 @@ function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) 
     trucklot_include('templates/summary.php', array(
       'display_count' => $atts['count']
     ));
-    echo '<div>';
+    echo '</div>';
+  }
+  else if($atts['display'] == 'full') {
+    trucklot_include('templates/full.php');
   }
   else {
-    trucklot_include('templates/full.php');
+    trucklot_include('templates/list.php', array(
+      'display_count' => $atts['count'],
+      'display_separator_type' => trim($atts['separator']),
+      'display_separator_color' => trim($atts['separator-color']),
+      'display_separator_color_even' => trim($atts['separator-color-even']),
+      'display_separator_color_odd' => trim($atts['separator-color-odd']),
+    ));
   }
 
   $html = ob_get_clean();

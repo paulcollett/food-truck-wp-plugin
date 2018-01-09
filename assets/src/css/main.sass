@@ -92,6 +92,10 @@
   &:after
     background: yellow
 
+.location-item_beacon--float
+  position: absolute
+  margin-left: -25px
+
 @media (max-width: 730px)
   .locations-module-list
     max-width: 400px
@@ -267,3 +271,108 @@ body .locations-summary-item a
   border-bottom: 1px dotted currentcolor
 .locations-summary-addr-link:hover
   border-bottom-style: solid
+
+/*
+ * List Layout
+ */
+
+// reset
+body .foodtruck-list-item-text,
+body h3.foodtruck-list-item-text,
+body .foodtruck-list-item-text a,
+body .foodtruck-list-item-text a:hover,
+body .foodtruck-list-item-text a:active
+  &
+    color: inherit
+    text-decoration: none
+    box-shadow: none
+    background: transparent
+    //display: inline
+    padding: 0
+    margin: 0
+    line-height: inherit
+  &
+    font-size: 1em
+body .foodtruck-list-item-text,
+body h3.foodtruck-list-item-text
+  &--lg
+    font-size: 1.2em
+
+.foodtruck-list-container
+  user-select: none
+  cursor: default
+
+.foodtruck-list-items
+.foodtruck-list-items_row
+  position: relative
+  padding: 4%
+.foodtruck-list-items_row_bg
+  position: absolute
+  top: 0
+  right: 0
+  left: 0
+  bottom: 0
+  pointer-events: none
+  z-index: -1
+.foodtruck-list-items_line
+  height: 1px
+
+.foodtruck-list-item
+  display: flex
+  flex-wrap: wrap
+  max-width: 1200px
+  margin: 0 auto
+.foodtruck-list-item_date
+  width: 15%
+.foodtruck-list-item_name
+  padding-left: 4%
+  width: 45%
+.foodtruck-list-item_address
+  padding-left: 4%
+  width: 40%
+
+@media (max-width: 900px)
+  .foodtruck-list-item_date
+    width: 30%
+  .foodtruck-list-item_name
+    width: 70%
+  .foodtruck-list-item_address
+    padding-top: .5em
+    padding-left: calc(30% + 4vw)
+    width: 100%
+
+@media (max-width: 550px)
+  .foodtruck-list-item_date
+    width: 100%
+  .foodtruck-list-item_name
+    padding-top: .5em
+    padding-left: 0
+    width: 100%
+  .foodtruck-list-item_address
+    padding-left: 0
+    width: 100%
+
+.foodtruck-list-item-addr-layout
+  display: flex
+  align-items: center
+.foodtruck-list-item-addr-layout_icon
+.foodtruck-list-item-addr-layout_details
+  flex-grow: 1
+  padding-left: 5%
+.foodtruck-list-item-addr-layout_details_actions
+  display: flex
+  margin-left: -8%
+  > *
+    margin-left: 8%
+
+.foodtruck-list-item-link
+  opacity: 0.8
+  transition: opacity .2s ease
+.foodtruck-list-item-link:hover
+  opacity: 1
+
+.foodtruck-list-item-now
+  padding-bottom: .2em
+
+.foodtruck-list-item-time
+  padding-top: .2em

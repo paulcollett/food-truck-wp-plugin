@@ -65,17 +65,20 @@ Great! We're listening to all issues & feedback:
 
 == Changelog ==
 
+= 1.0.6 =
+* New Customizable List layout (user requested)
+
 = 1.0.5 =
-* New Horizontal layout for locations/times display
+* New Horizontal layout for locations/times display (user requested)
 * Control the amount of locations/times that the summary shortcode shows
-* Widget Updates: Allow for a custom title & display amount control
+* Widget Updates: Allow for a custom title & display amount control (user requested)
 * Summary shortcode locations now link to google maps
 
 = 1.0.4 =
 * Support for your own Google Map Styles
 
 = 1.0.3 =
-* Allow custom Google Maps API key
+* Allow custom Google Maps API key (user requested)
 * Default to loading secure https version of google maps
 
 = 1.0.2 =
