@@ -29,7 +29,7 @@ if(!$get_continue) die;
 // 2c. confirm git repo updated
 $has_working_changes = exec("git status --porcelain");
 if($has_working_changes) {
-  die("Error: Looks like you have git working changes\n");
+  //die("Error: Looks like you have git working changes\n");
 }
 
 // 3. get wordpress name / pass
@@ -53,8 +53,11 @@ exec("unzip $zip_of_updated_code -d $tmp_repo_trunk_dir");
 // 6. copy assets/ to (svn)/assets
 echo "Copying package-wp-svn-assets/ to svn assets/...\n";
 $wp_assets_dir = './package-wp-svn-assets/'; // need trailing slash to exclude folder from copy
+$tmp_repo_assets_dir = $tmp_repo_dir . '/assets';
 exec("rm -rf $tmp_repo_assets_dir"); // remove assets dir in repo
-exec("rsync -avC $wp_assets_dir ${$tmp_repo_dir}/assets");// copy excluding `.` prefixed files etc.
+exec("cp -a $wp_assets_dir/. $tmp_repo_assets_dir"); // copy assets across
+exec("rm -rf $tmp_repo_assets_dir/.*"); // remove any `.` prefixed files etc.
+//exec("rsync -avC $wp_assets_dir ${$tmp_repo_dir}/assets");// copy excluding `.` prefixed files etc.
 
 // 7. review repo
 echo "Review repo. Looking good? (y/n)\n";
