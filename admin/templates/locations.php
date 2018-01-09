@@ -4,10 +4,27 @@
     <div ng-cloak ng-show="view=='shortcodes'" class="" style="">
         <div style="margin-bottom: 30px"><button class="button" ng-click="view = 'manager'">&larr; Back to Locations manager</button></div>
         <div style="margin-bottom: 30px">Add locations &amp; times to your website with the following shortcodes</div>
+
         <div style="width:50%;float:left;padding-right: 15px;box-sizing:border-box">
             <div style="border: 1px solid #ccc;padding: 30px;">
-                <img style="max-width: 100%" src="<?php echo TRUCKLOT_THEME_URI; ?>/admin/assets/example-full.png" />
+                <img style="max-width: 100%" src="<?php echo TRUCKLOT_THEME_URI; ?>/admin/assets/example-list.png" />
                 <p><strong>Full Page Listing</strong></p>
+                <p>Add the following shortcode to any page or post <input type="text" readonly value='[foodtruck display="list"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
+                <p>Maximum amount to show (Defaults to 15):  <input type="text" readonly value='[foodtruck display="list" count="5"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
+                <p>Add a separator style: <input type="text" readonly value='[foodtruck display="list" separator="bg"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
+                <p>Separator values can be <strong>separator="bg"</strong> (as shown in the picture) or <strong>separator="line"</strong></p>
+                <p>Additionally you can specify your own separator colors where the value is any CSS color:<br />
+                  <strong>separator-color="#f00"</strong><br />
+                  or, <br />
+                  <strong>separator-color-even="#f5f5f5" separator-color-odd="rgba(0, 0, 0, 0.5)"</strong>
+                </p>
+            </div>
+        </div>
+
+        <div style="width:50%;float:left;box-sizing:border-box">
+            <div style="border: 1px solid #ccc;padding: 30px;">
+                <img style="max-width: 100%" src="<?php echo TRUCKLOT_THEME_URI; ?>/admin/assets/example-full.png" />
+                <p><strong>Full Page with Interactive Map</strong></p>
                 <p>Add the following shortcode to any page or post <input type="text" readonly value='[foodtruck display="full"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
                 <p>And, use with a custom <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">Google Maps API key</a><br />(recommend for long term map reliability): <input type="text" readonly value='[foodtruck display="full" map-key="YOUR-KEY"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
                 <p>Custom Map Style:<br />
@@ -17,7 +34,8 @@
                 </p>
             </div>
         </div>
-        <div style="width:50%;float:left;box-sizing:border-box">
+        <div style="clear:both;height: 30px"></div>
+        <div style="width:50%;float:left;padding-right: 15px;box-sizing:border-box">
             <div style="border: 1px solid #ccc;padding: 30px;">
                 <img style="max-width: 100%" src="<?php echo TRUCKLOT_THEME_URI; ?>/admin/assets/example-summary.png" />
                 <p><strong>Summary of Upcoming Locations</strong></p>
@@ -26,16 +44,18 @@
                 <p>Horizontal Layout:<input type="text" readonly value='[foodtruck display="summary-horizontal"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
             </div>
         </div>
-        <div style="clear:both;padding-top: 20px;">
-          <div style="border: 1px solid #ccc;padding: 30px;">
-            <div><strong>Food Truck Widget</strong> (Widget supported themes)</div>
-            Quickly add your schedule across your site via the "Food Truck Upcoming" widget on the <a href="widgets.php">Widgets Admin Page</a>.
+        <div style="width:50%;float:left;box-sizing:border-box">
+          <div style="">
+            <div style="border: 1px solid #ccc;padding: 30px;">
+              <div><strong>Food Truck Widget</strong> (Widget supported themes)</div>
+              Quickly add your schedule across your site via the "Food Truck Upcoming" widget on the <a href="widgets.php">Widgets Admin Page</a>.
+            </div>
           </div>
-        </div>
-        <div style="clear:both;padding-top: 20px;">
-          <div style="border: 1px solid #ccc;padding: 30px;">
-            <div>You can also add anywhere in your theme templates with <code>&lt;?php echo do_shortcode('SHORTCODE HERE'); ?&gt;</code></div>
-            <textarea style="font-family: monospace;height:25px;background:#ccc;font-weight:bold;" onFocus="this.select()">&lt;?php echo do_shortcode('[foodtruck display="summary"]'); ?&gt;</textarea>
+          <div style="padding-top: 20px;">
+            <div style="border: 1px solid #ccc;padding: 30px;">
+              <div>You can also add anywhere in your theme templates with <code>&lt;?php echo do_shortcode('SHORTCODE HERE'); ?&gt;</code></div>
+              <textarea style="font-family: monospace;height:25px;background:#ccc;font-weight:bold;" onFocus="this.select()">&lt;?php echo do_shortcode('[foodtruck display="summary"]'); ?&gt;</textarea>
+            </div>
           </div>
         </div>
     </div>

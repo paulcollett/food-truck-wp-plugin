@@ -1,10 +1,13 @@
 <?php
+
 //Get the upcoming items as an array
 $upcoming_items = trucklot_locations_get_upcoming();
 
 // Proceed if we have locations
 if(count($upcoming_items) > 0):
   // Variables used within this if bracket
+  $display_count = !empty($display_count) && (int) $display_count > 1 ? (int) $display_count : 15;
+  $upcoming_items = array_slice($upcoming_items, 0 , $display_count);
   $now = current_time('timestamp');
   $timestamp_today_end = strtotime('tomorrow + 2 hours', $now);
   $timestamp_tomorrow_end = strtotime('tomorrow + 26 hours', $now);
@@ -32,7 +35,13 @@ if(count($upcoming_items) > 0):
               $display_separator_color = 'transparent';
             }
 
+            if($display_separator_type === 'bg' && $display_separator_color && !($display_separator_color_even || $display_separator_color_odd)) {
+              $display_separator_color_odd = $display_separator_color;
+              $display_separator_color_even = 'transparent';
+            }
+
             $item_separator_color = ($is_item_even ? $display_separator_color_even : $display_separator_color_odd) ?: $display_separator_color;
+
           ?>
           <div class="foodtruck-list-items_row">
             <div class="foodtruck-list-item">
