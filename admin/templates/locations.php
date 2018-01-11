@@ -129,7 +129,7 @@
                 </div>
 
                 <div ng-show="filteredItemsPast.length">
-                    <div ng-init="pastlimit = 10">
+                    <div ng-init="pastlimit = 5">
                         <h4>Past Locations</h4>
                         <div>These will be hidden on your website</div>
                     </div>
@@ -144,9 +144,10 @@
                         </div>
                     </div>
 
-                    <div ng-show="filteredItemsPast.length > 10" >
-                        <button ng-show="pastlimit <= 10" ng-click="pastlimit = 999999999">Show all past locations</button>
-                        <button ng-show="pastlimit > 10" ng-click="pastlimit = 10">Show less locations</button>
+                    <div ng-show="filteredItemsPast.length > 5" >
+                        <span style="display:inline-block;line-height: 30px;margin-right:5px">Showing {{pastlimit > filteredItemsPast.length ? filteredItemsPast.length : pastlimit}} of {{filteredItemsPast.length}} past locations</span>
+                        <button class="button" ng-show="pastlimit < filteredItemsPast.length" ng-click="pastlimit = pastlimit + 5">Show More</button>
+                        <button class="button" ng-show="pastlimit > 5" ng-click="pastlimit = pastlimit >= 10 ? pastlimit - 5 : 5">Less</button>
                     </div>
                 </div>
 
