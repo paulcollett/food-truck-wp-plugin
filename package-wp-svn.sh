@@ -68,6 +68,7 @@ if(!$get_continue) die;
 // 7. commit files with message
 chdir($tmp_repo_dir);
 echo "Commiting to SVN & Uploading...\n";
+exec('svn status | grep "^\!" | sed \'s/^\! *//g\' | xargs svn rm'); // for any removed files, remove them from svn http://www.benjiegillam.com/2009/02/svn-hint-automatically-removing-manually-deleted-files-from-svn/
 exec("svn add --force * --auto-props --parents --depth infinity -q"); // force add to svn working copy
 exec("svn ci -m 'Release version $version' --username $user --password $pass");
 
