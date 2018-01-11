@@ -1,15 +1,24 @@
 <?php
-  $upcoming_items = trucklot_locations_get_upcoming();
 
-  // Proceed if we have locations
-  if(count($upcoming_items) > 0):
+$upcoming_items = trucklot_locations_get_upcoming();
 
-      $first_6_locations = array_slice($upcoming_items, 0 , 4);
-      $remaining_locations = array_slice($upcoming_items, 4);
-      $now = current_time('timestamp');
-      $timestamp_today_end = strtotime('tomorrow + 2 hours', $now);
-      $timestamp_tomorrow_end = strtotime('tomorrow + 26 hours', $now);
+// Proceed if we have locations
+if(count($upcoming_items) > 0):
+  // Variables used within this if bracket
+  $display_count = !empty($display_count) && (int) $display_count > 0 ? (int) $display_count : null;
+  $display_count_before_map = max(0, (int) apply_filters('foodtruck-full-count-before-map', 4));
+  $upcoming_items = array_slice($upcoming_items, 0, $display_count);
+  $first_6_locations = array_slice($upcoming_items, 0, $display_count_before_map);
+  $remaining_locations = array_slice($upcoming_items, $display_count_before_map);
+  $now = current_time('timestamp');
+  $timestamp_today_end = strtotime('tomorrow + 2 hours', $now);
+  $timestamp_tomorrow_end = strtotime('tomorrow + 26 hours', $now);
+
 ?>
+<!--
+  Food Truck Full Map Layout
+  https://wordpress.org/plugins/food-truck/
+-->
 <script>window.FOODTRUCK_TXT_DIRECTIONS = "<?php foodtruck_txt('Directions'); ?>";</script>
 <div class="foodtruck-reset js-location-module">
     <div class="js-location-list-container">

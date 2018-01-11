@@ -430,7 +430,9 @@ function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) 
     echo '</div>';
   }
   else if($atts['display'] == 'full') {
-    trucklot_include('templates/full.php');
+    trucklot_include('templates/full.php', array(
+      'display_count' => $atts['count']
+    ));
   }
   else {
     trucklot_include('templates/list.php', array(

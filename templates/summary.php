@@ -1,7 +1,7 @@
 <?php
 
     $upcoming_items = trucklot_locations_get_upcoming();
-    $display_count = !empty($display_count) && (int) $display_count > 1 ? (int) $display_count : 3;
+    $display_count = !empty($display_count) && (int) $display_count > 0 ? (int) $display_count : 3;
 
     // Proceed if we have locations
     if(count($upcoming_items) > 0):

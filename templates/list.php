@@ -6,7 +6,7 @@ $upcoming_items = trucklot_locations_get_upcoming();
 // Proceed if we have locations
 if(count($upcoming_items) > 0):
   // Variables used within this if bracket
-  $display_count = !empty($display_count) && (int) $display_count > 1 ? (int) $display_count : 15;
+  $display_count = !empty($display_count) && (int) $display_count > 0 ? (int) $display_count : 15;
   $upcoming_items = array_slice($upcoming_items, 0 , $display_count);
   $now = current_time('timestamp');
   $timestamp_today_end = strtotime('tomorrow + 2 hours', $now);
