@@ -2,44 +2,30 @@
 
 .locations-contain
   margin: 0 auto
-.locations-contain
-  max-width: 1400px
-  margin: 0 auto
-.locations-contain--margin
-  border: 0 solid transparent
-  border-width: 0 15px
 .locations-contain--body
-  max-width: 700px
-.locations-contain--max1200
-  max-width: 1200px
-  border: 0 solid transparent
-  border-width: 0 15px
-.locations-contain--bottom
-  margin-bottom: 50px
-
-%base
-  font-size: 1rem
-  line-height: 1.1
+  max-width: 1000px
+  padding: 0 4%
+.locations-contain--map
+  max-width: none
+  margin-bottom: 4%
+  padding: 0
+.locations-contain--details
+  max-width: 1300px
 
 .locations-module-list
-  overflow: hidden
-  font-size: 0
-  letter-spacing: 0
-  text-align: center
-  margin-left: -30px
-  margin-bottom: 20px
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  margin-left: -5%
 .locations-module-list_item
-  @extend %base
   width: 50%
-  padding-left: 15px
-  text-align: left
-  display: inline-block
-  margin-bottom: 30px
+  padding-left: 5%
+  margin-bottom: 4%
   transition: all .15s ease
 
   &:hover
     cursor: pointer
-    transform: scale(1.03)
+    transform: scale(1.02)
 
 @keyframes location-item-beacon
   0%
@@ -131,13 +117,13 @@
     cursor: pointer
     transform: translateX(-10px) scale(1.03)
 .locations-detail_location
-  width: 35%
+  width: 40%
   float: left
   margin-bottom: 20px
   animation: location-detail-in .3s .3s ease-out backwards
   padding-right: 15px
 .locations-detail_map
-  width: 55%
+  width: 50%
   float: left
   margin-bottom: 20px
   animation: location-detail-in .3s ease-out backwards
@@ -160,15 +146,19 @@
 
 .locations-map-container
   position: relative
-  padding-bottom: 40%
-  height: 0
+  max-height: 50vh
   overflow: hidden
-  > iframe,.frame_media
+  &:after
+    content: ''
+    display: block
+    padding-bottom: 40%
+  > iframe
     position: absolute
     top: 0
     left: 0
     width: 100%
     height: 100%
+    z-index: 1
 .locations-map-container--detail
   padding-bottom: 52.45%;
 .locations-map

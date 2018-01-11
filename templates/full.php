@@ -13,7 +13,7 @@
 <script>window.FOODTRUCK_TXT_DIRECTIONS = "<?php foodtruck_txt('Directions'); ?>";</script>
 <div class="foodtruck-reset js-location-module">
     <div class="js-location-list-container">
-        <div class="locations-contain locations-contain--body locations-contain--margin">
+        <div class="locations-contain locations-contain--body">
             <div class="locations-module-list">
                 <?php foreach ($first_6_locations as $item): ?>
                     <div class="locations-module-list_item js-location-expand-container">
@@ -32,13 +32,13 @@
             </div>
         </div>
 
-        <div class="locations-contain locations-contain--body locations-contain--bottom">
+        <div class="locations-contain locations-contain--body locations-contain--map">
           <div class="locations-map-container">
               <div class="locations-map js-locations-all-map"></div>
           </div>
         </div>
 
-        <div class="locations-contain locations-contain--body locations-contain--margin">
+        <div class="locations-contain locations-contain--body">
             <div class="locations-module-list">
                 <?php foreach ($remaining_locations as $item): ?>
                     <div class="locations-module-list_item js-location-expand-container">
@@ -57,7 +57,7 @@
             </div>
         </div>
     </div>
-    <div class="locations-contain locations-contain--max1200 locations-contain--bottom js-location-container">
+    <div class="locations-contain locations-contain--body locations-contain--details js-location-container">
         <div class="locations-detail">
             <div class="locations-detail_back js-location-back">
                 &lsaquo;
