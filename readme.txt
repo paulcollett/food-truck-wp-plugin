@@ -37,7 +37,7 @@ Your votes really make a difference! Thanks.
 
 Add though your wp-admin's plugin page, by clicking "add new" then searching for "Food Truck"
 
-or Manually,
+or manually,
 
 1. Upload 'food-truck' to the '/wp-content/plugins/' directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
@@ -68,6 +68,10 @@ or contact me directly via [paulcollett.com](https://paulcollett.com/)
 * Nothing special to do!
 
 == Changelog ==
+
+= 1.0.7 =
+* Adjust the count of locations/times on the Full Map layout (user requested)
+* Larger map on the Full Map layout, along with better defaults for some themes
 
 = 1.0.6 =
 * New Customizable List layout (user requested)
