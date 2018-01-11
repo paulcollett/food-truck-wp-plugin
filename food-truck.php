@@ -93,8 +93,12 @@ function trucklot_site_add_assets() {
   wp_enqueue_style('food-truck-style', TRUCKLOT_THEME_URI . 'assets/dist/css/main.css', false, TRUCKLOT_PLUGIN_VER);
 }
 
-function trucklot_render_admin_locations(){
-    include dirname(__FILE__) . '/admin/templates/locations.php';
+function trucklot_render_admin_locations() {
+  // Store current plugin version which may be needed to assist future plugin updates
+  update_site_option( 'foodtruck_plugin_version', TRUCKLOT_PLUGIN_VER);
+
+  // output template
+  include dirname(__FILE__) . '/admin/templates/locations.php';
 }
 
 function trucklot_handle_ajax() {
