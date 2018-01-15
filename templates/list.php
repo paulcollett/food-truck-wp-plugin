@@ -30,6 +30,7 @@ if(count($upcoming_items) > 0):
             $is_tomorrow = $item['timestamp'] < $timestamp_tomorrow_end;
             $close_time = foodtruck_get_formatted_closetime($item);
             $is_item_even = !($index % 2);
+            $schema_date = date('Y-m-d\TH:i', $item['timestamp']);
 
             // Correct background separator color output for non-usual combination of supplied bg args
             if($display_separator_type === 'bg') {
@@ -45,7 +46,7 @@ if(count($upcoming_items) > 0):
             $item_separator_color = ($is_item_even ? $display_separator_color_even : $display_separator_color_odd) ?: $display_separator_color;
           ?>
           <div class="foodtruck-list-items_row">
-            <div class="foodtruck-list-item">
+            <div class="foodtruck-list-item" itemscope itemtype="http://schema.org/Event">
               <div class="foodtruck-list-item_date">
                 <?php if($is_today || $is_tomorrow): ?>
                   <?php if($is_today): ?>
@@ -62,7 +63,7 @@ if(count($upcoming_items) > 0):
                     </h3>
                   <?php endif; ?>
                 <?php endif; ?>
-                <h3 class="foodtruck-list-item-text foodtruck-list-item-text--lg"><?php echo date('D, M j', $item['timestamp']); ?></h3>
+                <h3 itemprop="startDate" content="<?php echo $schema_date; ?>" class="foodtruck-list-item-text foodtruck-list-item-text--lg"><?php echo date('D, M j', $item['timestamp']); ?></h3>
               </div>
               <div class="foodtruck-list-item_name">
                 <h3 class="foodtruck-list-item-text foodtruck-list-item-text--lg">
@@ -83,13 +84,16 @@ if(count($upcoming_items) > 0):
                     $item_gmap_map_url = 'https://maps.google.com?q=' . urlencode($item['geocode']['formatted']);
                     $item_gmap_dir_url = 'https://maps.google.com?saddr=Current+Location&daddr=' . urlencode($item['geocode']['formatted']);
                   ?>
-                <div class="foodtruck-list-item_address">
+                <div class="foodtruck-list-item_address" itemprop="location" itemscope itemtype="http://schema.org/Place">
+                  <?php if(!empty($item['name'])): ?>
+                    <meta itemprop="name" content="<?php esc_attr_e($item['name']); ?>" />
+                  <?php endif; ?>
                   <div class="foodtruck-list-item-addr-layout">
                     <div class="foodtruck-list-item-addr-layout_icon">
                       <svg aria-hidden="true" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><use xlink:href="#foodtruck-svg-pina" /></svg>
                     </div>
                     <div class="foodtruck-list-item-addr-layout_details">
-                      <div class="foodtruck-list-item-text">
+                      <div class="foodtruck-list-item-text" itemprop="address">
                         <?php echo esc_html($item['geocode']['formatted']); ?>
                       </div>
                       <div class="foodtruck-list-item-addr-layout_details_actions">
