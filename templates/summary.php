@@ -1,6 +1,6 @@
 <?php
 
-    $upcoming_items = trucklot_locations_get_upcoming();
+    $upcoming_items = foodtruck_get_upcoming_locations();
     $display_count = !empty($display_count) && (int) $display_count > 0 ? (int) $display_count : 3;
 
     // Proceed if we have locations
@@ -14,11 +14,11 @@
     <?php foreach ($upcoming_items as $item): ?>
         <div class="locations-summary-item">
             <?php
-                trucklot_include('templates/full_item.php',array(
+                foodtruck_include('templates/full_item.php',array(
                     'location' => $item,
                     'is_today' => $item['timestamp'] < $timestamp_today_end,
                     'is_tomorrow' => $item['timestamp'] < $timestamp_tomorrow_end,
-                    'close_time' => trucklot_locations_get_formatted_closetime($item),
+                    'close_time' => foodtruck_get_formatted_closetime($item),
                     'gmap_link_addr' => apply_filters('foodtruck_summary_link_addr_gmap', true)
                 ));
             ?>

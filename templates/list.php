@@ -1,7 +1,7 @@
 <?php
 
 //Get the upcoming items as an array
-$upcoming_items = trucklot_locations_get_upcoming();
+$upcoming_items = foodtruck_get_upcoming_locations();
 
 // Proceed if we have locations
 if(count($upcoming_items) > 0):
@@ -28,7 +28,7 @@ if(count($upcoming_items) > 0):
             // Variables for each location item
             $is_today = $item['timestamp'] < $timestamp_today_end;
             $is_tomorrow = $item['timestamp'] < $timestamp_tomorrow_end;
-            $close_time = trucklot_locations_get_formatted_closetime($item);
+            $close_time = foodtruck_get_formatted_closetime($item);
             $is_item_even = !($index % 2);
 
             // Correct background separator color output for non-usual combination of supplied bg args

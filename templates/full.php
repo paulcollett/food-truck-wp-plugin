@@ -1,6 +1,6 @@
 <?php
 
-$upcoming_items = trucklot_locations_get_upcoming();
+$upcoming_items = foodtruck_get_upcoming_locations();
 
 // Proceed if we have locations
 if(count($upcoming_items) > 0):
@@ -27,11 +27,11 @@ if(count($upcoming_items) > 0):
                 <?php foreach ($first_6_locations as $item): ?>
                     <div class="locations-module-list_item js-location-expand-container">
                         <?php
-                            trucklot_include('templates/full_item.php',array(
+                            foodtruck_include('templates/full_item.php',array(
                                 'location' => $item,
                                 'is_today' => $item['timestamp'] < $timestamp_today_end,
                                 'is_tomorrow' => $item['timestamp'] < $timestamp_tomorrow_end,
-                                'close_time' => trucklot_locations_get_formatted_closetime($item)
+                                'close_time' => foodtruck_get_formatted_closetime($item)
                             ));
                         ?>
                         <script data-geocode="" type="text/plain"><?php echo isset($item['geocode']['lat']) ? json_encode($item['geocode']) : '{}'; ?></script>
@@ -52,11 +52,11 @@ if(count($upcoming_items) > 0):
                 <?php foreach ($remaining_locations as $item): ?>
                     <div class="locations-module-list_item js-location-expand-container">
                         <?php
-                            trucklot_include('templates/full_item.php',array(
+                            foodtruck_include('templates/full_item.php',array(
                                 'location' => $item,
                                 'is_today' => $item['timestamp'] < $timestamp_today_end,
                                 'is_tomorrow' => $item['timestamp'] < $timestamp_tomorrow_end,
-                                'close_time' => trucklot_locations_get_formatted_closetime($item)
+                                'close_time' => foodtruck_get_formatted_closetime($item)
                             ));
                         ?>
                         <script data-geocode="" type="text/plain"><?php echo isset($item['geocode']['lat']) ? json_encode($item['geocode']) : '{}'; ?></script>

@@ -292,7 +292,7 @@ function trucklot_out() {
   }
 }
 
-function trucklot_locations_get_upcoming(){
+function foodtruck_get_upcoming_locations(){
 
     // Get all the locations
     $locations_post = get_posts(array('post_type' => 'trucklot-locations', 'posts_per_page' => 1));
@@ -345,7 +345,12 @@ function trucklot_locations_get_upcoming(){
 
 }
 
-function trucklot_locations_get_formatted_closetime($item){
+// Backwards compatibility support of deprecated namespace. Function will be removed in upcoming versions
+function trucklot_locations_get_upcoming() {
+  return call_user_func_array('foodtruck_get_upcoming_locations', func_get_args());
+}
+
+function foodtruck_get_formatted_closetime($item){
     // Format close time output
     if(isset($item['time']['to']['m'])){
         // If minute is a valid number show full close time
@@ -365,12 +370,22 @@ function trucklot_locations_get_formatted_closetime($item){
     return $close_time;
 }
 
-function trucklot_include($path, $vars = array()) {
+// Backwards compatibility support of deprecated namespace. Function will be removed in upcoming versions
+function trucklot_locations_get_formatted_closetime() {
+  return call_user_func_array('foodtruck_get_formatted_closetime', func_get_args());
+}
+
+function foodtruck_include($path, $vars = array()) {
   if(count($vars)) {
     extract($vars);
   }
 
   include dirname(__FILE__) . '/' . $path;
+}
+
+// Backwards compatibility support of deprecated namespace. Function will be removed in upcoming versions
+function trucklot_include() {
+  return call_user_func_array('foodtruck_include', func_get_args());
 }
 
 function trucklot_output_map_style_file($filename) {
@@ -395,6 +410,7 @@ function trucklot_output_map_style_file($filename) {
   }
 }
 
+// Dont call this function directly. Use do_shortcode instead as function names may change in future versions
 function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) {
   $atts = shortcode_atts( array(
       'display' => '',
@@ -418,24 +434,24 @@ function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) 
   }
 
   if($atts['display'] == 'summary' || $atts['display'] == 'summary-vertical') {
-    trucklot_include('templates/summary.php', array(
+    foodtruck_include('templates/summary.php', array(
       'display_count' => $atts['count']
     ));
   }
   else if($atts['display'] == 'summary-horizontal') {
     echo '<div class="locations-summary-horizontal-list">';
-    trucklot_include('templates/summary.php', array(
+    foodtruck_include('templates/summary.php', array(
       'display_count' => $atts['count']
     ));
     echo '</div>';
   }
   else if($atts['display'] == 'full') {
-    trucklot_include('templates/full.php', array(
+    foodtruck_include('templates/full.php', array(
       'display_count' => $atts['count']
     ));
   }
   else {
-    trucklot_include('templates/list.php', array(
+    foodtruck_include('templates/list.php', array(
       'display_count' => $atts['count'],
       'display_separator_type' => trim($atts['separator']),
       'display_separator_color' => trim($atts['separator-color']),
