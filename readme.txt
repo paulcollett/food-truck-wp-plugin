@@ -14,14 +14,14 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Display your Food Truck Location & Times schedule anywhere on your WordPress website
 
-* Specifically designed schedule displays for Food Trucks
-* A variety of customizable layouts
-* Interactive google map with upcoming location markers (customizable style)
-* Add in Special Event/Location names along with full addresses
+* Specially designed schedule for Food Trucks and their customers
+* A variety of customizable layouts that work with a variety of themes
+* Interactive Google map with location markers (customizable style)
+* Add in Special Event/Location names along with full addresses (SEO schema supported)
 * Links out to Google Maps with directions
-* Dynamic schedule display with indicators to best show Today/Tomorrow & Upcoming Locations
-* Widget Support - Quick add to site wide regions in your theme
-* Fast Single Page App Interface for Quick schedule changes (No page reloads to break your flow)
+* Dynamic schedule display with indicators to highlight Today/Tomorrow & Upcoming Locations
+* Widget Support - Quick add to site-wide regions in your theme
+* Fast "Single Page App" Interface for quick schedule management (No page reloads to break your flow)
 
 = Bug Submission, Support and Feature requests =
 
@@ -65,9 +65,13 @@ or contact me directly via [paulcollett.com](https://paulcollett.com/)
 
 == Upgrade Notice ==
 
-* Nothing special to do!
+* Latest improvements are intended to be backwards compatible
 
 == Changelog ==
+
+= 1.0.8 =
+* Improved SEO through event Schema.org Metadata on locations & times
+* Corrected display of am/pm times and improved listing display
 
 = 1.0.7 =
 * Adjust the count of locations/times on the Full Map layout (user requested)
