@@ -322,7 +322,7 @@ function trucklot_locations_get_upcoming(){
         // generate a timestamp from inputted vals
         // timezone doesn't matter, as it's only used to order the results
         $timestamp = mktime(
-          $item['time']['from']['h'],
+          date('H', strtotime($item['time']['from']['h'] . ':00 ' . $item['time']['from']['p'])), // 12hr to 24hr
           $item['time']['from']['m'],
           0,
           date('m',strtotime($item['date']['m'])), // Convert "Nov" format to month number
