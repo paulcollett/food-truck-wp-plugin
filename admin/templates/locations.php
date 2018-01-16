@@ -443,7 +443,7 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
 
     $scope.saveItem = function(){
       updateAllItemsLatLng();
-        $scope.selected = null;
+      $scope.selected = null;
     }
 
     $scope.deleteItem = function(item){
@@ -492,6 +492,10 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
 
     }
 
+    window.FoodTruck_addTruckFedApiKey = function(key) {
+      $http.post(url + '?action=food-truck&do=truckfedApiKey&_nonce=' + (window.trucklot_nonce || ''), {key: key})
+        .then(console.log, console.log);
+    }
 
 }]);
 

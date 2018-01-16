@@ -15,7 +15,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Display your Food Truck Location & Times schedule anywhere on your WordPress website
 
 * Specially designed schedule for Food Trucks and their customers
-* A variety of customizable layouts that work with a variety of themes
+* A variety of customizable layouts which auto style to your theme
 * Interactive Google map with location markers (customizable style)
 * Add in Special Event/Location names along with full addresses (SEO schema supported)
 * Links out to Google Maps with directions

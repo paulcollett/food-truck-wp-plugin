@@ -157,6 +157,9 @@ function trucklot_handle_ajax() {
         'ID' => $post_id
       )));
     }
+    else if($action == 'truckfedApiKey') {
+      FoodTruckTruckFedIntegration::handleAdminAjax();
+    }
     else {
       // todo: update with wp_send_json_error()
       wp_die(json_encode(array(
@@ -591,3 +594,123 @@ class TruckLotWidget extends WP_Widget {
 function trucklot_register_widget() {
   register_widget( 'TruckLotWidget' );
 }
+
+// Handles Integration with the TruckFed.com Scheduling Platform
+// Currently in BETA, request access via paulcollett.com
+class FoodTruckTruckFedIntegration {
+  static public function is_enabled() {
+    $pubKey = self::apiKey();
+
+    if($pubKey['pri']) {
+      return true;
+    }
+
+    return false;
+  }
+  static public function getFrontEndUpdateUrl() {
+    $pubKey = self::apiKey();
+
+    if(!$pubKey['pri']) {
+      return false;
+    }
+
+    $scheduleData = self::get_cached_schedule();
+
+    $params = array(
+      'v' => TRUCKLOT_PLUGIN_VER,
+      'callback' => '?',
+      'key' => $pubKey['pub'],
+      'nonce' => self::nonce(),
+      'last_updated' => !empty($scheduleData['last_updated']) ? $scheduleData['last_updated'] : ''
+    );
+
+    return 'https://widget.truckfed.com/food-truck-wp-plugin/schedule/api-last-updated?' . http_build_query($params);
+  }
+  static public function updateApiKey($newKey = null) {
+    $newKey = is_string($newKey) ? trim($newKey) : false;
+
+    if($newKey) {
+      // esc to help prevent XSS even through this is admin only territory
+      // along with being carefully handled on output
+      $newKey = esc_attr($newKey);
+
+      update_option('foodtruck-truckfed-key', $newKey, 'yes' );
+    } else {
+      delete_option('foodtruck-truckfed-key');
+    }
+  }
+  static public function apiKey() {
+    $truckFedApiKey = get_option('foodtruck-truckfed-key');
+
+    if($truckFedApiKey) {
+      $truckFedApiKey = explode('/', $truckFedApiKey);
+    }
+
+    return array(
+      'pub' => !empty($truckFedApiKey[0]) ? $truckFedApiKey[0] : false,
+      'pri' => !empty($truckFedApiKey[1]) ? $truckFedApiKey[1] : false
+    );
+  }
+  static public function nonce() {
+    //The function should be called after init event to avoid issues (https://codex.wordpress.org/Function_Reference/wp_create_nonce)
+    return wp_create_nonce('foodtruck-truckfed-update');
+  }
+  static public function valid_nonce($nonce) {
+    return wp_verify_nonce($nonce, 'foodtruck-truckfed-update');
+  }
+  static public function frontEndWrapper($html = '') {
+    // As required by TruckFed Terms of Use
+    ob_start();
+
+    foodtruck_include('templates/truckfed-credit.php', array(
+      'html' => $html
+    ));
+
+    return ob_get_clean();
+  }
+  static public function handleAdminAjax() {
+    wp_die(!empty($_POST['key']) && self::updateApiKey($_POST['key']) ? 1 : 0);
+  }
+  static public function handleFrontEndAjax() {
+    if($action == 'update') {
+      if(empty($_POST['nonce']) || !self::valid_nonce($_POST['nonce']) || empty($_POST['update_url'])) {
+        return false;
+      }
+
+      $truckfedUpdateUrl = $_POST['update_url'] . '&nonce=' . $_POST['nonce'];
+
+      return self::update_cached_schedule($truckfedUpdateUrl);
+    }
+
+    return false;
+  }
+  static public function update_cached_schedule($update_url) {
+    // Make sure URL is pointed to the truckfed.com domain to avoid any client side spoofing
+    $validHostname = strpos(strrev(parse_url($update_url, PHP_URL_HOST) ?: ''), strrev('truckfed.com')) === 0;
+
+    if(!$validHostname) {
+      return false;
+    }
+
+    $response = wp_remote_get($update_url . '&v=' . TRUCKLOT_PLUGIN_VER, array(
+      'timeout' => 15,
+      'httpversion' => '1.1'
+    ));
+
+    if(!empty($response['body'])) {
+      $data = trucklot_parse_body_to_json($response['body']);
+
+      if(!empty($data['schedule'])) {
+        $data = trucklot_sanitize_data_for_db($data);
+
+        return update_option('foodtruck-truckfed-schedule', $data, 'no');
+      }
+    }
+
+    return false;
+  }
+  static public function get_cached_schedule() {
+    return get_option('foodtruck-truckfed-schedule');
+  }
+}
+
