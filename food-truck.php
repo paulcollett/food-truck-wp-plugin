@@ -326,7 +326,7 @@ function foodtruck_get_upcoming_locations(){
           $item['time']['from']['m'],
           0,
           // Convert "Feb" format to month number "02"
-          // Note: strtotime needs prepended ' 1' to work for Feb month
+          // Note: strtotime needs appended ' 1' to work for Feb month
           date('m',strtotime($item['date']['m'] . ' 1')),
           $item['date']['d'],
           $item['date']['y']
