@@ -90,3 +90,6 @@ echo "\nComplete. SVN should be updated!\n";
 exec("open https://wordpress.org/plugins/food-truck/");
 
 die;
+
+// Other Scripts doing something similar:
+// https://github.com/GaryJones/wordpress-plugin-svn-deploy/
