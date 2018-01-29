@@ -296,7 +296,7 @@ function foodtruck_get_upcoming_locations(){
 
     // Get all the locations
     $locations_post = get_posts(array('post_type' => 'trucklot-locations', 'posts_per_page' => 1));
-    $has_post = isset($locations_post[0]->ID) && ($data = @json_decode($locations_post[0]->post_content, true));
+    $data = isset($locations_post[0]->post_content) ? trucklot_parse_body_to_json($locations_post[0]->post_content) : array();
 
     $now = current_time('timestamp');
     $hide_after = strtotime('today +2 hours', $now);
@@ -325,7 +325,9 @@ function foodtruck_get_upcoming_locations(){
           date('H', strtotime($item['time']['from']['h'] . ':00 ' . $item['time']['from']['p'])), // 12hr to 24hr
           $item['time']['from']['m'],
           0,
-          date('m',strtotime($item['date']['m'])), // Convert "Nov" format to month number
+          // Convert "Feb" format to month number "02"
+          // Note: strtotime needs prepended ' 1' to work for Feb month
+          date('m',strtotime($item['date']['m'] . ' 1')),
           $item['date']['d'],
           $item['date']['y']
         );
