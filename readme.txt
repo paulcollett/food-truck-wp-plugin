@@ -69,6 +69,10 @@ or contact me directly via [paulcollett.com](https://paulcollett.com/)
 
 == Changelog ==
 
+= 1.0.9 =
+* visual tweaks for better display across a larger number of themes (inc. user requested Firefox bug)
+* fix for february dates (date parser was identifying them as march) (user requested)
+
 = 1.0.8 =
 * Improved SEO through event Schema.org Metadata on locations & times
 * Corrected display of am/pm times and improved listing display
