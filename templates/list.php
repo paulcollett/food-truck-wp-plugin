@@ -63,7 +63,7 @@ if(count($upcoming_items) > 0):
                     </h3>
                   <?php endif; ?>
                 <?php endif; ?>
-                <h3 itemprop="startDate" content="<?php echo $schema_date; ?>" class="foodtruck-list-item-text foodtruck-list-item-text--lg"><?php echo date('D, M j', $item['timestamp']); ?></h3>
+                <h3 itemprop="startDate" content="<?php echo $schema_date; ?>" class="foodtruck-list-item-text foodtruck-list-item-text--lg"><?php echo date('D, M&\n\b\s\p;j', $item['timestamp']); ?></h3>
               </div>
               <div class="foodtruck-list-item_name">
                 <h3 class="foodtruck-list-item-text foodtruck-list-item-text--lg">

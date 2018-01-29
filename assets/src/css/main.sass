@@ -4,11 +4,11 @@
   margin: 0 auto
 .locations-contain--body
   max-width: 1000px
-  padding: 0 4%
+  //padding: 0 4%
 .locations-contain--map
   max-width: none
   margin-bottom: 4%
-  padding: 0
+  //padding: 0
 .locations-contain--details
   max-width: 1300px
 
@@ -21,7 +21,7 @@
 .locations-module-list_item
   width: 50%
   padding-left: 5%
-  margin-bottom: 4%
+  margin-bottom: 2.5em // Note: flex horizontal spacing breaks with % on FF
   transition: all .15s ease
 
   &:hover
@@ -246,6 +246,11 @@ body .foodtruck-list-item-text,
 body h3.foodtruck-list-item-text
   &--lg
     font-size: 1.2em
+
+//Found above being overrided by .content h3:not(:first-child)
+.foodtruck-list-item .foodtruck-list-item-text
+  padding: 0!important
+  margin: 0!important
 
 .foodtruck-list-container
   user-select: none
