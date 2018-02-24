@@ -86,7 +86,7 @@ if(count($upcoming_items) > 0):
                   ?>
                 <div class="foodtruck-list-item_address" itemprop="location" itemscope itemtype="http://schema.org/Place">
                   <?php if(!empty($item['name'])): ?>
-                    <meta itemprop="name" content="<?php esc_attr_e($item['name']); ?>" />
+                    <meta itemprop="name" content="<?php esc_attr($item['name']); ?>" />
                   <?php endif; ?>
                   <div class="foodtruck-list-item-addr-layout">
                     <div class="foodtruck-list-item-addr-layout_icon">
