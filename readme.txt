@@ -23,6 +23,10 @@ Display your Food Truck Location & Times schedule anywhere on your WordPress web
 * Widget Support - Quick add to site-wide regions in your theme
 * Fast "Single Page App" Interface for quick schedule management (No page reloads to break your flow)
 
+= Looking for a food truck theme? =
+We built one! Highly optimized for use with this plugin. Highly customizable around your brand:
+[wordpress.org/themes/food-truck/](https://wordpress.org/themes/food-truck/)
+
 = Bug Submission, Support and Feature requests =
 
 We're actively working on this plugin and open to all issues & feedback:
