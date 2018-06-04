@@ -123,7 +123,7 @@
                             <div>
                                 {{item.name}}
                             </div>
-                            <div style="opacity:0.7"><span class="dashicons dashicons-location"></span> {{item.address || '(no address)'}}</div>
+                            <div style="opacity:0.7"><span class="dashicons dashicons-location" style="color: {{item.geocode.lat ? 'green' : inherit}}" title="{{item.geocode.lat ? 'Location formatted by Google Maps' : 'Not formatted by Google Maps'}}"></span> {{item.address || '(no address)'}}</div>
                         </div>
                     </div>
                 </div>
@@ -372,6 +372,8 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
         }
       }
     };
+    var _updateItemsGeoCodeQueueActive = 0;
+    var _updateItemsGeoCodeQueue = 0;
     var updateAllItemsLatLng = function() {
       // Do cache or goog lookup
       var geoCodeInstance = null;
@@ -384,10 +386,19 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
           $scope.items[i]['geocode'] = latLngAddrCache[strippedAddr];
         }
         else if(window.google && window.google.maps) {
+          //continue if item in past
+          if(item.timestamp && item.timestamp < $scope.timenow) {
+            continue;
+          }
+
           // https://maps.googleapis.com/maps/api/geocode/json?address=
-          (function(i, strippedAddr, rawAddr) {
+          setTimeout((function(i, strippedAddr, rawAddr) {
             geoCodeInstance = geoCodeInstance || new google.maps.Geocoder().geocode;
             geoCodeInstance({ address: rawAddr }, function(results, status) {
+              _updateItemsGeoCodeQueueActive--;
+              if(_updateItemsGeoCodeQueueActive < 1) {
+                _updateItemsGeoCodeQueue = 0;
+              }
               if (status !== 'OK' || !results[0].geometry || !results[0].geometry.location) return;
               var location = (
                   results[0].geometry.location.toJSON ? results[0].geometry.location.toJSON() : null
@@ -403,7 +414,9 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
                 $scope.items[i].geocode = geocode;
               });
             });
-          })(i, strippedAddr, item.address);
+          }).bind(null, i, strippedAddr, item.address), _updateItemsGeoCodeQueue * 500);//delay
+          _updateItemsGeoCodeQueue++;
+          _updateItemsGeoCodeQueueActive++;
         }
       }
     }
