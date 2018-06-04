@@ -69,6 +69,9 @@ or contact me directly via [paulcollett.com](https://paulcollett.com/)
 
 == Changelog ==
 
+= 1.0.10 =
+* Improved handling of formatted location display fixing hidden locations and map issues
+
 = 1.0.9 =
 * visual tweaks for better display across a larger number of themes (inc. user requested Firefox bug)
 * fix for february dates (date parser was identifying them as march) (user requested)
