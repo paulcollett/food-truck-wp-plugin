@@ -73,6 +73,9 @@ or contact me directly via [paulcollett.com](https://paulcollett.com/)
 
 == Changelog ==
 
+= 1.0.11 =
+* Reviewed Wordpress/PHP support
+
 = 1.0.10 =
 * Improved handling of formatted location display fixing hidden locations and map issues
 
