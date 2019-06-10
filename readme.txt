@@ -1,9 +1,9 @@
 === Food Truck Locations & Times ===
 Contributors: paulcollett
 Tags: food truck, street food, food, locations, dates, events, schedule, map, google map
-Requires at least: 4.0
-Tested up to: 4.9
-Requires PHP: 5.3
+Requires at least: 5.0
+Tested up to: 5.2
+Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
