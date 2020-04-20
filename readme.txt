@@ -2,7 +2,7 @@
 Contributors: paulcollett
 Tags: food truck, street food, food, locations, dates, events, schedule, map, google map
 Requires at least: 5.0
-Tested up to: 5.2
+Tested up to: 5.4
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -72,6 +72,9 @@ or contact me directly via [paulcollett.com](https://paulcollett.com/)
 * Latest improvements are intended to be backwards compatible
 
 == Changelog ==
+
+= 1.0.12 =
+* Reviewed Wordpress/PHP support
 
 = 1.0.11 =
 * Reviewed Wordpress/PHP support
