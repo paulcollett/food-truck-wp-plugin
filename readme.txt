@@ -73,10 +73,12 @@ or contact me directly via [paulcollett.com](https://paulcollett.com/)
 
 == Changelog ==
 
-= 1.0.12 =
-* Reviewed Wordpress/PHP support
+= 1.0.13 =
+* Added Schema.org event name metadata on the map display for improved SEO
+* Expose information about runtime plugin bugs to help identify future issues
+* Potential fix for issue affecting map listing display
 
-= 1.0.11 =
+= 1.0.11/12 =
 * Reviewed Wordpress/PHP support
 
 = 1.0.10 =

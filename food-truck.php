@@ -5,7 +5,7 @@ Plugin URI: https://github.com/paulcollett/food-truck-wp-plugin
 Description: Food Truck Location & Dates plugin built for Food Trucks
 Author: Paul Collett
 Author URI: http://paulcollett.com
-Version: 1.0.12
+Version: 1.0.13
 Text Domain: food-truck
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -82,13 +82,13 @@ function trucklot_admin_add_plugin_section(){
 function trucklot_admin_add_assets($page){
   if($page != 'toplevel_page_trucklot-locations') return;
 
-  wp_enqueue_script('trucklot-admin-libs', TRUCKLOT_THEME_URI . 'admin/assets/libs.min.js', false, TRUCKLOT_PLUGIN_VER);
+  wp_enqueue_script('trucklot-admin-libs', TRUCKLOT_THEME_URI . 'admin/assets/libs.min.js', array('jquery'), TRUCKLOT_PLUGIN_VER);
 
   wp_enqueue_media();
 }
 
 function trucklot_site_add_assets() {
-  wp_enqueue_script('food-truck-script', TRUCKLOT_THEME_URI . 'assets/dist/js/main.js', array('jquery'), TRUCKLOT_PLUGIN_VER);
+  wp_enqueue_script('food-truck-script', TRUCKLOT_THEME_URI . 'assets/src/js/main.js', array('jquery'), TRUCKLOT_PLUGIN_VER);
 
   wp_enqueue_style('food-truck-style', TRUCKLOT_THEME_URI . 'assets/dist/css/main.css', false, TRUCKLOT_PLUGIN_VER);
 }

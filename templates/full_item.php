@@ -17,12 +17,14 @@
 
       if(isset($location['name'])) {
         $display_location = esc_html($location['name']);
+
+        echo sprintf('<meta itemprop="name" content="%s" />', esc_attr($display_location));
       } else if(isset($location['address'])) {
         $display_location = esc_html($location['address']);
       }
 
       if(isset($gmap_link_addr) && $gmap_link_addr && isset($location['geocode']['formatted'])) {
-        echo sprintf('<div itemprop="location" itemscope itemtype="http://schema.org/Place"><a itemprop="name" class="locations-summary-addr-link" href="https://maps.google.com?q=%s" target="_blank">%s</a><meta itemprop="address" content="%s" /></div>',  urlencode($location['geocode']['formatted']), $display_location, esc_attr($location['geocode']['formatted']));
+        echo sprintf('<div itemprop="location" itemscope itemtype="http://schema.org/Place"><a itemprop="hasMap" itemtype="https://schema.org/Map" class="locations-summary-addr-link" href="https://maps.google.com?q=%s" target="_blank">%s</a><meta itemprop="address" content="%s" /></div>',  urlencode($location['geocode']['formatted']), $display_location, esc_attr($location['geocode']['formatted']));
       } else {
         echo sprintf('<div itemprop="location" itemscope itemtype="http://schema.org/Place"><div itemprop="name">%s</div></div>', $display_location);
       }

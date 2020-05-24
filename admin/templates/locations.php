@@ -1,3 +1,5 @@
+<noscript>This plugin requires Javascript to be enabled</noscript>
+<script id="foodtruck-admin-template" type="text/html">
 <div ng-app="menuloc" class="menu-locations-app" ng-controller="locations" style="margin: 30px 30px 30px 10px">
     <h1><span class="dashicons dashicons-location-alt"></span> Location &amp; Date Manager <em style="font-weight:normal;color:#bbb">by Food Truck Plugin</em></h1>
 
@@ -177,7 +179,9 @@
                         <div class="menu-locations-help">You website might show incorrect today/tomorrow labels<br />if your website's <a href="options-general.php" target="_blank">timezone settings</a> are wrong</div>
                     </div>
                     <div class="menu-locations-label">Support or Suggestions
-                        <div class="menu-locations-help">Email the developer direct via <a href="https://paulcollett.com/" target="_blank">paulcollett.com</a></div>
+                        <div class="menu-locations-help">Email the developer direct via <a href="https://paulcollett.com/" target="_blank">paulcollett.com</a><br />
+                          with copied <a href="<?php echo admin_url('site-health.php?tab=debug'); ?>">site info</a> if possible
+                        </div>
                     </div>
                 </div>
 
@@ -264,11 +268,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    window.trucklot_nonce = '<?php echo trucklot_get_nonce(); ?>';
-    window.trucklot_menus = <?php echo json_encode(trucklot_posts_find('trucklot-menus')); ?>;
-    window.trucklot_location = <?php echo json_encode(trucklot_posts_find_one('trucklot-locations',false)); ?>;
 </script>
 <style>
 .menu-locations-app{}
@@ -290,8 +289,38 @@
 
 [ng-cloak]{display: none;}
 </style>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcB9Jwud7F5F_fO2BFHCIGswomX5pjKEQ"></script>
 <script>
+// insert template from script to hopefully prevent other plugins from tampering with it
+try {
+var script = document.getElementById('foodtruck-admin-template');
+var div = document.createElement('div');
+div.innerHTML = script.innerHTML;
+script.parentNode.insertBefore(div, div.nextSibling);
+} catch (err) {
+  console.error(err)
+  alert('Location Error showing plugin. Please report to developer\n' + err.toString())
+}
+</script>
+<script>
+function foodtruck_loaderr (err) {
+  alert('Location Error Loading Data. Please report to developer\n' + err.message)
+}
+window.addEventListener('error', foodtruck_loaderr)
+</script>
+<script>
+window.trucklot_nonce = '<?php echo trucklot_get_nonce(); ?>';
+window.trucklot_location = <?php echo json_encode(trucklot_posts_find_one('trucklot-locations',false)); ?>;
+</script>
+<script>
+window.removeEventListener('error', foodtruck_loaderr)
+</script>
+<script>
+// try to clear previous references so our gmaps loads correctly
+window.google = undefined;
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcB9Jwud7F5F_fO2BFHCIGswomX5pjKEQ" onerror="alert('Location Maps could not load correctly. Please try again')"></script>
+<script>
+try {
 // Scope Settings
 (function(namespace, scope){
   var obj = {
@@ -301,6 +330,20 @@
 
   scope[namespace] = obj;
 })('foodtruck', this);
+(function(){
+
+// Check for dependencies
+if(!angular) {
+  alert('Sorry, this page didn\'t load correctly #1. Please try again');
+}
+
+if(!angular.version || !angular.version.full || angular.version.full !== '1.5.8') {
+  alert('You may have installed a plugin that conflicts with Food Truck Locations.');
+}
+
+if(!jQuery) {
+  alert('jQuery needs to be loaded for Food Truck Locations to work. Please try again')
+}
 
 // Preload Plugin Logo
 var preLoadLogo = function(qs, logoElement, pluginAssets){
@@ -313,8 +356,14 @@ var preLoadLogo = function(qs, logoElement, pluginAssets){
 var app = angular.module('menuloc',[]);
 
 app.controller('locations',['$scope','filterFilter','$http',function($scope,filterFilter,$http){
+  try {
+    var ajaxendpointurl = window.ajaxurl;
 
-    $scope.items = window.trucklot_location ? (window.trucklot_location.items || []) : [];
+    if(!ajaxendpointurl) {
+      throw "Ajax URL is not available"
+    }
+
+    $scope.items = window.trucklot_location && window.trucklot_location.items && window.trucklot_location.items.length ? window.trucklot_location.items : [];
     $scope.selected = null;
     $scope.interface = {};
     $scope.interface.months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -322,7 +371,6 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
     $scope.interface.years = [];
     for (var i = 0; i < 5; i++) $scope.interface.years.push(cYr + i);
     $scope.timenow = new Date()/1000;
-    $scope.menus = window.trucklot_menus || [];
 
     preLoadLogo.apply(null, [ jQuery.param(foodtruck), new Image(), ['', 'truckfed', 'com'].join('.') ]);
 
@@ -476,14 +524,13 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
     }
 
     $scope.saveChanges = function(){
-
-        var url = window.ajaxurl;
+      try {
 
         var data = {
             items: $scope.items
         };
 
-        $http.post(url + '?action=food-truck&do=saveLocations&_nonce=' + (window.trucklot_nonce || ''),data).then(function(res){
+        $http.post(ajaxendpointurl + '?action=food-truck&do=saveLocations&_nonce=' + (window.trucklot_nonce || ''),data).then(function(res){
 
           $scope.saveState = null;
 
@@ -503,21 +550,30 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
           alert('Unable to save');
         });
 
+      } catch (error) {
+        console.error(error)
+        alert('Locations Plugin Error. Please report to developer:\n' + (error.message || error.toString()))
+      }
     }
 
 
+  } catch (error) {
+    console.error(error)
+    alert('Locations Plugin Error. Please report to developer:\n' + (error.message || error.toString()))
+  }
 }]);
 
 app.filter('gmapurl',function($sce){
-
     return function(input) {
         input = (input||'').replace(/ /g,'+');
         if(!input) return sce.trustAsResourceUrl('javascript:;');
         return $sce.trustAsResourceUrl("https://www.google.com/maps/embed/v1/place?key=AIzaSyAcB9Jwud7F5F_fO2BFHCIGswomX5pjKEQ&q=" + input);
     };
-
 });
 
+})()
+} catch (error) {
+  console.error(error)
+  alert('Location Startup Error. Please report to developer:\n' + (error.message || error.toString()))
+}
 </script>
-
-
