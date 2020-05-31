@@ -68,6 +68,7 @@ if(count($upcoming_items) > 0):
               <div class="foodtruck-list-item_name">
                 <h3 class="foodtruck-list-item-text foodtruck-list-item-text--lg">
                   <?php if(!empty($item['name'])): ?>
+                    <?php echo sprintf('<meta itemprop="name" content="%s" />', esc_attr($item['name'])); ?>
                     <?php echo esc_html($item['name']); ?>
                   <?php elseif(!empty($item['address'])): ?>
                     <?php echo esc_html($item['address']); ?>

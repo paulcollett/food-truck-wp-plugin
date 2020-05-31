@@ -345,6 +345,13 @@ if(!jQuery) {
   alert('jQuery needs to be loaded for Food Truck Locations to work. Please try again')
 }
 
+// In Angular, numeric values automatically get turned into an Int
+function forceString(mixed) {
+  if(['number','string'].indexOf(typeof mixed) === -1) return '';
+
+  return mixed.toString()
+}
+
 // Preload Plugin Logo
 var preLoadLogo = function(qs, logoElement, pluginAssets){
   var pluginPath = '/wp-plugin';
@@ -412,7 +419,7 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
      // Geocode Data: Cache Existing Geocodes
     for (var i = 0; i < $scope.items.length; i++) {
       var item = $scope.items[i] || {};
-      var strippedAddr = (item.address || '').toLowerCase().replace(/\s/g,'');
+      var strippedAddr = forceString(item.address).toLowerCase().replace(/\s/g,'');
       if(strippedAddr && item.geocode && item.geocode.lat) {
         latLngAddrCache[strippedAddr] = item.geocode;
         if(item.geocode.formatted) { // should be avail, but chk just incase
@@ -427,7 +434,7 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
       var geoCodeInstance = null;
       for (var i = 0; i < $scope.items.length; i++) {
         var item = $scope.items[i] || {};
-        var strippedAddr = (item.address || '').toLowerCase().replace(/\s/g,'');
+        var strippedAddr = forceString(item.address || '').toString().toLowerCase().replace(/\s/g,'');
         if(!strippedAddr) continue;
 
         if(latLngAddrCache[strippedAddr]) {
