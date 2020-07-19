@@ -5,7 +5,7 @@ Plugin URI: https://github.com/paulcollett/food-truck-wp-plugin
 Description: Food Truck Location & Dates plugin built for Food Trucks
 Author: Paul Collett
 Author URI: http://paulcollett.com
-Version: 1.0.14
+Version: 1.0.15
 Text Domain: food-truck
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -130,7 +130,11 @@ function trucklot_handle_ajax() {
       $_POST = isset($_POST) ? $_POST : array();
     }
 
-    if($action == 'saveLocations') {
+    if($action == 'saveGKey') {
+      wp_die(json_encode(array(
+        'ok' => update_option('trucklot_gkey', $_POST['key'], true)
+      )));
+    } else if($action == 'saveLocations') {
       $existing = get_posts('post_type=trucklot-locations&order=ASC&posts_per_page=1');
 
       if($existing && isset($existing[0]->ID)){
@@ -427,8 +431,12 @@ function trucklot_handle_shortcode( $atts = array(), $content = '', $tag = '' ) 
 
   ob_start();
 
+  // Legacy
   if(isset($atts['map-key']) && !is_null($atts['map-key'])) {
-    echo '<script>window.FOODTRUCK_GMAP_APIKEY = "' . htmlentities(trim((string) $atts['map-key'])) . '";</script>';
+    echo '<script>/* legacy */window.FOODTRUCK_GMAP_APIKEY = "' . htmlentities(trim((string) $atts['map-key'])) . '";</script>';
+  // New
+  } else {
+    echo '<script>window.FOODTRUCK_GMAP_APIKEY = "' . htmlentities(trim((string) get_option('trucklot_gkey'))) . '";</script>';
   }
 
   if(isset($atts['map-style']) && $atts['map-style']) {

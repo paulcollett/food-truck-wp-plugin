@@ -100,7 +100,7 @@
       if (googleMapsInitialising) return;
       googleMapsInitialising = true;
 
-      var apiKey = window.FOODTRUCK_GMAP_APIKEY || 'AIzaSyAcB9Jwud7F5F_fO2BFHCIGswomX5pjKEQ';
+      var apiKey = window.FOODTRUCK_GMAP_APIKEY;
 
       var s = document.createElement('script');
       s.async = true;

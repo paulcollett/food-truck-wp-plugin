@@ -73,6 +73,10 @@ or contact me directly via [paulcollett.com](https://paulcollett.com/)
 
 == Changelog ==
 
+= 1.0.15 =
+* Fix: Alternate location formatting for latest Google Maps API restrictions
+* Clearer info on requiring an API key for Google Maps display
+
 = 1.0.13/14 =
 * Added Schema.org event name metadata on the map and list display for improved SEO
 * Expose information about runtime plugin bugs to help identify future issues

@@ -66,9 +66,8 @@ if(count($upcoming_items) > 0):
                 <h3 itemprop="startDate" content="<?php echo $schema_date; ?>" class="foodtruck-list-item-text foodtruck-list-item-text--lg"><?php echo date('D, M&\n\b\s\p;j', $item['timestamp']); ?></h3>
               </div>
               <div class="foodtruck-list-item_name">
-                <h3 class="foodtruck-list-item-text foodtruck-list-item-text--lg">
+                <h3 class="foodtruck-list-item-text foodtruck-list-item-text--lg" itemprop="name">
                   <?php if(!empty($item['name'])): ?>
-                    <?php echo sprintf('<meta itemprop="name" content="%s" />', esc_attr($item['name'])); ?>
                     <?php echo esc_html($item['name']); ?>
                   <?php elseif(!empty($item['address'])): ?>
                     <?php echo esc_html($item['address']); ?>
@@ -85,16 +84,13 @@ if(count($upcoming_items) > 0):
                     $item_gmap_map_url = 'https://maps.google.com?q=' . urlencode($item['geocode']['formatted']);
                     $item_gmap_dir_url = 'https://maps.google.com?saddr=Current+Location&daddr=' . urlencode($item['geocode']['formatted']);
                   ?>
-                <div class="foodtruck-list-item_address" itemprop="location" itemscope itemtype="http://schema.org/Place">
-                  <?php if(!empty($item['name'])): ?>
-                    <meta itemprop="name" content="<?php esc_attr($item['name']); ?>" />
-                  <?php endif; ?>
+                <div class="foodtruck-list-item_address">
                   <div class="foodtruck-list-item-addr-layout">
                     <div class="foodtruck-list-item-addr-layout_icon">
                       <svg aria-hidden="true" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><use xlink:href="#foodtruck-svg-pina" /></svg>
                     </div>
                     <div class="foodtruck-list-item-addr-layout_details">
-                      <div class="foodtruck-list-item-text" itemprop="address">
+                      <div class="foodtruck-list-item-text" itemprop="location">
                         <?php echo esc_html($item['geocode']['formatted']); ?>
                       </div>
                       <div class="foodtruck-list-item-addr-layout_details_actions">

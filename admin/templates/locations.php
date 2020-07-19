@@ -27,9 +27,19 @@
             <div style="border: 1px solid #ccc;padding: 30px;">
                 <img style="max-width: 100%" src="<?php echo TRUCKLOT_THEME_URI; ?>/admin/assets/example-full.png" />
                 <p><strong>Full Page with Interactive Map</strong></p>
+                <div ng-show="!gKey || changeGKey" style="background:#faefc0;border-radius:4px;padding:10px">
+                  <div style="margin-bottom:10px;">Requires a <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">Google Map API key</a> to display your interactive&nbsp;map</div>
+                  <div style="display:flex">
+                    <input style="flex-grow:1" type="text" ng-model="newGKey" placeholder="Enter API Key" />
+                    <button ng-click="saveGKey(newGKey)" style="margin-left: 5px;flex-shrink:0">Save</button>
+                  </div>
+                </div>
                 <p>Add the following shortcode to any page or post <input type="text" readonly value='[foodtruck display="full"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
-                <p>And, use with a custom <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">Google Maps API key</a><br />(recommend for long term map reliability): <input type="text" readonly value='[foodtruck display="full" map-key="YOUR-KEY"]' style="font-family: monospace;background:#ccc;font-weight:bold;" onFocus="this.select()"></p>
-                <p>Custom Map Style:<br />
+                <div ng-show="!changeGKey && gKey">
+                  <div>Your Google Maps Api Key:</div>
+                  <div><small>{{gKey}}</small> <a ng-click="changeGKey='yes';newGKey=gKey" style="cursor:pointer">Change</a></div>
+                </div>
+                <p>Optional, Custom Map Style:<br />
                   1. Generate map JSON at: <a href="https://mapstyle.withgoogle.com/" target="_blank">https://mapstyle.withgoogle.com/</a> or <a href="https://snazzymaps.com/" target="_blank">https://snazzymaps.com/</a><br />
                   2. Save JSON into a file "foodtruck-map.json" in the root of your theme<br />
                   <textarea style="font-family: monospace;height:50px;background:#ccc;font-weight:bold;" onFocus="this.select()">[foodtruck display="full" map-key="YOUR-KEY" map-style="foodtruck-map.json"]</textarea>
@@ -308,6 +318,9 @@ function foodtruck_loaderr (err) {
 window.addEventListener('error', foodtruck_loaderr)
 </script>
 <script>
+window.trucklot_gkey = "<?php echo get_option('trucklot_gkey'); ?>";
+</script>
+<script>
 window.trucklot_nonce = '<?php echo trucklot_get_nonce(); ?>';
 window.trucklot_location = <?php echo json_encode(trucklot_posts_find_one('trucklot-locations',false)); ?>;
 </script>
@@ -315,10 +328,43 @@ window.trucklot_location = <?php echo json_encode(trucklot_posts_find_one('truck
 window.removeEventListener('error', foodtruck_loaderr)
 </script>
 <script>
-// try to clear previous references so our gmaps loads correctly
-window.google = undefined;
+// JSONP Request Promise
+window.foodtruck_jsonpRequest = (url, params = {}, callbackParam = 'callback') => new Promise((res, rej) => {
+  const objectToParams = obj => Object.keys(obj).map(k => [k, obj[k]].map(encodeURIComponent).join('=')).join('&')
+
+  const teardown = () => {
+    delete window[globalCallbackName]
+
+    script.remove()
+  }
+
+  const globalCallbackName = `cb${Date.now()}`
+
+  window[globalCallbackName] = response => {
+    res(response);
+
+    teardown()
+  }
+
+  params[callbackParam] = globalCallbackName
+
+  const paramString = objectToParams(params)
+
+  const script = document.createElement('script')
+
+  script.onerror = () => {
+    rej(new Error('Request Error'))
+
+    teardown()
+  }
+
+  const src = new URL(url);
+  src.search = src.search ? `${src.search}&${paramString}` : paramString
+  script.src = src.toString()
+
+  document.head.appendChild(script)
+})
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcB9Jwud7F5F_fO2BFHCIGswomX5pjKEQ" onerror="alert('Location Maps could not load correctly. Please try again')"></script>
 <script>
 try {
 // Scope Settings
@@ -370,6 +416,7 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
       throw "Ajax URL is not available"
     }
 
+    $scope.gKey = window.trucklot_gkey || '';
     $scope.items = window.trucklot_location && window.trucklot_location.items && window.trucklot_location.items.length ? window.trucklot_location.items : [];
     $scope.selected = null;
     $scope.interface = {};
@@ -415,6 +462,12 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
         updateItemList();
     }
 
+    var getGEOServiceAPI = function() {
+      // Uses our service which hides our private keys, when not passing your own:
+      // When passing a key we'll use that - which guarantees service reliability
+      return 'https://geo-api-service.truckfed.com/?client=FoodTruckWordpressPlugin_v<?php echo TRUCKLOT_PLUGIN_VER; ?>&key=' + encodeURIComponent($scope.gKey)
+    }
+
     var latLngAddrCache = {};
      // Geocode Data: Cache Existing Geocodes
     for (var i = 0; i < $scope.items.length; i++) {
@@ -440,14 +493,33 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
         if(latLngAddrCache[strippedAddr]) {
           $scope.items[i]['geocode'] = latLngAddrCache[strippedAddr];
         }
-        else if(window.google && window.google.maps) {
+        else {
           //continue if item in past
           if(item.timestamp && item.timestamp < $scope.timenow) {
             continue;
           }
 
-          // https://maps.googleapis.com/maps/api/geocode/json?address=
           setTimeout((function(i, strippedAddr, rawAddr) {
+            // New GEO Coding Service
+            window.foodtruck_jsonpRequest(getGEOServiceAPI(), { address: rawAddr })
+              .then(data => data ? data.results : null || [])
+              .then(results => results[0] || Promise.reject('[trucklot] no geocode results'))
+              .then(result => {
+                var geocode = {
+                  lat: result.lat || null,
+                  lng: result.lng || null,
+                  formatted: result.formatted_address
+                };
+                latLngAddrCache[geocode.formatted] = geocode;
+                latLngAddrCache[strippedAddr] = geocode;
+                $scope.$apply(function () {
+                  $scope.items[i].geocode = geocode;
+                });
+              })
+              .catch(console.error)
+
+            // Legacy Google Maps GEO Coding
+            /*
             geoCodeInstance = geoCodeInstance || new google.maps.Geocoder().geocode;
             geoCodeInstance({ address: rawAddr }, function(results, status) {
               _updateItemsGeoCodeQueueActive--;
@@ -468,7 +540,7 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
               $scope.$apply(function () {
                 $scope.items[i].geocode = geocode;
               });
-            });
+              */
           }).bind(null, i, strippedAddr, item.address), _updateItemsGeoCodeQueue * 500);//delay
           _updateItemsGeoCodeQueue++;
           _updateItemsGeoCodeQueueActive++;
@@ -561,6 +633,16 @@ app.controller('locations',['$scope','filterFilter','$http',function($scope,filt
         console.error(error)
         alert('Locations Plugin Error. Please report to developer:\n' + (error.message || error.toString()))
       }
+    }
+
+    $scope.saveGKey = function(newGKey) {
+      $http.post(ajaxendpointurl + '?action=food-truck&do=saveGKey&_nonce=' + (window.trucklot_nonce || ''), { key: newGKey })
+        .then(() => 'Saved!')
+        .catch(() => 'Could not save at this time')
+        .then(window.alert)
+        .then(() => {
+          $scope.gKey = newGKey
+        })
     }
 
 
