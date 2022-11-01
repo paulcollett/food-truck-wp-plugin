@@ -7,7 +7,7 @@
     "wp-publish": "npm run pack && ./package-wp-svn.sh ../food-truck.zip"
   },
   "devDependencies": {
-    "gulp": "^3.9.0",
+    "gulp": "^4.0.2",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-iconfont": "^8.0.0",
     "gulp-include": "^2.1.0",
